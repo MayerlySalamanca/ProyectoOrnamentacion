@@ -6,6 +6,7 @@ private ? int $IdAbono;
 private String $Descripcion;
 private String $fecha;
 private int $valor;
+//relaciones
 private int $factura_IdFactura;
 
     /**
@@ -103,6 +104,29 @@ private int $factura_IdFactura;
     {
         $this->factura_IdFactura = $factura_IdFactura;
     }
+
+    /**
+     * @param string $query
+     * @return bool|null
+     * metodo para guardar un abono
+     */
+    protected function save(string $query): ?bool
+
+    {
+        $arrData = [
+            ':idAbono' =>    $this->getIdAbono(),
+            ':Descripcion' =>   $this->getDescripcion(),
+            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
+            ':Valor' =>  $this->getValor(),
+            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+        ];
+
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
+        $this->Disconnect();
+        return $result;
+    }
+
 
 
 }
