@@ -114,7 +114,7 @@ private int $factura_IdFactura;
 
     {
         $arrData = [
-            ':idAbono' =>    $this->getIdAbono(),
+            ':IdAbono' =>    $this->getIdAbono(),
             ':Descripcion' =>   $this->getDescripcion(),
             ':Fecha' =>   $this->getFecha()->toDateTimeString(),
             ':Valor' =>  $this->getValor(),
@@ -132,7 +132,7 @@ private int $factura_IdFactura;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:id,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
         return $this->save($query);
     }
 
