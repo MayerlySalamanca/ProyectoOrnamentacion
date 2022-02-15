@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 class MateriaPrima
 {
 private ? int $idMateria;

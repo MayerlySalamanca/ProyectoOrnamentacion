@@ -6,12 +6,6 @@ use Exception;
 use PDO;
 use PDOException;
 
-/**
- * Created by PhpStorm.
- * @author: Diego Ojeda
- * Date: 10/12/2019
- * Time: 9:17
- */
 
 abstract class AbstractDBConnection {
 

@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 class Usuario
 {
    private  ? int $IdUsuario;

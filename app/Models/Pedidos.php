@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 class Pedidos
 {
 private ? int $idPedidos;
