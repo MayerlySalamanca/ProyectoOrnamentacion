@@ -127,6 +127,62 @@ private int $factura_IdFactura;
         return $result;
     }
 
+    /**
+     * @return bool|null
+     */
+    function insert(): ?bool
+    {
+        $query = "INSERT INTO weber.categorias VALUES (:id,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        return $this->save($query);
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function update(): ?bool
+    {
+        $query = "UPDATE weber.categorias SET 
+            nombre = :nombre, descripcion = :descripcion,
+            estado = :estado, created_at = :created_at, 
+            updated_at = :updated_at WHERE id = :id";
+        return $this->save($query);
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function deleted(): bool
+    {
+        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $this->update();                    //Guarda los cambios..
+    }
+
+    /**
+     * @param $query
+     * @return Categorias|array
+     * @throws Exception
+     */
+    public static function search($query) : ?array
+    {
+        try {
+            $arrCategorias = array();
+            $tmp = new Categorias();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
+
+            foreach ($getrows as $valor) {
+                $Categoria = new Categorias($valor);
+                array_push($arrCategorias, $Categoria);
+                unset($Categoria);
+            }
+            return $arrCategorias;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
 
 
 }
