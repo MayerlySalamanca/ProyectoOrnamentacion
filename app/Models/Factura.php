@@ -209,11 +209,17 @@ class Factura
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdFactura' =>    $this->getIdFactura(),
+            ':tipo ' =>   $this->gettipo(),
+            ':Cantidad' =>   $this->getCantidad(),
+            ':fechaInicio' =>   $this->getfechaInicio()->toDateTimeString(),
+            ':fechaFin' =>   $this->getfechaFin()->toDateTimeString(),
+            ':fechaEstimada' =>   $this->getfechaEstimada()->toDateTimeString(),
+            ':estado ' =>  $this->getestado (),
+            ':fechaVenta ' =>   $this->getfechaVenta ()->toDateTimeString(),
+            ':usuarioComprador' =>  $this->getusuarioComprador(),
+            ':usuarioVendedor' =>  $this->getusuarioVendedor(),
+
         ];
 
         $this->Connect();

@@ -114,11 +114,11 @@ private int $proveedor_IdProveedor;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdPedidos' =>    $this->getIdPedidos(),
+            ':nombre' =>   $this->getnombre(),
+            ':fechaPedido' =>   $this->getfechaPedido()->toDateTimeString(),
+            ':fechaEntrega' =>   $this->getfechaEntrega()->toDateTimeString(),
+            ':proveedor_IdProveedor' =>   $this->getproveedor_IdProveedor(),
         ];
 
         $this->Connect();

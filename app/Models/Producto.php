@@ -189,11 +189,18 @@ private string $tipoServicio;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdProducto' =>    $this->getIdProducto(),
+            ':tipo' =>   $this->gettipo(),
+            ':nombre' =>   $this->getnombre(),
+            ':cantidad' =>   $this->getcantidad(),
+            ':valor' =>   $this->getvalor(),
+            ':material' =>   $this->getmaterial(),
+            ':tamano' =>   $this->gettamano(),
+            ':diseno' =>   $this->getdiseno(),
+            ':tipoServicio' =>   $this->gettipoServicio(),
+
+
+
         ];
 
         $this->Connect();

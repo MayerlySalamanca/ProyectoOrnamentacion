@@ -101,6 +101,7 @@ private string $ciudad;
             ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
         ];
 
+
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();

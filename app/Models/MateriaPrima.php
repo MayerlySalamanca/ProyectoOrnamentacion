@@ -94,11 +94,10 @@ private int $stock;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdMateria' =>    $this->getIdMateria(),
+            ':nombre' =>    $this->getnombre(),
+            ':tipo' =>    $this->gettipo(),
+            ':stock' =>    $this->getstock(),
         ];
 
         $this->Connect();

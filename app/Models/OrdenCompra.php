@@ -94,11 +94,10 @@ class OrdenCompra
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdOrdenCompra' =>    $this->getIdOrdenCompra(),
+            ':fabricacionId' =>   $this->getfabricacionId(),
+            ':factura_IdFactura ' =>   $this->getfactura_IdFactura (),
+            ':factura_IdProductos ' =>   $this->getfactura_IdProductos (),
         ];
 
         $this->Connect();
