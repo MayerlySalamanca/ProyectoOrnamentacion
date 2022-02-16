@@ -181,7 +181,7 @@ class Usuario
     public function insert(): ?bool
     {
         $query = "INSERT INTO proyecto.usuarios VALUES (
-            :id,:nombres,:apellidos,:tipo_documento,:documento,
+            :IdUsuario,:Documento,:nombre,:tipo_documento,:documento,
             :telefono,:direccion,:municipio_id,:fecha_nacimiento,:user,
             :password,:foto,:rol,:estado,:created_at,:updated_at
         )";
@@ -194,7 +194,7 @@ class Usuario
     public function update(): ?bool
     {
         $query = "UPDATE weber.usuarios SET 
-            nombres = :nombres, apellidos = :apellidos, tipo_documento = :tipo_documento, 
+            nombres = :nombres, documento = :apellidos, tipo_documento = :tipo_documento, 
             documento = :documento, telefono = :telefono, direccion = :direccion, 
             municipio_id = :municipio_id, fecha_nacimiento = :fecha_nacimiento, user = :user,  
             password = :password, foto = :foto, rol = :rol, estado = :estado, created_at = :created_at, 
