@@ -121,8 +121,8 @@ private int $stock;
     public function update(): ?bool
     {
         $query = "UPDATE Usuario.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
+            nombr = :nombre, descripcion = :descripcion,
+            estados = :estado, created_at = :created_at, 
             updated_at = :updated_at WHERE id = :id";
         return $this->save($query);
     }
