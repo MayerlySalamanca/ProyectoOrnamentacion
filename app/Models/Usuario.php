@@ -150,29 +150,13 @@ class Usuario
      * @return bool|null
      * metodo para guardar un abono
      */
-    protected function save(string $query): ?bool
-
+    public function insert(): ?bool
     {
-        $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
-        ];
-
-        $this->Connect();
-        $result = $this->insertRow($query, $arrData);
-        $this->Disconnect();
-        return $result;
-    }
-
-    /**
-     * @return bool|null
-     */
-    function insert(): ?bool
-    {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO proyecto.usuarios VALUES (
+            :id,:nombres,:apellidos,:tipo_documento,:documento,
+            :telefono,:direccion,:municipio_id,:fecha_nacimiento,:user,
+            :password,:foto,:rol,:estado,:created_at,:updated_at
+        )";
         return $this->save($query);
     }
 
@@ -181,9 +165,11 @@ class Usuario
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
+        $query = "UPDATE weber.usuarios SET 
+            nombres = :nombres, apellidos = :apellidos, tipo_documento = :tipo_documento, 
+            documento = :documento, telefono = :telefono, direccion = :direccion, 
+            municipio_id = :municipio_id, fecha_nacimiento = :fecha_nacimiento, user = :user,  
+            password = :password, foto = :foto, rol = :rol, estado = :estado, created_at = :created_at, 
             updated_at = :updated_at WHERE id = :id";
         return $this->save($query);
     }
@@ -197,7 +183,6 @@ class Usuario
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
-
     /**
      * @param $query
      * @return Categorias|array
@@ -206,18 +191,18 @@ class Usuario
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrUsuarios = array();
+            $tmp = new Usuario();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Usuario= new Categorias($valor);
+                array_push($arrUsuarios, $Usuario);
+                unset($Usuario);
             }
-            return $arrCategorias;
+            return $arrUsuarios;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
