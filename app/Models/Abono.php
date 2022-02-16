@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
-class Abono
+
+class Abono extends AbstractDBConnection implements Model
 {
 private ? int $IdAbono;
 private String $Descripcion;
@@ -133,7 +134,7 @@ private int $factura_IdFactura;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO proyecto.Abono VALUES (:IdAbono,:Descripcion,:Fecha,:Valor,:factura_IdFactura)";
         return $this->save($query);
     }
 
@@ -142,7 +143,7 @@ private int $factura_IdFactura;
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
+        $query = "UPDATE proyecto.Abono SET 
             nombre = :nombre, descripcion = :descripcion,
             estado = :estado, created_at = :created_at, 
             updated_at = :updated_at WHERE id = :id";
@@ -167,18 +168,18 @@ private int $factura_IdFactura;
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrAbono = array();
+            $tmp = new Abono();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Abono = new Abono($valor);
+                array_push($arrAbono, $Abono);
+                unset($Abono);
             }
-            return $arrCategorias;
+            return $arrAbono;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
