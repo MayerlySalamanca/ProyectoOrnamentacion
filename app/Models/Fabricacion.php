@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class Fabricacion
+class Fabricacion extends AbstractDBConnection implements Models
 {
 private ? int $idFabricacion;
 private int $cantidad;

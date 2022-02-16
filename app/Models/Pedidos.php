@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class Pedidos
+class Pedidos extends AbstractDBConnection implements Model
 {
 private ? int $idPedidos;
 private string $nombre;

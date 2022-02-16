@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class Producto
+class Producto extends AbstractDBConnection implements Model
 {
 Private ? int $IdProducto;
 private String $tipo;

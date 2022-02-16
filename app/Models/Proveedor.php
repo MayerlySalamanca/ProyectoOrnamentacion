@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class Proveedor
+class Proveedor extends AbstractDBConnection implements Model
 {
 private ? int $IdProveedor;
 private int $documento;

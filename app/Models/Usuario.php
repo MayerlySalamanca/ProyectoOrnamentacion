@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
-class Usuario
+use App\Interfaces\Models;
+
+class Usuario extends AbstractDBConnection implements Models
 {
    private  ? int $IdUsuario;
    private int $documento;
@@ -238,4 +240,8 @@ class Usuario
     }
 
 
+    protected function save(string $query): ?bool
+    {
+        // TODO: Implement save() method.
+    }
 }

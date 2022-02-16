@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class MateriaPrima
+class MateriaPrima extends AbstractDBConnection implements Model
 {
 private ? int $idMateria;
 private string $nombre;

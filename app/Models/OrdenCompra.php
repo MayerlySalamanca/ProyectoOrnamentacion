@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class OrdenCompra
+class OrdenCompra extends AbstractDBConnection implements Model
 {
     private ? int $idOrdenCompra;
     private int $fabricacionId;

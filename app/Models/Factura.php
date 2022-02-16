@@ -1,6 +1,6 @@
 <?php
 namespace App\Models;
-class Factura
+class Factura extends AbstractDBConnection implements Model
 {
     private ? int $IdFactura;
     private String $tipo;
