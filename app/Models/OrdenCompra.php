@@ -145,7 +145,7 @@ class OrdenCompra extends AbstractDBConnection implements Model
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
+            $arrOrdenCompras = array();
             $tmp = new Categorias();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
