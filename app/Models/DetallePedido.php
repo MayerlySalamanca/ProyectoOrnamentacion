@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-class DetallePedido
+class DetallePedido extends AbstractDBConnection implements Model
 {
 private ? INT $idDetallePedido;
 private int $valor;
@@ -114,12 +114,14 @@ private int $materiaPrimaId;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdDetallePedido' =>    $this->getIdDetallePedido(),
+            ':valor ' =>   $this->getvalor (),
+            ':cantidad' =>  $this->getcantidad(),
+            ':pedidosId' =>  $this->getpedidosId(),
+            ':materiaPrimaId' =>   $this->getmateriaPrimaId(),
         ];
+
+
 
         $this->Connect();
         $result = $this->insertRow($query, $arrData);

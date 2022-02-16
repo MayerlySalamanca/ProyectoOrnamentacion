@@ -119,6 +119,7 @@ private int $factura_IdFactura;
             ':Fecha' =>   $this->getFecha()->toDateTimeString(),
             ':Valor' =>  $this->getValor(),
             ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+
         ];
 
         $this->Connect();

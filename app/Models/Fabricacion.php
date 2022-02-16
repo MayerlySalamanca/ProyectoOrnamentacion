@@ -93,11 +93,12 @@ private int $Usuario_IdUsuario;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':idFabricacion' =>    $this->getidFabricacion(),
+            ':cantidad' =>   $this->getcantidad(),
+            ':MateriaPrima' =>   $this->getMateriaPrima(),
+            ':Usuario_IdUsuario' =>   $this->getUsuario_IdUsuario(),
+
+
         ];
 
         $this->Connect();
@@ -111,7 +112,7 @@ private int $Usuario_IdUsuario;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO weber.categorias VALUES (:idFabricacion,:cantidad,:MateriaPrima,:Usuario_IdUsuario)";
         return $this->save($query);
     }
 
@@ -120,7 +121,7 @@ private int $Usuario_IdUsuario;
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
+        $query = "UPDATE proyecto.categorias SET 
             nombre = :nombre, descripcion = :descripcion,
             estado = :estado, created_at = :created_at, 
             updated_at = :updated_at WHERE id = :id";
