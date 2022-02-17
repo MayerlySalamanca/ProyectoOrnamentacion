@@ -15,10 +15,8 @@ private string $ciudad;
      */
     public function __construct(?int $IdProveedor, int $documento, string $nombre, string $ciudad)
     {
-        $this->IdProveedor = $IdProveedor;
-        $this->documento = $documento;
-        $this->nombre = $nombre;
-        $this->ciudad = $ciudad;
+
+        
     }
 
     /**
@@ -94,11 +92,10 @@ private string $ciudad;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
+            ':IdProveedor' =>    $this->getIdProveedor(),
+            ':documento' =>   $this->getdocumento(),
+            ':nombre' =>   $this->getnombre(),
+            ':ciudad' =>   $this->getciudad(),
         ];
 
 

@@ -145,6 +145,34 @@ class Usuario
         $this->contraseña = $contraseña;
     }
 
+
+    /**
+     * @param string $query
+     * @return bool|null
+     * metodo para guardar un abono
+     */
+    protected function save(string $query): ?bool
+
+    {
+        $arrData = [
+            ':IdUsuario' =>    $this->getIdUsuario(),
+            ':documento' =>   $this->getdocumento(),
+            ':nombre' =>   $this->getnombre(),
+            ':telefono' =>   $this->gettelefono(),
+            ':direccion' =>   $this->getdireccion(),
+            ':roll' =>   $this->getroll(),
+            ':contraseña' =>   $this->getcontraseña(),
+        ];
+
+
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
+        $this->Disconnect();
+        return $result;
+    }
+
+   zz}
+
     /**
      * @param string $query
      * @return bool|null
