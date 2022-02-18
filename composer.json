@@ -7,13 +7,17 @@
   "homepage": "https://google.com",
   "time": "2019-10-28",
   "license": "MIT",
-  "authors": [
+  "Contributors": [
     {
       "name": "Mayerly Salamanca",
       "email": "msalamanca694@misena.edu.co",
       "homepage": "http://www.sena.edu.co",
       "role": "Developer"
-    }
+    },
+    { "name": "Dilan Galeano"},
+    {"name": "Cesar Gutierrez"},
+    {"name": "Jeisson Laguna"},
+    {"name": "Alejandro Gonzales"}
   ],
   "require":{
     "php": ">=8.0",
