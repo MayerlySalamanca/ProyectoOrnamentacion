@@ -8,12 +8,13 @@
   "license": "MIT",
   "authors": [
     {
+
       "name": "Mayerly Salamanca",
       "email": "msalamanca694@misena.edu.co",
       "homepage": "http://www.sena.edu.co",
       "role": "Developer"
     }
-  ],
+  ],c
   "require":{
     "php": ">=8.0",
     "ext-json": "*",
