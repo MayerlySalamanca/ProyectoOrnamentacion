@@ -15,7 +15,7 @@
     "url": "https://github.com/MayerlySalamanca/ProyectoOrnamentacion"
   },
   "keywords": [
-    "weber",
+    "proyecto",
     "ejemplo",
     "mvc",
     "php",
@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/MayerlySalamanca/ProyectoOrnamentacion/issues/11"
   },
-  "homepage": "https://github.com/EjemplosADSI/WebER#readme",
+  "homepage": "https://github.com/MayerlySalamanca/ProyectoOrnamentacion/blob/master/README.md",
   "dependencies": {
     "bootstrap-imageupload": "^1.1.3",
     "bootstrap-social": "^5.1.1",
