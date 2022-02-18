@@ -6,6 +6,7 @@ class DetallePedido extends AbstractDBConnection implements Model
 private ? INT $idDetallePedido;
 private int $valor;
 private int $cantidad;
+//Relaciones
 private int $pedidosId;
 private int $materiaPrimaId;
 
