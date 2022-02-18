@@ -171,7 +171,7 @@ class Usuario
         return $result;
     }
 
-   zz}
+
 
     /**
      * @param string $query
