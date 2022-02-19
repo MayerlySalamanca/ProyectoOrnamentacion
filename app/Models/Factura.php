@@ -10,6 +10,7 @@ class Factura extends AbstractDBConnection implements Model
     private ? String $fechaEstimada;
     private String $estado;
     private String $fechaVenta;
+    // realacion
     private int $usuarioComprador;
     private int $usuarioVendedor;
 

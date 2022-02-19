@@ -6,6 +6,7 @@ private ? int $idPedidos;
 private string $nombre;
 private string $fechaPedido;
 private string $fechaEntrega;
+private String $Estado;
 private int $proveedor_IdProveedor;
 
     /**
@@ -118,6 +119,7 @@ private int $proveedor_IdProveedor;
             ':nombre' =>   $this->getnombre(),
             ':fechaPedido' =>   $this->getfechaPedido()->toDateTimeString(),
             ':fechaEntrega' =>   $this->getfechaEntrega()->toDateTimeString(),
+
             ':proveedor_IdProveedor' =>   $this->getproveedor_IdProveedor(),
         ];
 
@@ -132,7 +134,7 @@ private int $proveedor_IdProveedor;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO proyecto.pedidos VALUES (:IdPedido,:nombre,:fechaPedido,:fechaEntrega,:proveedor_IdProveedor)";
         return $this->save($query);
     }
 
@@ -142,9 +144,9 @@ private int $proveedor_IdProveedor;
     public function update(): ?bool
     {
         $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+            nombre = :nombre, fechaPedido = :descripcion,
+            estado = :estado, fechaEntrega = :created_at, 
+            proveedor_IdProveedor = :updated_at WHERE idPedido = :id";
         return $this->save($query);
     }
 
@@ -154,7 +156,7 @@ private int $proveedor_IdProveedor;
      */
     public function deleted(): bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        $this->setEstado("Inactivo");              //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
@@ -166,18 +168,18 @@ private int $proveedor_IdProveedor;
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrPedidos = array();
+            $tmp = new Pedidos();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Pedidos= new    Pedidos($valor);
+                array_push($arrPedidos, $Pedidos);
+                unset($Pedidos);
             }
-            return $arrCategorias;
+            return $arrPedidos;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
