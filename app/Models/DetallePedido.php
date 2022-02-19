@@ -6,6 +6,7 @@ class DetallePedido extends AbstractDBConnection implements Model
 private ? INT $idDetallePedido;
 private int $valor;
 private int $cantidad;
+private string $estado;
 //Relaciones
 private int $pedidosId;
 private int $materiaPrimaId;
@@ -14,20 +15,22 @@ private int $materiaPrimaId;
      * @param INT|null $idDetallePedido
      * @param int $valor
      * @param int $cantidad
+     * @param string $estado
      * @param int $pedidosId
      * @param int $materiaPrimaId
      */
-    public function __construct(?int $idDetallePedido, int $valor, int $cantidad, int $pedidosId, int $materiaPrimaId)
+    public function __construct(?int $idDetallePedido, int $valor, int $cantidad, string $estado, int $pedidosId, int $materiaPrimaId)
     {
         $this->idDetallePedido = $idDetallePedido;
         $this->valor = $valor;
         $this->cantidad = $cantidad;
+        $this->estado = $estado;
         $this->pedidosId = $pedidosId;
         $this->materiaPrimaId = $materiaPrimaId;
     }
 
     /**
-     * @return INT|null
+     * @return int|null
      */
     public function getIdDetallePedido(): ?int
     {
@@ -35,7 +38,7 @@ private int $materiaPrimaId;
     }
 
     /**
-     * @param INT|null $idDetallePedido
+     * @param int|null $idDetallePedido
      */
     public function setIdDetallePedido(?int $idDetallePedido): void
     {
@@ -75,6 +78,22 @@ private int $materiaPrimaId;
     }
 
     /**
+     * @return string
+     */
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param string $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    /**
      * @return int
      */
     public function getPedidosId(): int
@@ -106,6 +125,7 @@ private int $materiaPrimaId;
         $this->materiaPrimaId = $materiaPrimaId;
     }
 
+
     /**
      * @param string $query
      * @return bool|null
@@ -118,6 +138,7 @@ private int $materiaPrimaId;
             ':IdDetallePedido' =>    $this->getIdDetallePedido(),
             ':valor ' =>   $this->getvalor (),
             ':cantidad' =>  $this->getcantidad(),
+            ':estado' =>  $this->getestado(),
             ':pedidosId' =>  $this->getpedidosId(),
             ':materiaPrimaId' =>   $this->getmateriaPrimaId(),
         ];
@@ -129,13 +150,12 @@ private int $materiaPrimaId;
         $this->Disconnect();
         return $result;
     }
-
     /**
      * @return bool|null
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO weber.categorias VALUES (:idDetallePedido,:valor,:cantidad,:estado,:pedidosId,:materiaPrimaId)";
         return $this->save($query);
     }
 
@@ -144,10 +164,10 @@ private int $materiaPrimaId;
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE proyecto.DetallePedido SET 
+           IdDetallePedido = :IdDetallePedido, valor = :valor,
+         cantidad = :cantidad, estado = :estado, 
+            pedidosId = :pedidosId,materiaPrimaId= :materiaPrimaId WHERE idDetallePedido = :idDetallePedido";
         return $this->save($query);
     }
 
@@ -163,28 +183,101 @@ private int $materiaPrimaId;
 
     /**
      * @param $query
-     * @return Categorias|array
+     * @return DetallePedido|array
      * @throws Exception
      */
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrDetallePedido = array();
+            $tmp = new DetallePedido();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $DetallePedido = new DetallePedido($valor);
+                array_push($arrDetallePedido, $DetallePedido);
+                unset($DetallePedido);
             }
-            return $arrCategorias;
+            return $arrDetallePedido;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+    /**
+     * @param $id
+     * @return Categorias
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Categorias
+    {
+        try {
+            if ($id > 0) {
+                $Categoria = new Categorias();
+                $Categoria->Connect();
+                $getrow = $Categoria->getRow("SELECT * FROM weber.categorias WHERE id =?", array($id));
+                $Categoria->Disconnect();
+                return ($getrow) ? new Categorias($getrow) : null;
+            }else{
+                throw new Exception('Id de categoria Invalido');
+            }
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
         return null;
     }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : ?array
+    {
+        return Categorias::search("SELECT * FROM weber.categorias");
+    }
+
+    /**
+     * @param $nombre
+     * @return bool
+     * @throws Exception
+     */
+    public static function categoriaRegistrada($nombre): bool
+    {
+        $nombre = trim(strtolower($nombre));
+        $result = Categorias::search("SELECT id FROM weber.categorias where nombre = '" . $nombre. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "Nombre: $this->nombre, Descripción: $this->descripcion, Estado: $this->estado";
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'nombre' => $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
+            'estado' => $this->getEstado(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+    }
 }

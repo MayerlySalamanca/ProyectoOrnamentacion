@@ -1,54 +1,46 @@
 <?php
 namespace App\Models;
-class Proveedor extends AbstractDBConnection implements Model
+class Pedido extends AbstractDBConnection implements Model
 {
-private ? int $IdProveedor;
-private int $documento;
+private ? int $idPedido;
 private string $nombre;
-private string $ciudad;
+private string $fechaPedido;
+private string $fechaEntrega;
+private String $estado;
+private int $proveedor_IdProveedor;
 
     /**
-     * @param int|null $IdProveedor
-     * @param int $documento
+     * @param int|null $idPedido
      * @param string $nombre
-     * @param string $ciudad
+     * @param string $fechaPedido
+     * @param string $fechaEntrega
+     * @param String $estado
+     * @param int $proveedor_IdProveedor
      */
-    public function __construct(?int $IdProveedor, int $documento, string $nombre, string $ciudad)
+    public function __construct(?int $idPedido, string $nombre, string $fechaPedido, string $fechaEntrega, string $estado, int $proveedor_IdProveedor)
     {
-
-        
+        $this->idPedido = $idPedido;
+        $this->nombre = $nombre;
+        $this->fechaPedido = $fechaPedido;
+        $this->fechaEntrega = $fechaEntrega;
+        $this->estado = $estado;
+        $this->proveedor_IdProveedor = $proveedor_IdProveedor;
     }
 
     /**
      * @return int|null
      */
-    public function getIdProveedor(): ?int
+    public function getIdPedidos(): ?int
     {
-        return $this->IdProveedor;
+        return $this->idPedido;
     }
 
     /**
-     * @param int|null $IdProveedor
+     * @param int|null $idPedido
      */
-    public function setIdProveedor(?int $IdProveedor): void
+    public function setIdPedidos(?int $idPedido): void
     {
-        $this->IdProveedor = $IdProveedor;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDocumento(): int
-    {
-        return $this->documento;
-    }
-
-    /**
-     * @param int $documento
-     */
-    public function setDocumento(int $documento): void
-    {
-        $this->documento = $documento;
+        $this->idPedido = $idPedido;
     }
 
     /**
@@ -70,18 +62,69 @@ private string $ciudad;
     /**
      * @return string
      */
-    public function getCiudad(): string
+    public function getFechaPedido(): string
     {
-        return $this->ciudad;
+        return $this->fechaPedido;
     }
 
     /**
-     * @param string $ciudad
+     * @param string $fechaPedido
      */
-    public function setCiudad(string $ciudad): void
+    public function setFechaPedido(string $fechaPedido): void
     {
-        $this->ciudad = $ciudad;
+        $this->fechaPedido = $fechaPedido;
     }
+
+    /**
+     * @return string
+     */
+    public function getFechaEntrega(): string
+    {
+        return $this->fechaEntrega;
+    }
+
+    /**
+     * @param string $fechaEntrega
+     */
+    public function setFechaentrega(string $fechaEntrega): void
+    {
+        $this->fechaEntrega = $fechaEntrega;
+    }
+
+    /**
+     * @return String
+     */
+    public function getestado(): string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param String $Estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProveedorIdProveedor(): int
+    {
+        return $this->proveedor_IdProveedor;
+    }
+
+    /**
+     * @param int $proveedor_IdProveedor
+     */
+    public function setProveedorIdProveedor(int $proveedor_IdProveedor): void
+    {
+        $this->proveedor_IdProveedor = $proveedor_IdProveedor;
+    }
+
+
+
 
     /**
      * @param string $query
@@ -92,12 +135,13 @@ private string $ciudad;
 
     {
         $arrData = [
-            ':IdProveedor' =>    $this->getIdProveedor(),
-            ':documento' =>   $this->getdocumento(),
+            ':IdPedidos' =>    $this->getIdPedidos(),
             ':nombre' =>   $this->getnombre(),
-            ':ciudad' =>   $this->getciudad(),
+            ':fechaPedido' =>   $this->getfechaPedido()->toDateTimeString(),
+            ':fechaEntrega' =>   $this->getfechaEntrega()->toDateTimeString(),
+            ':estado' =>   $this->getnombre(),
+            ':proveedor_IdProveedor' =>   $this->getproveedor_IdProveedor(),
         ];
-
 
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -110,7 +154,7 @@ private string $ciudad;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO proyecto.pedidos VALUES (:IdPedido,:nombre,:fechaPedido,:fechaEntrega,:proveedor_IdProveedor)";
         return $this->save($query);
     }
 
@@ -119,10 +163,10 @@ private string $ciudad;
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE proyecto.pedidos SET 
+            nombre = :nombre, fechaPedido = :fechaPedido,
+            estado = :estado, fechaEntrega = :fechaEntrega, 
+            proveedor_IdProveedor = :proveedor_IdProveedor WHERE idPedido = :idPedido";
         return $this->save($query);
     }
 
@@ -132,7 +176,7 @@ private string $ciudad;
      */
     public function deleted(): bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        $this->setEstado("Inactivo");              //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
@@ -144,24 +188,23 @@ private string $ciudad;
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrPedido = array();
+            $tmp = new Pedido();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Pedido= new    Pedidos($valor);
+                array_push($arrPedido, $Pedido);
+                unset($Pedido);
             }
-            return $arrCategorias;
+            return $arrPedido;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
         return null;
     }
-
     /**
      * @param $id
      * @return Categorias

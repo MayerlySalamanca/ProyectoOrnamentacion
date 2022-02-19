@@ -162,5 +162,78 @@ private int $stock;
         }
         return null;
     }
+    /**
+     * @param $id
+     * @return Categorias
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Categorias
+    {
+        try {
+            if ($id > 0) {
+                $Categoria = new Categorias();
+                $Categoria->Connect();
+                $getrow = $Categoria->getRow("SELECT * FROM weber.categorias WHERE id =?", array($id));
+                $Categoria->Disconnect();
+                return ($getrow) ? new Categorias($getrow) : null;
+            }else{
+                throw new Exception('Id de categoria Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : ?array
+    {
+        return Categorias::search("SELECT * FROM weber.categorias");
+    }
+
+    /**
+     * @param $nombre
+     * @return bool
+     * @throws Exception
+     */
+    public static function categoriaRegistrada($nombre): bool
+    {
+        $nombre = trim(strtolower($nombre));
+        $result = Categorias::search("SELECT id FROM weber.categorias where nombre = '" . $nombre. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "Nombre: $this->nombre, Descripción: $this->descripcion, Estado: $this->estado";
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'nombre' => $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
+            'estado' => $this->getEstado(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+    }
 }

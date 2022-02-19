@@ -6,19 +6,46 @@ private ? int $idFabricacion;
 private int $cantidad;
 private int $MateriaPrima;
 private int $Usuario_IdUsuario;
+private string $estado;
 
     /**
      * @param int|null $idFabricacion
      * @param int $cantidad
      * @param int $MateriaPrima
      * @param int $Usuario_IdUsuario
+     * @param string $estado
      */
-    public function __construct(?int $idFabricacion, int $cantidad, int $MateriaPrima, int $Usuario_IdUsuario)
+    public function __construct(?int $idFabricacion, int $cantidad, int $MateriaPrima, int $Usuario_IdUsuario, string $estado)
     {
         $this->idFabricacion = $idFabricacion;
         $this->cantidad = $cantidad;
         $this->MateriaPrima = $MateriaPrima;
         $this->Usuario_IdUsuario = $Usuario_IdUsuario;
+        $this->estado = $estado;
+    }
+
+
+    /**
+     * @param string $query
+     * @return bool|null
+     * metodo para guardar un abono
+     */
+    protected function save(string $query): ?bool
+
+    {
+        $arrData = [
+            ':idFabricacion' =>    $this->getidFabricacion(),
+            ':cantidad' =>   $this->getcantidad(),
+            ':MateriaPrima' =>   $this->getMateriaPrima(),
+            ':Usuario_IdUsuario' =>   $this->getUsuario_IdUsuario(),
+
+
+        ];
+
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
+        $this->Disconnect();
+        return $result;
     }
 
     /**
@@ -84,35 +111,31 @@ private int $Usuario_IdUsuario;
     {
         $this->Usuario_IdUsuario = $Usuario_IdUsuario;
     }
+
     /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
+     * @return string
      */
-    protected function save(string $query): ?bool
-
+    public function getEstado(): string
     {
-        $arrData = [
-            ':idFabricacion' =>    $this->getidFabricacion(),
-            ':cantidad' =>   $this->getcantidad(),
-            ':MateriaPrima' =>   $this->getMateriaPrima(),
-            ':Usuario_IdUsuario' =>   $this->getUsuario_IdUsuario(),
-
-
-        ];
-
-        $this->Connect();
-        $result = $this->insertRow($query, $arrData);
-        $this->Disconnect();
-        return $result;
+        return $this->estado;
     }
+
+    /**
+     * @param string $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+
 
     /**
      * @return bool|null
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:idFabricacion,:cantidad,:MateriaPrima,:Usuario_IdUsuario)";
+        $query = "INSERT INTO proyecto.Fabricacion VALUES (:idFabricacion,:cantidad,:MateriaPrima,:Usuario_IdUsuario,:estado)";
         return $this->save($query);
     }
 
@@ -122,9 +145,9 @@ private int $Usuario_IdUsuario;
     public function update(): ?bool
     {
         $query = "UPDATE proyecto.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+             idFabricacion= :idFabricacion,  cantidad= :cantidad,
+            MateriaPrima = :MateriaPrima, Usuario_IdUsuario = :Usuario_IdUsuario, 
+             estado= :estado WHERE idFabricacion = :idFabricacion";
         return $this->save($query);
     }
 
@@ -140,29 +163,102 @@ private int $Usuario_IdUsuario;
 
     /**
      * @param $query
-     * @return Categorias|array
+     * @return Fabricacion|array
      * @throws Exception
      */
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrFabricacion = array();
+            $tmp = new Fabricacion();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Fabricacion = new Fabricacion($valor);
+                array_push($arrFabricacion, $Fabricacion);
+                unset($Fabricacion);
             }
-            return $arrCategorias;
+            return $arrFabricacion;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
         return null;
     }
 
+    /**
+     * @param $id
+     * @return Categorias
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Categorias
+    {
+        try {
+            if ($id > 0) {
+                $Categoria = new Categorias();
+                $Categoria->Connect();
+                $getrow = $Categoria->getRow("SELECT * FROM weber.categorias WHERE id =?", array($id));
+                $Categoria->Disconnect();
+                return ($getrow) ? new Categorias($getrow) : null;
+            }else{
+                throw new Exception('Id de categoria Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
 
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : ?array
+    {
+        return Categorias::search("SELECT * FROM weber.categorias");
+    }
+
+    /**
+     * @param $nombre
+     * @return bool
+     * @throws Exception
+     */
+    public static function categoriaRegistrada($nombre): bool
+    {
+        $nombre = trim(strtolower($nombre));
+        $result = Categorias::search("SELECT id FROM weber.categorias where nombre = '" . $nombre. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "Nombre: $this->nombre, Descripción: $this->descripcion, Estado: $this->estado";
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'nombre' => $this->getNombre(),
+            'descripcion' => $this->getDescripcion(),
+            'estado' => $this->getEstado(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+    }
 }

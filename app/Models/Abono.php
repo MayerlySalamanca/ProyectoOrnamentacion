@@ -4,24 +4,27 @@ namespace App\Models;
 class Abono extends AbstractDBConnection implements Model
 {
 private ? int $IdAbono;
-private String $Descripcion;
+private String $descripcion;
 private String $fecha;
+private String $estado;
 private int $valor;
 //relaciones
 private int $factura_IdFactura;
 
     /**
      * @param int|null $IdAbono
-     * @param String $Descripcion
+     * @param String $descripcion
      * @param String $fecha
+     * @param String $estado
      * @param int $valor
      * @param int $factura_IdFactura
      */
-    public function __construct(?int $IdAbono, string $Descripcion, string $fecha, int $valor, int $factura_IdFactura)
+    public function __construct(?int $IdAbono, string $descripcion, string $fecha, string $estado, int $valor, int $factura_IdFactura)
     {
         $this->IdAbono = $IdAbono;
-        $this->Descripcion = $Descripcion;
+        $this->descripcion = $descripcion;
         $this->fecha = $fecha;
+        $this->estado = $estado;
         $this->valor = $valor;
         $this->factura_IdFactura = $factura_IdFactura;
     }
@@ -47,15 +50,15 @@ private int $factura_IdFactura;
      */
     public function getDescripcion(): string
     {
-        return $this->Descripcion;
+        return $this->descripcion;
     }
 
     /**
      * @param String $Descripcion
      */
-    public function setDescripcion(string $Descripcion): void
+    public function setDescripcion(string $descripcion): void
     {
-        $this->Descripcion = $Descripcion;
+        $this->descripcion = $descripcion;
     }
 
     /**
@@ -72,6 +75,22 @@ private int $factura_IdFactura;
     public function setFecha(string $fecha): void
     {
         $this->fecha = $fecha;
+    }
+
+    /**
+     * @return String
+     */
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param String $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
     }
 
     /**
@@ -106,6 +125,8 @@ private int $factura_IdFactura;
         $this->factura_IdFactura = $factura_IdFactura;
     }
 
+
+
     /**
      * @param string $query
      * @return bool|null
@@ -115,10 +136,11 @@ private int $factura_IdFactura;
 
     {
         $arrData = [
-            ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
+            ':idAbono' =>    $this->getIdAbono(),
+            ':descripcion' =>   $this->getDescripcion(),
+            ':fecha' =>   $this->getFecha()->toDateTimeString(),
+            ':estado' =>   $this->getDescripcion(),
+            ':valor' =>  $this->getValor(),
             ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
 
         ];
@@ -134,7 +156,7 @@ private int $factura_IdFactura;
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO proyecto.Abono VALUES (:IdAbono,:Descripcion,:Fecha,:Valor,:factura_IdFactura)";
+        $query = "INSERT INTO proyecto.Abono VALUES (:IdAbono,:Descripcion,:Fecha,:estado,:Valor,:factura_IdFactura)";
         return $this->save($query);
     }
 
@@ -145,8 +167,8 @@ private int $factura_IdFactura;
     {
         $query = "UPDATE proyecto.Abono SET 
             nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+            estado = :estado, fecha = :fecha, 
+            valor = :valor, factura_IdFactura = :factura_IdFactura WHERE idAbono = :idAbono";
         return $this->save($query);
     }
 
@@ -185,6 +207,84 @@ private int $factura_IdFactura;
         }
         return null;
     }
+    /**
+     * @param $id
+     * @return Abono
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Abono
+    {
+        try {
+            if ($id > 0) {
+                $Abono= new Abono();
+                $Abono->Connect();
+                $getrow = $Abono->getRow("SELECT * FROM proyecto.Abono WHERE id =?", array($id));
+                $Abono->Disconnect();
+                return ($getrow) ? new Abono($getrow) : null;
+            }else{
+                throw new Exception('Id de Abono Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return null;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : ?array
+    {
+        return Abono::search("SELECT * FROM proyecto.Abono");
+    }
+
+    /**
+     * @param $nombre
+     * @return bool
+     * @throws Exception
+     */
+    public static function categoriaRegistrada($nombre): bool
+    {
+        $nombre = trim(strtolower($nombre));
+        $result = Abono::search("SELECT id FROM proyecto.Abono where nombre = '" . $nombre. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "IdAbono: $this->IdAbono, Descripción: $this->descripcion, fecha: $this->fecha ,Estado: $this->estado,valor:$this->valor, factura_IdFactura: $this->factura_IdFactura ";
+    }
+
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+            'IdAbono' => $this->getIdAbono(),
+            'descripcion' => $this->getDescripcion(),
+            'fecha' => $this->getfecha(),
+            'estado' => $this->getEstado(),
+            'valor' => $this->getvalor(),
+            'factura_IdFactura' => $this->getfactura_IdFactura(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+        ];
+    }
+
 
 
 }
