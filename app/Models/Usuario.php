@@ -7,6 +7,7 @@ use Exception;
 use JetBrains\PhpStorm\Pure;
 use JsonSerializable;
 use App\Enums\Estado;
+use App\Enums\Rol;
 
 
 require_once ("AbstractDBConnection.php");
@@ -19,14 +20,18 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
 {
 
 
-    private ?int $id;
+    private ?int $idUsuario;
     private int $documento;
     private string $nombres;
     private String $telefono;
     private string $direccion;
-    private  $rol;
+    private  \Rol $rol;
     private ?string $password;
-    private Estado $estado;
+    private \Estado $estado;
+
+    //Realaciones
+    private ?array $FabricacionUsuario;
+    private ?array $FacturaUsurio;
 
     /* Seguridad de Contraseña */
     const HASH = PASSWORD_DEFAULT;
@@ -39,14 +44,14 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     public function __construct(array $usuario = [])
     {
         parent::__construct();
-        $this->setId($usuario['id'] ?? null);
+        $this->setIdUsuario($usuario['idUsuario'] ?? null);
         $this->setDocumento($usuario['documento'] ?? 0);
         $this->setNombres($usuario['nombres'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setRol($usuario['rol'] ?? null);
+        $this->setRol($usuario['rol'] ?? \Rol::CLIENTE);
         $this->setPassword($usuario['password'] ?? '');
-        $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
+        $this->setEstado($usuario['estado'] ?? \Estado::INACTIVO);
 
     }
 
@@ -57,7 +62,142 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
         }
     }
 
+    /**
+     * @return int|null
+     */
+    public function getIdUsuario(): ?int
+    {
+        return $this->idUsuario;
+    }
 
+    /**
+     * @param int|null $idUsuario
+     */
+    public function setIdUsuario(?int $idUsuario): void
+    {
+        $this->idUsuario = $idUsuario;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDocumento(): int
+    {
+        return $this->documento;
+    }
+
+    /**
+     * @param int $documento
+     */
+    public function setDocumento(int $documento): void
+    {
+        $this->documento = $documento;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNombres(): string
+    {
+        return $this->nombres;
+    }
+
+    /**
+     * @param string $nombres
+     */
+    public function setNombres(string $nombres): void
+    {
+        $this->nombres = $nombres;
+    }
+
+    /**
+     * @return String
+     */
+    public function getTelefono(): string
+    {
+        return $this->telefono;
+    }
+
+    /**
+     * @param String $telefono
+     */
+    public function setTelefono(string $telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDireccion(): string
+    {
+        return $this->direccion;
+    }
+
+    /**
+     * @param string $direccion
+     */
+    public function setDireccion(string $direccion): void
+    {
+        $this->direccion = $direccion;
+    }
+
+    /**
+     * @return \Rol
+     */
+    public function getRol(): \Rol
+    {
+        return $this->rol;
+    }
+
+    /**
+     * @param \Rol $rol
+     */
+    public function setRol(null|string|\Rol $rol): void
+    {
+        if (is_string($rol)) {
+            $this->estado = \Estado::from($rol);
+        } else {
+            $this->rol = $rol;
+        }
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param string|null $password
+     */
+    public function setPassword(?string $password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
+     * @return \Estado
+     */
+    public function getEstado(): \Estado
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param \Estado $estado
+     */
+    public function setEstado(null|string|\Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = \Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
 
     /**
      * @param string $query
@@ -68,22 +208,16 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
         $hashPassword = password_hash($this->password, self::HASH, ['cost' => self::COST]);
 
         $arrData = [
-            ':id' =>    $this->getId(),
-            ':nombres' =>   $this->getNombres(),
-            ':apellidos' =>   $this->getApellidos(),
-            ':tipo_documento' =>  $this->getTipoDocumento(),
-            ':documento' =>   $this->getDocumento(),
+            ':idUsuario' =>    $this->getIdUsuario(),
+            ':nombre' =>   $this->getNombres(),
+            ':documento' =>   $this->getDocumento,
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
-            ':municipio_id' =>   $this->getMunicipioId(),
-            ':fecha_nacimiento' =>  $this->getFechaNacimiento()->toDateString(), //YYYY-MM-DD
             ':user' =>  $this->getUser(),
             ':password' =>   $hashPassword,
-            ':foto' =>   $this->getFoto(),
             ':rol' =>   $this->getRol(),
             ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString()
+
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -96,10 +230,10 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public function insert(): ?bool
     {
-        $query = "INSERT INTO weber.usuarios VALUES (
-            :id,:nombres,:apellidos,:tipo_documento,:documento,
-            :telefono,:direccion,:municipio_id,:fecha_nacimiento,:user,
-            :password,:foto,:rol,:estado,:created_at,:updated_at
+        $query = "INSERT INTO ornamentacion.usuario VALUES (
+            :idUsuario,:documento,:nombres,
+            :telefono,:direccion,:rol,
+            :contrasena,:estado
         )";
         return $this->save($query);
     }
@@ -109,12 +243,10 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public function update(): ?bool
     {
-        $query = "UPDATE weber.usuarios SET 
-            nombres = :nombres, apellidos = :apellidos, tipo_documento = :tipo_documento, 
+        $query = "UPDATE ornamentacion.usuario SET 
+            nombres = :nombres,
             documento = :documento, telefono = :telefono, direccion = :direccion, 
-            municipio_id = :municipio_id, fecha_nacimiento = :fecha_nacimiento, user = :user,  
-            password = :password, foto = :foto, rol = :rol, estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+            user = :user,password = :password, rol = :rol, estado = :estado WHERE id = :id";
         return $this->save($query);
     }
 
@@ -136,7 +268,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     public static function search($query) : ?array
     {
         try {
-            $arrUsuarios = array();
+            $arrUsuario = array();
             $tmp = new Usuarios();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
@@ -145,10 +277,10 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
             if (!empty($getrows)) {
                 foreach ($getrows as $valor) {
                     $Usuario = new Usuarios($valor);
-                    array_push($arrUsuarios, $Usuario);
+                    array_push($arrUsuario, $Usuario);
                     unset($Usuario);
                 }
-                return $arrUsuarios;
+                return $arrUsuario;
             }
             return null;
         } catch (Exception $e) {
@@ -167,7 +299,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
             if ($id > 0) {
                 $tmpUsuario = new Usuarios();
                 $tmpUsuario->Connect();
-                $getrow = $tmpUsuario->getRow("SELECT * FROM weber.usuarios WHERE id =?", array($id));
+                $getrow = $tmpUsuario->getRow("SELECT * FROM ornamentacion.usuario WHERE idUsuario =?", array($id));
                 $tmpUsuario->Disconnect();
                 return ($getrow) ? new Usuarios($getrow) : null;
             } else {
@@ -185,7 +317,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function getAll(): array
     {
-        return Usuarios::search("SELECT * FROM weber.usuarios");
+        return Usuario::search("SELECT * FROM ornamentacion.usuario");
     }
 
     /**
@@ -195,7 +327,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function usuarioRegistrado($documento): bool
     {
-        $result = Usuarios::search("SELECT * FROM weber.usuarios where documento = " . $documento);
+        $result = Usuarios::search("SELECT * FROM ornamentacion.usuario where documento = " . $documento);
         if (!empty($result) && count($result)>0) {
             return true;
         } else {
@@ -208,7 +340,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public function nombresCompletos(): string
     {
-        return $this->nombres . " " . $this->apellidos;
+        return $this->nombres . " " ;
     }
 
     /**
@@ -217,24 +349,22 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     public function __toString(): string
     {
         return "Nombres: $this->nombres, 
-                Apellidos: $this->nombres, 
-                Tipo Documento: $this->tipo_documento, 
                 Documento: $this->documento, 
                 Telefono: $this->telefono, 
                 Direccion: $this->direccion, 
-                Direccion: $this->fecha_nacimiento->toDateTimeString()";
+                ";
     }
 
-    public function login($user, $password): Usuarios|String|null
+    public function login($user, $password): Usuario|String|null
     {
 
         try {
-            $resultUsuarios = Usuarios::search("SELECT * FROM usuarios WHERE user = '$user'");
-            /* @var $resultUsuarios Usuarios[] */
-            if (!empty($resultUsuarios) && count($resultUsuarios) >= 1) {
-                if (password_verify($password, $resultUsuarios[0]->getPassword())) {
-                    if ($resultUsuarios[0]->getEstado() == 'Activo') {
-                        return $resultUsuarios[0];
+            $resultUsuario = Usuario::search("SELECT * FROM usuario WHERE user = '$user'");
+            /* @var $resultUsuario Usuario[] */
+            if (!empty($resultUsuario) && count($resultUsuario) >= 1) {
+                if (password_verify($password, $resultUsuario[0]->getPassword())) {
+                    if ($resultUsuario[0]->getEstado() == 'Activo') {
+                        return $resultUsuario[0];
                     } else {
                         return "Usuario Inactivo";
                     }
@@ -262,22 +392,16 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
         return [
             'id' => $this->getId(),
             'nombres' => $this->getNombres(),
-            'apellidos' => $this->getApellidos(),
-            'tipo_documento' => $this->getTipoDocumento(),
             'documento' => $this->getDocumento(),
             'telefono' => $this->getTelefono(),
             'direccion' => $this->getDireccion(),
-            'municipio_id' => $this->getMunicipioId(),
-            'fecha_nacimiento' => $this->getFechaNacimiento()->toDateString(),
             'user' => $this->getUser(),
             'password' => $this->getPassword(),
-            'foto' => $this->getFoto(),
             'rol' => $this->getRol(),
             'estado' => $this->getEstado(),
-            'created_at' => $this->getCreatedAt()->toDateTimeString(),
-            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
-        ];
 
+        ];
     }
+
 
 }
