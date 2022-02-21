@@ -4,7 +4,7 @@ namespace App\Models;
 
 use JetBrains\PhpStorm\Internal\TentativeType;
 
-class Abono extends AbstractDBConnection implements \App\Interfaces\Model
+class Orden extends AbstractDBConnection implements \App\Interfaces\Model
 {
 
     protected function save(string $query): ?bool

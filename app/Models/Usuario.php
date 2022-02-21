@@ -1,153 +1,62 @@
 <?php
+
 namespace App\Models;
-use App\Interfaces\Models;
+use App\Interfaces\Model;
+use Carbon\Carbon;
+use Exception;
+use JetBrains\PhpStorm\Pure;
+use JsonSerializable;
+use App\Enums\Estado;
 
-class Usuario extends AbstractDBConnection implements Models
+
+require_once ("AbstractDBConnection.php");
+require_once (__DIR__."\..\Interfaces\Model.php");
+require_once (__DIR__.'/../../vendor/autoload.php');
+
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
 {
-    private ?int $IdUsuario;
+
+
+    private ?int $id;
     private int $documento;
-    private string $nombre;
-    private string $telefono;
+    private string $nombres;
+    private String $telefono;
     private string $direccion;
-    private string $roll;
-    private string $contraseña;
+    private  $rol;
+    private ?string $password;
+    private Estado $estado;
+
+    /* Seguridad de Contraseña */
+    const HASH = PASSWORD_DEFAULT;
+    const COST = 10;
 
     /**
-     * @param int|null $IdUsuario
-     * @param int $documento
-     * @param String $nombre
-     * @param String $telefono
-     * @param String $direccion
-     * @param String $roll
-     * @param String $contraseña
+     * Usuarios constructor. Recibe un array asociativo
+     * @param array $usuario
      */
-    public function __Usuario()
+    public function __construct(array $usuario = [])
     {
+        parent::__construct();
+        $this->setId($usuario['id'] ?? null);
+        $this->setDocumento($usuario['documento'] ?? 0);
+        $this->setNombres($usuario['nombres'] ?? '');
+        $this->setTelefono($usuario['telefono'] ?? '');
+        $this->setDireccion($usuario['direccion'] ?? '');
+        $this->setRol($usuario['rol'] ?? null);
+        $this->setPassword($usuario['password'] ?? '');
+        $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
 
     }
 
-    public function __construct(?int $IdUsuario, int $documento, string $nombre, string $telefono, string $direccion, string $roll, string $contraseña)
+    public function __destruct()
     {
-        $this->IdUsuario = $IdUsuario;
-        $this->documento = $documento;
-        $this->nombre = $nombre;
-        $this->telefono = $telefono;
-        $this->direccion = $direccion;
-        $this->roll = $roll;
-        $this->contraseña = $contraseña;
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
     }
 
-    /**
-     * @return int|null
-     */
-    public function getIdUsuario(): ?int
-    {
-        return $this->IdUsuario;
-    }
-
-    /**
-     * @param int|null $IdUsuario
-     */
-    public function setIdUsuario(?int $IdUsuario): void
-    {
-        $this->IdUsuario = $IdUsuario;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDocumento(): int
-    {
-        return $this->documento;
-    }
-
-    /**
-     * @param int $documento
-     */
-    public function setDocumento(int $documento): void
-    {
-        $this->documento = $documento;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNombre(): string
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * @param string $nombre
-     */
-    public function setNombre(string $nombre): void
-    {
-        $this->nombre = $nombre;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTelefono(): string
-    {
-        return $this->telefono;
-    }
-
-    /**
-     * @param string $telefono
-     */
-    public function setTelefono(string $telefono): void
-    {
-        $this->telefono = $telefono;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDireccion(): string
-    {
-        return $this->direccion;
-    }
-
-    /**
-     * @param string $direccion
-     */
-    public function setDireccion(string $direccion): void
-    {
-        $this->direccion = $direccion;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRoll(): string
-    {
-        return $this->roll;
-    }
-
-    /**
-     * @param string $roll
-     */
-    public function setRoll(string $roll): void
-    {
-        $this->roll = $roll;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContraseña(): string
-    {
-        return $this->contraseña;
-    }
-
-    /**
-     * @param string $contraseña
-     */
-    public function setContraseña(string $contraseña): void
-    {
-        $this->contraseña = $contraseña;
-    }
 
 
     /**
@@ -368,5 +277,7 @@ class Usuario extends AbstractDBConnection implements Models
             'created_at' => $this->getCreatedAt()->toDateTimeString(),
             'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
         ];
+
     }
+
 }
