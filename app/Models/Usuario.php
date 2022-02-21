@@ -1,13 +1,11 @@
 <?php
 
 namespace App\Models;
-use App\Interfaces\Model;
-use Carbon\Carbon;
-use Exception;
-use JetBrains\PhpStorm\Pure;
-use JsonSerializable;
 use App\Enums\Estado;
-use App\Enums\Rol;
+
+use App\Enums\Roll;
+use App\Interfaces\Model;
+use Exception;
 
 
 require_once ("AbstractDBConnection.php");
@@ -16,7 +14,7 @@ require_once (__DIR__.'/../../vendor/autoload.php');
 
 use JetBrains\PhpStorm\Internal\TentativeType;
 
-class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
+class Usuario extends AbstractDBConnection implements Model
 {
 
 
@@ -25,9 +23,9 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     private string $nombres;
     private String $telefono;
     private string $direccion;
-    private  \Rol $rol;
-    private ?string $password;
-    private \Estado $estado;
+    private Roll $roll;
+    private ?string $contrasena;
+    private Estado $estado;
 
     //Realaciones
     private ?array $FabricacionUsuario;
@@ -49,9 +47,9 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setNombres($usuario['nombres'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setRol($usuario['rol'] ?? \Rol::CLIENTE);
-        $this->setPassword($usuario['password'] ?? '');
-        $this->setEstado($usuario['estado'] ?? \Estado::INACTIVO);
+        $this->setRoll($usuario['roll'] ?? Roll::CLIENTE);
+        $this->setContrasena($usuario['contrasena'] ?? '');
+        $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
 
     }
 
@@ -143,61 +141,62 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
     /**
-     * @return \Rol
+     * @return Roll
      */
-    public function getRol(): \Rol
+    public function getRoll(): string
     {
-        return $this->rol;
+        return $this->roll->toString();
     }
 
     /**
-     * @param \Rol $rol
+     * @param string|Roll|null $roll
      */
-    public function setRol(null|string|\Rol $rol): void
+    public function setRoll(null|string|Roll $roll): void
     {
-        if (is_string($rol)) {
-            $this->estado = \Estado::from($rol);
-        } else {
-            $this->rol = $rol;
+        if(is_string($roll)){
+            $this->roll = Roll::from($roll);
+
+        }else{
+            $this->roll = $roll;
         }
     }
-
 
     /**
      * @return string|null
      */
-    public function getPassword(): ?string
+    public function getContrasena(): ?string
     {
-        return $this->password;
+        return $this->contrasena;
     }
 
     /**
-     * @param string|null $password
+     * @param string|null $contrasena
      */
-    public function setPassword(?string $password): void
+    public function setContrasena(?string $contrasena): void
     {
-        $this->password = $password;
+        $this->contrasena = $contrasena;
     }
 
     /**
-     * @return \Estado
+     * @return Estado
      */
-    public function getEstado(): \Estado
+    public function getEstado(): string
     {
-        return $this->estado;
+        return $this->estado->toString();
     }
 
     /**
-     * @param \Estado $estado
+     * @param EstadoCategorias|null $estado
      */
-    public function setEstado(null|string|\Estado $estado): void
+    public function setEstado(null|string|Estado $estado): void
     {
         if(is_string($estado)){
-            $this->estado = \Estado::from($estado);
+            $this->estado = Estado::from($estado);
         }else{
             $this->estado = $estado;
         }
     }
+
 
     /**
      * @param string $query
@@ -205,17 +204,16 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     protected function save(string $query): ?bool
     {
-        $hashPassword = password_hash($this->password, self::HASH, ['cost' => self::COST]);
+        $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
 
         $arrData = [
-            ':idUsuario' =>    $this->getIdUsuario(),
+            ':IdUsuario' =>    $this->getIdUsuario(),
+            ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombres(),
-            ':documento' =>   $this->getDocumento,
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
-            ':user' =>  $this->getUser(),
-            ':password' =>   $hashPassword,
-            ':rol' =>   $this->getRol(),
+            ':roll' =>   $this->getRoll(),
+            ':contrasena' =>   $hashPassword,
             ':estado' =>   $this->getEstado(),
 
         ];
@@ -231,8 +229,8 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
     public function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.usuario VALUES (
-            :idUsuario,:documento,:nombres,
-            :telefono,:direccion,:rol,
+            :IdUsuario,:documento,:nombre,
+            :telefono,:direccion,:roll,
             :contrasena,:estado
         )";
         return $this->save($query);
@@ -246,7 +244,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
         $query = "UPDATE ornamentacion.usuario SET 
             nombres = :nombres,
             documento = :documento, telefono = :telefono, direccion = :direccion, 
-            user = :user,password = :password, rol = :rol, estado = :estado WHERE id = :id";
+            contrasena = :contrasena, rol = :rol, estado = :estado WHERE id = :id";
         return $this->save($query);
     }
 
@@ -262,21 +260,21 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
 
     /**
      * @param $query
-     * @return Usuarios|array
+     * @return Usuario|array
      * @throws Exception
      */
     public static function search($query) : ?array
     {
         try {
             $arrUsuario = array();
-            $tmp = new Usuarios();
+            $tmp = new Usuario();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             if (!empty($getrows)) {
                 foreach ($getrows as $valor) {
-                    $Usuario = new Usuarios($valor);
+                    $Usuario = new Usuario($valor);
                     array_push($arrUsuario, $Usuario);
                     unset($Usuario);
                 }
@@ -291,17 +289,17 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
 
     /**
      * @param int $id
-     * @return Usuarios|null
+     * @return Usuario|null
      */
-    public static function searchForId(int $id): ?Usuarios
+    public static function searchForId(int $id): ?Usuario
     {
         try {
             if ($id > 0) {
-                $tmpUsuario = new Usuarios();
+                $tmpUsuario = new Usuario();
                 $tmpUsuario->Connect();
                 $getrow = $tmpUsuario->getRow("SELECT * FROM ornamentacion.usuario WHERE idUsuario =?", array($id));
                 $tmpUsuario->Disconnect();
-                return ($getrow) ? new Usuarios($getrow) : null;
+                return ($getrow) ? new Usuario($getrow) : null;
             } else {
                 throw new Exception('Id de usuario Invalido');
             }
@@ -327,7 +325,7 @@ class Usuario extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function usuarioRegistrado($documento): bool
     {
-        $result = Usuarios::search("SELECT * FROM ornamentacion.usuario where documento = " . $documento);
+        $result = Usuario::search("SELECT * FROM ornamentacion.usuario where documento = " . $documento);
         if (!empty($result) && count($result)>0) {
             return true;
         } else {

@@ -1,4 +1,6 @@
 <?php
+namespace App\Enums;
+
 enum Estado : string
 {
     case ACTIVO = 'Activo';

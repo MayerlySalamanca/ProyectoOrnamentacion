@@ -6,8 +6,32 @@ use JetBrains\PhpStorm\Internal\TentativeType;
 
 class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 {
+    private ?int  $IdProveedor;
+    private int $Docuemnto;
+    private string $nombre;
+    private string $ciudad;
+    private \Estado $estado;
+
+    /**
+     * @param int|null $IdProveedor
+     * @param int $Docuemnto
+     * @param string $nombre
+     * @param string $ciudad
+     * @param \Estado $estado
+     */
+    public function __construct(array $proveedor = [])
+    {
+        parent::__construct();
+        $this->setIdProveedor( $proveedor['IdProveedor'] ?? null) ;
+        $this->setDocuemnto($proveedor['documento'] ?? 0);
+        $this->setNombre($proveedor['nombre'] ?? '') ;
+        $this->setCiudad($proveedor['ciudad']) ;
+         $this->setEstado($proveedor['estado'] ?? \Estado::INACTIVO);
+    }
+
 
     protected function save(string $query): ?bool
+
     {
         // TODO: Implement save() method.
     }
