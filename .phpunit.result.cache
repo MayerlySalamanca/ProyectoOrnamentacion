@@ -1,1 +1,1 @@
-{"version":1,"defects":{"App\\Models\\UsuarioTest::testInsert":4},"times":{"App\\Models\\UsuarioTest::testInsert":0.004}}
+{"version":1,"defects":{"App\\Models\\UsuarioTest::testInsert":3},"times":{"App\\Models\\UsuarioTest::testInsert":0.079}}

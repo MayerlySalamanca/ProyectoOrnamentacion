@@ -44,7 +44,7 @@ class Usuario extends AbstractDBConnection implements Model
         parent::__construct();
         $this->setIdUsuario($usuario['idUsuario'] ?? null);
         $this->setDocumento($usuario['documento'] ?? 0);
-        $this->setNombres($usuario['nombres'] ?? '');
+        $this->setNombres($usuario['nombre'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
         $this->setRoll($usuario['roll'] ?? Roll::CLIENTE);
@@ -244,7 +244,7 @@ class Usuario extends AbstractDBConnection implements Model
         $query = "UPDATE ornamentacion.usuario SET 
             nombres = :nombres,
             documento = :documento, telefono = :telefono, direccion = :direccion, 
-            contrasena = :contrasena, rol = :rol, estado = :estado WHERE id = :id";
+            contrasena = :contrasena, rol = :rol, estado = :estado WHERE IdUsuario = :IdUsuario";
         return $this->save($query);
     }
 
@@ -325,7 +325,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public static function usuarioRegistrado($documento): bool
     {
-        $result = Usuario::search("SELECT * FROM ornamentacion.usuario where documento = " . $documento);
+        $result = usuario::search("SELECT * FROM ornamentacion.usuario where documento = " . $documento);
         if (!empty($result) && count($result)>0) {
             return true;
         } else {
