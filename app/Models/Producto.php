@@ -221,37 +221,108 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 
     protected function save(string $query): ?bool
     {
-        // TODO: Implement save() method.
+        $arrData = [
+            ':idProducto' =>    $this->getIdProducto(),
+            ':tipo' =>   $this->getTipo(),
+            ':nombre' =>   $this->getNombre(),
+            ':cantidad' =>   $this->getCantidad(),
+            ':valor' =>   $this->getValor(),
+            ':material' =>   $this->getMaterial(),
+            ':tamano' =>   $this->getTamano(),
+            ':diseno' =>   $this->getDiseno(),
+            ':tipoServicio' =>   $this->getTipoServicio(),
+            ':estado' =>   $this->getEstado(),
+
+        ];
+        $this->Connect();
+        $result = $this->insertRow($query, $arrData);
+        $this->Disconnect();
+        return $result;
     }
 
     function insert(): ?bool
     {
-        // TODO: Implement insert() method.
+        $query = "INSERT INTO ornamentacion.Producto VALUES (
+            :IdProducto,:tipo,:nombre,
+            :cantidad,:valor,:material,:tamano,:diseno,:tipoServicio,:estado
+        )";
+        return $this->save($query);
     }
 
     function update(): ?bool
     {
-        // TODO: Implement update() method.
+        $query = "UPDATE ornamentacion.Producto SET 
+            tipo = :tipo,
+            nombre = :nombre, cantidad= :cantidad, valor = :valor,material= : material,tamano = :tamano,diseno = :diseno,tipoServicio = :tipoServicio, estado = :estado WHERE IdProducto = :IdProducto";
+        return $this->save($query);
     }
 
     function deleted(): ?bool
     {
-        // TODO: Implement deleted() method.
+        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        return $this->update();                    //Guarda los cambios..
     }
 
     static function search($query): ?array
     {
-        // TODO: Implement search() method.
+        try {
+            $arrProducto = array();
+            $tmp = new Producto();
+            $tmp->Connect();
+            $getrows = $tmp->getRows($query);
+            $tmp->Disconnect();
+
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Producto = new Usuario($valor);
+                    array_push($arrProducto, $Producto);
+                    unset($Producto);
+                }
+                return $arrProducto;
+            }
+            return null;
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
     }
 
-    static function searchForId(int $id): ?object
+    static function searchForId(int $id): ?Producto
     {
-        // TODO: Implement searchForId() method.
+        try {
+            if ($id > 0) {
+                $tmpProducto = new Producto();
+                $tmpProducto->Connect();
+                $getrow = $tmpProducto->getRow("SELECT * FROM ornamentacion.Producto WHERE idProducto =?", array($id));
+                $tmpProducto->Disconnect();
+                return ($getrow) ? new Usuario($getrow) : null;
+            } else {
+                throw new Exception('Id de Producto Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+    /**
+     * @param $documento
+     * @return bool
+     * @throws Exception
+     */
+    public static function productoRegistrado($nombre): bool
+    {
+        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
+        $result = producto::search("SELECT * FROM ornamentacion.producto where nombre = '" . $nombre."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     static function getAll(): ?array
     {
-        // TODO: Implement getAll() method.
+        return Producto::search("SELECT * FROM ornamentacion.producto");
     }
 
     /**
@@ -259,6 +330,19 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public function jsonSerialize(): mixed
     {
-        // TODO: Implement jsonSerialize() method.
+        return [
+            ':idProducto' =>    $this->getIdProducto(),
+            ':tipo' =>   $this->getTipo(),
+            ':nombre' =>   $this->getNombre(),
+            ':cantidad' =>   $this->getCantidad(),
+            ':valor' =>   $this->getValor(),
+            ':material' =>   $this->getMaterial(),
+            ':tamano' =>   $this->getTamano(),
+            ':diseno' =>   $this->getDiseno(),
+            ':tipoServicio' =>   $this->getTipoServicio(),
+            ':estado' =>   $this->getEstado(),
+
+
+        ];
     }
 }
