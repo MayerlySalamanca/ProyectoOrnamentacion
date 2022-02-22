@@ -388,15 +388,14 @@ class Usuario extends AbstractDBConnection implements Model
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->getId(),
-            'nombres' => $this->getNombres(),
-            'documento' => $this->getDocumento(),
-            'telefono' => $this->getTelefono(),
-            'direccion' => $this->getDireccion(),
-            'user' => $this->getUser(),
-            'password' => $this->getPassword(),
-            'rol' => $this->getRol(),
-            'estado' => $this->getEstado(),
+            ':IdUsuario' =>    $this->getIdUsuario(),
+            ':documento' =>   $this->getDocumento(),
+            ':nombre' =>   $this->getNombres(),
+            ':telefono' =>   $this->getTelefono(),
+            ':direccion' =>   $this->getDireccion(),
+            ':roll' =>   $this->getRoll(),
+            ':contrasena'=> $this-> getContrasena() ,
+            ':estado' =>   $this->getEstado(),
 
         ];
     }
