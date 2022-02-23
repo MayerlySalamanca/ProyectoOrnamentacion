@@ -1,28 +1,77 @@
 <?php
+
 namespace App\Models;
-class Abono
+
+use App\Enums\Estado;
+use App\Enums\EstadoFactura;
+use Carbon\Carbon;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class Abono extends AbstractDBConnection implements \App\Interfaces\Model
 {
-private ? int $IdAbono;
-private String $Descripcion;
-private String $fecha;
-private int $valor;
-//relaciones
-private int $factura_IdFactura;
+    private ?int $IdAbono;
+    private int $numoerAbono;
+    private string $descripcion;
+    private carbon $fecha;
+    private int $valor;
+    private Estado $estado;
+    private int $Factura_IdFactura;
+
+     public function __construct(array $abono = [])
+     {
+         parent::__construct();
+         $this->setIdAbono($abono['IdAbono'] ?? null);
+         $this-> setNumoerAbono($abono['numoerAbono'] ?? 0);
+         $this->setDescripcion($abono['descripcion'] ?? '');
+         $this->setFecha(!empty($abono['fecha']) ? Carbon::parse($abono['fecha']) : new Carbon());
+         $this->setValor($abono['valor'] ?? 0);
+         $this->setEstado($abono['estado'] ?? Estado::INACTIVO);
+         $this->setFacturaIdFactura($abono['Factura_IdFactura'] ?? 0);
+
+
+     }
+
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
+    }
+
 
     /**
-     * @param int|null $IdAbono
-     * @param String $Descripcion
-     * @param String $fecha
-     * @param int $valor
-     * @param int $factura_IdFactura
+     * @return string
      */
-    public function __construct(?int $IdAbono, string $Descripcion, string $fecha, int $valor, int $factura_IdFactura)
+    public function getEstado(): string
     {
-        $this->IdAbono = $IdAbono;
-        $this->Descripcion = $Descripcion;
-        $this->fecha = $fecha;
-        $this->valor = $valor;
-        $this->factura_IdFactura = $factura_IdFactura;
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param string|EstadoFactura|null $estado
+     */
+    public function setEstado(null|string|EstadoFactura $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = EstadoFactura::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
+    /**
+     * @return Carbon
+     */
+    public function getFecha(): Carbon
+    {
+        return $this->fecha->locale('es');
+    }
+
+    /**
+     * @param Carbon $fecha
+     */
+    public function setFecha(Carbon $fecha):Carbon
+    {
+        return $this->fecha=$fecha;
     }
 
     /**
@@ -42,35 +91,35 @@ private int $factura_IdFactura;
     }
 
     /**
-     * @return String
+     * @return int
+     */
+    public function getNumoerAbono(): int
+    {
+        return $this->numoerAbono;
+    }
+
+    /**
+     * @param int $numoerAbono
+     */
+    public function setNumoerAbono(int $numoerAbono): void
+    {
+        $this->numoerAbono = $numoerAbono;
+    }
+
+    /**
+     * @return string
      */
     public function getDescripcion(): string
     {
-        return $this->Descripcion;
+        return $this->descripcion;
     }
 
     /**
-     * @param String $Descripcion
+     * @param string $descripcion
      */
-    public function setDescripcion(string $Descripcion): void
+    public function setDescripcion(string $descripcion): void
     {
-        $this->Descripcion = $Descripcion;
-    }
-
-    /**
-     * @return String
-     */
-    public function getFecha(): string
-    {
-        return $this->fecha;
-    }
-
-    /**
-     * @param String $fecha
-     */
-    public function setFecha(string $fecha): void
-    {
-        $this->fecha = $fecha;
+        $this->descripcion = $descripcion;
     }
 
     /**
@@ -94,95 +143,135 @@ private int $factura_IdFactura;
      */
     public function getFacturaIdFactura(): int
     {
-        return $this->factura_IdFactura;
+        return $this->Factura_IdFactura;
     }
 
     /**
-     * @param int $factura_IdFactura
+     * @param int $Factura_IdFactura
      */
-    public function setFacturaIdFactura(int $factura_IdFactura): void
+    public function setFacturaIdFactura(int $Factura_IdFactura): void
     {
-        $this->factura_IdFactura = $factura_IdFactura;
+        $this->Factura_IdFactura = $Factura_IdFactura;
     }
+
 
     /**
      * @param string $query
      * @return bool|null
-     * metodo para guardar un abono
      */
-    protected function save(string $query): ?bool
 
+    protected function save(string $query): ?bool
     {
         $arrData = [
             ':IdAbono' =>    $this->getIdAbono(),
-            ':Descripcion' =>   $this->getDescripcion(),
-            ':Fecha' =>   $this->getFecha()->toDateTimeString(),
-            ':Valor' =>  $this->getValor(),
-            ':factura_IdFactura' =>   $this->getFacturaIdFactura(),
-
+            ':numoerAbono' =>    $this->getNumoerAbono(),
+            ':descripcion' =>    $this->getDescripcion(),
+            ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':valor' =>   $this->getValor(),
+            ':estado' =>   $this->getEstado(),
+            ':Factura_IdFactura' =>   $this->getFacturaIdFactura(),
         ];
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.abono VALUES (
+            :IdAbono,:numoerAbono,:descripcion,
+            :fecha,:valor,:estado,:Factura_IdFactura,
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.abono SET 
+            numoerAbono = :numoerAbono,descripcion=: descripcion, fecha= :fecha,
+            valor = :valor, estado = :estado, Factura_IdFactura = :Factura_IdFactura,
+            WHERE IdAbono = :IdAbono";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrAbono = array();
+            $tmp = new Abono();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Abono = new Abono($valor);
+                    array_push($arrAbono, $Abono);
+                    unset($Abono);
+                }
+                return $arrAbono;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
+    }
+
+    static function searchForId(int $id): ?object
+    {
+        try {
+            if ($id > 0) {
+                $tmpAbono = new Abono();
+                $tmpAbono->Connect();
+                $getrow = $tmpAbono->getRow("SELECT * FROM ornamentacion.abono WHERE IdAbono =?", array($id));
+                $tmpAbono->Disconnect();
+                return ($getrow) ? new Abono($getrow) : null;
+            } else {
+                throw new Exception('Id de Abono Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+
+    /**
+     * @param $numeroPedido
+     * @return bool
+     */
+    public static function facturaRegistrado($IdAbono): bool
+    {
+        $result = abono::search("SELECT * FROM ornamentacion.abono where IdAbono = '" . $IdAbono."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return abono::search("SELECT * FROM ornamentacion.abono");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+
+
+
+        ];
     }
 
 

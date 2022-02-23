@@ -1,44 +1,132 @@
 <?php
-namespace App\Models;
-class Pedidos
-{
-private ? int $idPedidos;
-private string $nombre;
-private string $fechaPedido;
-private string $fechaEntrega;
-private String $Estado;
-private int $proveedor_IdProveedor;
 
-    /**
-     * @param int|null $idPedidos
-     * @param string $nombre
-     * @param string $fechaPedido
-     * @param string $fechaEntrega
-     * @param int $proveedor_IdProveedor
-     */
-    public function __construct(?int $idPedidos, string $nombre, string $fechaPedido, string $fechaEntrega, int $proveedor_IdProveedor)
+namespace App\Models;
+
+use App\Enums\Estado;
+use App\Enums\Roll;
+use App\Enums\Tipo;
+use App\Enums\TipoServicioProduct;
+use App\Models\Proveedor;
+use Carbon\Carbon;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class Pedidos extends AbstractDBConnection implements \App\Interfaces\Model
+{
+
+    private ?int $idPedido;
+    private int $numeroPedido;
+    private string $nombre;
+    private carbon $fechaPedido;
+    private carbon $fechaEntrega;
+    private Estado $estado;
+    private int  $Proveedor_IdProveedor;
+
+    public function __construct(array $Pedidos = [])
     {
-        $this->idPedidos = $idPedidos;
-        $this->nombre = $nombre;
-        $this->fechaPedido = $fechaPedido;
-        $this->fechaEntrega = $fechaEntrega;
-        $this->proveedor_IdProveedor = $proveedor_IdProveedor;
+        parent::__construct();
+        $this->setIdPedido($Pedidos['idPedido'] ?? null);
+        $this->setNumeroPedido($Pedidos['numeroPedido'] ?? 0);
+        $this->setNombre($Pedidos['nombre'] ?? '');
+        $this->setFechaPedido(!empty($Pedidos['fechaPedido']) ? Carbon::parse($Pedidos['fechaPedido']) : new Carbon());
+        $this->setFechaEntrega(!empty($Pedidos['fechaEntrega']) ? Carbon::parse($Pedidos['fechaEntrega']) : new Carbon());
+        $this->setEstado($Pedidos['estado'] ?? Estado::INACTIVO);
+        $this->setProveedorIdProveedor($Pedidos['Proveedor_IdProveedor'] ?? 0);
+
+
     }
 
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumeroPedido(): int
+    {
+        return $this->numeroPedido;
+    }
+
+    /**
+     * @param int $numeroPedido
+     */
+    public function setNumeroPedido(int $numeroPedido): void
+    {
+        $this->numeroPedido = $numeroPedido;
+    }
+
+
+
+    /**
+     * @return Carbon
+     */
+    public function getFechaPedido(): Carbon
+    {
+        return $this->fechaPedido->locale('es');
+        //return $this->fechaPedido;
+    }
+
+    /**
+     * @param Carbon $fechaPedido
+     */
+    public function setFechaPedido(Carbon $fechaPedido): void
+    {
+        $this->fechaPedido = $fechaPedido;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getFechaEntrega(): Carbon
+    {
+        return $this->fechaEntrega->locale('es');
+        //return $this->fechaEntrega;
+    }
+
+    /**
+     * @param Carbon $fechaEntrega
+     */
+    public function setFechaEntrega(Carbon $fechaEntrega): void
+    {
+        $this->fechaEntrega = $fechaEntrega;
+    }
+
+    /**
+     * @return Estado
+     */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
     /**
      * @return int|null
      */
-    public function getIdPedidos(): ?int
+    public function getIdPedido(): ?int
     {
-        return $this->idPedidos;
+        return $this->idPedido;
     }
 
     /**
-     * @param int|null $idPedidos
+     * @param int|null $idPedido
      */
-    public function setIdPedidos(?int $idPedidos): void
+    public function setIdPedido(?int $idPedido): void
     {
-        $this->idPedidos = $idPedidos;
+        $this->idPedido = $idPedido;
     }
 
     /**
@@ -58,114 +146,67 @@ private int $proveedor_IdProveedor;
     }
 
     /**
-     * @return string
-     */
-    public function getFechaPedido(): string
-    {
-        return $this->fechaPedido;
-    }
-
-    /**
-     * @param string $fechaPedido
-     */
-    public function setFechaPedido(string $fechaPedido): void
-    {
-        $this->fechaPedido = $fechaPedido;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFechaEntrega(): string
-    {
-        return $this->fechaEntrega;
-    }
-
-    /**
-     * @param string $fechaEntrega
-     */
-    public function setFechaEntrega(string $fechaEntrega): void
-    {
-        $this->fechaEntrega = $fechaEntrega;
-    }
-
-    /**
      * @return int
      */
     public function getProveedorIdProveedor(): int
     {
-        return $this->proveedor_IdProveedor;
+        return $this->Proveedor_IdProveedor;
     }
 
     /**
-     * @param int $proveedor_IdProveedor
+     * @param int $Proveedor_IdProveedor
      */
-    public function setProveedorIdProveedor(int $proveedor_IdProveedor): void
+    public function setProveedorIdProveedor(int $Proveedor_IdProveedor): void
     {
-        $this->proveedor_IdProveedor = $proveedor_IdProveedor;
+        $this->Proveedor_IdProveedor = $Proveedor_IdProveedor;
     }
 
 
-    /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
-     */
-    protected function save(string $query): ?bool
 
+
+
+    protected function save(string $query): ?bool
     {
         $arrData = [
-            ':IdPedidos' =>    $this->getIdPedidos(),
-            ':nombre' =>   $this->getnombre(),
-            ':fechaPedido' =>   $this->getfechaPedido()->toDateTimeString(),
-            ':fechaEntrega' =>   $this->getfechaEntrega()->toDateTimeString(),
-
-            ':proveedor_IdProveedor' =>   $this->getproveedor_IdProveedor(),
+            ':idPedidos' =>    $this->getIdPedido(),
+            ':numeroPedido' =>    $this->getNumeroPedido(),
+            ':nombre' =>   $this->getNombre(),
+            ':fechaPedido' =>  $this->getFechaPedido()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':fechaEntrega' =>  $this->getFechaEntrega()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':estado' =>   $this->getEstado(),
+            ':Proveedor_IdProveedor' =>   $this->getProveedorIdProveedor(),
         ];
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO proyecto.pedidos VALUES (:IdPedido,:nombre,:fechaPedido,:fechaEntrega,:proveedor_IdProveedor)";
+        $query = "INSERT INTO ornamentacion.pedidos VALUES (
+            :idPedidos,:numeroPedido,:nombre,
+            :fechaPedido,:fechaEntrega,:estado,:Proveedor_IdProveedor,
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, fechaPedido = :descripcion,
-            estado = :estado, fechaEntrega = :created_at, 
-            proveedor_IdProveedor = :updated_at WHERE idPedido = :id";
+        $query = "UPDATE ornamentacion.pedidos SET 
+            numeroPedido=: numeroPedido,nombre = :nombre, fechaPedido= :fechaPedido, fechaEntrega = :fechaEntrega,
+            estado = :estado,Proveedor_IdProveedor = :Proveedor_IdProveedor,
+            WHERE idPedidos = :IdidPedidos";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
-        $this->setEstado("Inactivo");              //Cambia el estado del Usuario
+        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
             $arrPedidos = array();
@@ -174,15 +215,69 @@ private int $proveedor_IdProveedor;
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Pedidos= new    Pedidos($valor);
-                array_push($arrPedidos, $Pedidos);
-                unset($Pedidos);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Pedidos = new Pedidos($valor);
+                    array_push($arrPedidos, $Pedidos);
+                    unset($Pedidos);
+                }
+                return $arrPedidos;
             }
-            return $arrPedidos;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
+    }
+
+    static function searchForId(int $id): ?object
+    {
+        try {
+            if ($id > 0) {
+                $tmpPedidos = new Pedidos();
+                $tmpPedidos->Connect();
+                $getrow = $tmpPedidos->getRow("SELECT * FROM ornamentacion.pedidos WHERE idPedidos =?", array($id));
+                $tmpPedidos->Disconnect();
+                return ($getrow) ? new Pedidos($getrow) : null;
+            } else {
+                throw new Exception('Id de Pedidos Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+
+    /**
+     * @param $numeroPedido
+     * @return bool
+     */
+    public static function pedidoRegistrado($numeroPedido): bool
+    {
+        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
+
+        $result = pedidos::search("SELECT * FROM ornamentacion.pedidos where numeroPedido = '" . $numeroPedido."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return pedidos::search("SELECT * FROM ornamentacion.pedidos");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+
+
+
+        ];
     }
 }

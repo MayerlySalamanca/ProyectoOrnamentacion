@@ -1,22 +1,36 @@
 <?php
+
 namespace App\Models;
-class Proveedor
+use App\Enums\Estado;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 {
-private ? int $IdProveedor;
-private int $documento;
-private string $nombre;
-private string $ciudad;
+    private ?int  $IdProveedor;
+    private int $documento;
+    private string $nombre;
+    private string $ciudad;
+    private Estado $estado;
+//Realacion
+    private ?array $pedidosProveedor;
 
     /**
-     * @param int|null $IdProveedor
-     * @param int $documento
-     * @param string $nombre
-     * @param string $ciudad
+     * @param array $proveedor
      */
-    public function __construct(?int $IdProveedor, int $documento, string $nombre, string $ciudad)
+    public function __construct(array $proveedor = [])
     {
-
-        
+        parent::__construct();
+        $this->setIdProveedor( $proveedor['IdProveedor'] ?? null) ;
+        $this->setDocumento($proveedor['documento'] ?? 0);
+        $this->setNombre($proveedor['nombre'] ?? '') ;
+        $this->setCiudad($proveedor['ciudad']?? '') ;
+        $this->setEstado($proveedor['estado'] ?? Estado::INACTIVO);
+    }
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
     }
 
     /**
@@ -51,6 +65,8 @@ private string $ciudad;
         $this->documento = $documento;
     }
 
+
+
     /**
      * @return string
      */
@@ -83,84 +99,145 @@ private string $ciudad;
         $this->ciudad = $ciudad;
     }
 
+
+
     /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
+     * @return Estado
      */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
+
+
+
     protected function save(string $query): ?bool
 
     {
         $arrData = [
             ':IdProveedor' =>    $this->getIdProveedor(),
-            ':documento' =>   $this->getdocumento(),
-            ':nombre' =>   $this->getnombre(),
-            ':ciudad' =>   $this->getciudad(),
+            ':documento' =>   $this->getDocumento(),
+            ':nombre' =>   $this->getNombre(),
+            ':ciudad' =>   $this->getCiudad(),
+            ':estado' =>   $this->getEstado(),
+
         ];
-
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :ciudad,:estado
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,
+            documento = :documento, ciudad= :ciudad, estado = :estado WHERE IdProveedor = :IdProveedor";
         return $this->save($query);
+
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrProveedor = array();
+            $tmp = new Proveedor();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Proveedor = new Usuario($valor);
+                    array_push($arrProveedor, $Proveedor);
+                    unset($Proveedor);
+                }
+                return $arrProveedor;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
 
+    static function searchForId(int $id): ?Proveedor
+    {
+        try {
+            if ($id > 0) {
+                $tmpProveedor = new Proveedor();
+                $tmpProveedor->Connect();
+                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.usuario WHERE idProveedor =?", array($id));
+                $tmpProveedor->Disconnect();
+                return ($getrow) ? new Usuario($getrow) : null;
+            } else {
+                throw new Exception('Id de Proveedor Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+    /**
+     * @param $documento
+     * @return bool
+     * @throws Exception
+     */
+    public static function proveedorRegistrado($documento): bool
+    {
+        //$result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = " . $documento);
+        $result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = '" . $documento."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    static function getAll(): ?array
+    {
+        return Proveedor::search("SELECT * FROM ornamentacion.proveedor");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+            ':IdProveedor' =>    $this->getIdProveedor(),
+            ':documento' =>   $this->getDocumento(),
+            ':nombre' =>   $this->getNombre(),
+            ':ciudad' =>   $this->getCiudad(),
+            ':estado' =>   $this->getEstado(),
+
+        ];
+    }
 }

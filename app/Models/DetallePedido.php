@@ -1,33 +1,67 @@
 <?php
+
 namespace App\Models;
 
-class DetallePedido extends AbstractDBConnection implements Model
+use App\Enums\Estado;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Model
 {
-private ? INT $idDetallePedido;
-private int $valor;
-private int $cantidad;
-//Relaciones
-private int $pedidosId;
-private int $materiaPrimaId;
+
+    private ?int  $idDetallePedido;
+    private int $numeroDetallePedido;
+    private int $valor;
+    private int $cantidad;
+    private Estado $estado;
+    private int $pedidosId;
+    private int $materiaPrimaId;
 
     /**
-     * @param INT|null $idDetallePedido
-     * @param int $valor
-     * @param int $cantidad
-     * @param int $pedidosId
-     * @param int $materiaPrimaId
+     * Usuarios constructor. Recibe un array asociativo
+     * @param array $detallepedido
      */
-    public function __construct(?int $idDetallePedido, int $valor, int $cantidad, int $pedidosId, int $materiaPrimaId)
+    public function __construct(array $detallepedido = [])
     {
-        $this->idDetallePedido = $idDetallePedido;
-        $this->valor = $valor;
-        $this->cantidad = $cantidad;
-        $this->pedidosId = $pedidosId;
-        $this->materiaPrimaId = $materiaPrimaId;
+        parent::__construct();
+        $this->setIdDetallePedido($detallepedido['idDetallePedido'] ?? null);
+        $this->setNumeroDetallePedido($detallepedido['numeroDetallePedido'] ?? 0);
+        $this->setValor($detallepedido['valor'] ?? 0);
+        $this->setCantidad($detallepedido['cantidad'] ?? 0);
+        $this->setEstado($detallepedido['estado'] ?? Estado::INACTIVO);
+        $this->setPedidosId($detallepedido['pedidosId'] ?? 0);
+        $this->setMateriaPrimaId($detallepedido['materiaPrimaId'] ?? 0);
+
+    }
+
+
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
+    }
+    /**
+     * @return Estado
+     */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
     }
 
     /**
-     * @return INT|null
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
+
+    /**
+     * @return int|null
      */
     public function getIdDetallePedido(): ?int
     {
@@ -35,11 +69,27 @@ private int $materiaPrimaId;
     }
 
     /**
-     * @param INT|null $idDetallePedido
+     * @param int|null $idDetallePedido
      */
     public function setIdDetallePedido(?int $idDetallePedido): void
     {
         $this->idDetallePedido = $idDetallePedido;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumeroDetallePedido(): int
+    {
+        return $this->numeroDetallePedido;
+    }
+
+    /**
+     * @param int $numeroDetallePedido
+     */
+    public function setNumeroDetallePedido(int $numeroDetallePedido): void
+    {
+        $this->numeroDetallePedido = $numeroDetallePedido;
     }
 
     /**
@@ -106,85 +156,119 @@ private int $materiaPrimaId;
         $this->materiaPrimaId = $materiaPrimaId;
     }
 
-    /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
-     */
     protected function save(string $query): ?bool
-
     {
         $arrData = [
-            ':IdDetallePedido' =>    $this->getIdDetallePedido(),
-            ':valor ' =>   $this->getvalor (),
-            ':cantidad' =>  $this->getcantidad(),
-            ':pedidosId' =>  $this->getpedidosId(),
-            ':materiaPrimaId' =>   $this->getmateriaPrimaId(),
+            ':idDetallePedido' =>    $this->getIdDetallePedido(),
+            ':numeroDetallePedido' =>   $this->getNumeroDetallePedido(),
+            ':valor' =>   $this->getValor(),
+            ':cantidad' =>   $this->getCantidad(),
+            ':estado' =>   $this->getEstado(),
+            ':pedidosId' =>   $this->getPedidosId(),
+            ':materiaPrimaId' =>   $this->getMateriaPrimaId(),
+
         ];
-
-
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.detallepedido  VALUES (
+            :idDetallePedido,:numeroDetallePedido,:valor,:cantidad,
+            :estado,:pedidosId,:materiaPrimaId
+        
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.detallepedido SET 
+            numeroDetallePedido = :numeroDetallePedido,valor = :valor,
+            cantidad = :cantidad, estado = :estado, pedidosId = :pedidosId, 
+            materiaPrimaId = :materiaPrimaId WHERE idDetallePedido = :idDetallePedido";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrDetallePedido = array();
+            $tmp = new DetallePedido();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $detallePedido = new DetallePedido($valor);
+                    array_push($arrDetallePedido, $detallePedido);
+                    unset($detallePedido);
+                }
+                return $arrDetallePedido;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
 
+    static function searchForId(int $id): ?object
+    {
+        try {
+            if ($id > 0) {
+                $tmpDetalle = new DetallePedido();
+                $tmpDetalle->Connect();
+                $getrow = $tmpDetalle->getRow("SELECT * FROM ornamentacion.detallepedido WHERE idDetallePedido =?", array($id));
+                $tmpDetalle->Disconnect();
+                return ($getrow) ? new DetallePedido($getrow) : null;
+            } else {
+                throw new Exception('Id de Detalle Pedido Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+
+    /**
+     * @param $numeroPedido
+     * @return bool
+     */
+    public static function detalleRegistrado($numeroDetallePedido): bool
+    {
+        $result = detallepedido::search("SELECT * FROM ornamentacion.detallepedido where numeroDetallePedido = '" . $numeroDetallePedido."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return detallepedido::search("SELECT * FROM ornamentacion.detallepedido");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+
+
+
+        ];
+    }
 }

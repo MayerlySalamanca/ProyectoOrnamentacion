@@ -1,24 +1,38 @@
 <?php
-namespace App\Models;
-class MateriaPrima
-{
-private ? int $idMateria;
-private string $nombre;
-private string $tipo;
-private int $stock;
 
-    /**
-     * @param int|null $idMateria
-     * @param string $nombre
-     * @param string $tipo
-     * @param int $stock
-     */
-    public function __construct(?int $idMateria, string $nombre, string $tipo, int $stock)
+namespace App\Models;
+
+use App\Enums\Estado;
+use App\Enums\TipoMateria;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
+{
+
+    private ?int $idMateria;
+    private String $nombre;
+    private TipoMateria $tipo;
+    private int $stock;
+    private Estado $estado;
+
+    public function __construct(array $Orden = [])
     {
-        $this->idMateria = $idMateria;
-        $this->nombre = $nombre;
-        $this->tipo = $tipo;
-        $this->stock = $stock;
+        parent::__construct();
+        $this->setIdMateria($Orden['idMateria'] ?? null);
+        $this->setNombre($Orden['nombre'] ?? '');
+        $this->setTipo($Orden['tipo'] ?? TipoMateria::PINTURA);
+        $this->setStock($Orden['stock'] ?? 0);
+        $this->setEstado($Orden['estado'] ?? Estado::INACTIVO);
+
+
+
+    }
+
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
     }
 
     /**
@@ -38,7 +52,7 @@ private int $stock;
     }
 
     /**
-     * @return string
+     * @return String
      */
     public function getNombre(): string
     {
@@ -46,28 +60,13 @@ private int $stock;
     }
 
     /**
-     * @param string $nombre
+     * @param String $nombre
      */
     public function setNombre(string $nombre): void
     {
         $this->nombre = $nombre;
     }
 
-    /**
-     * @return string
-     */
-    public function getTipo(): string
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * @param string $tipo
-     */
-    public function setTipo(string $tipo): void
-    {
-        $this->tipo = $tipo;
-    }
 
     /**
      * @return int
@@ -86,81 +85,162 @@ private int $stock;
     }
 
     /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
+     * @return string
      */
-    protected function save(string $query): ?bool
+    public function getTipo(): string
+    {
+        return $this->tipo->toString();
+    }
 
+    /**
+     * @param string|TipoMateria|null $tipo
+     */
+    public function setTipo(null|string|TipoMateria $tipo): void
+    {
+        if(is_string($tipo)){
+            $this->tipo = TipoMateria::from($tipo);
+        }else{
+            $this->tipo = $tipo;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
+
+
+
+    protected function save(string $query): ?bool
     {
         $arrData = [
-            ':IdMateria' =>    $this->getIdMateria(),
-            ':nombre' =>    $this->getnombre(),
-            ':tipo' =>    $this->gettipo(),
-            ':stock' =>    $this->getstock(),
-        ];
+            ':idMateria' =>    $this->getIdMateria(),
+            ':nombre' =>    $this->getNombre(),
+            ':tipo' =>   $this->getTipo(),
+            ':stock' =>  $this->getStock(),
+            ':estado' =>   $this->getEstado(),
 
+        ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.materiaprima VALUES (
+            :idMateria,:nombre,:tipo,
+            :stock,:estado
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.materiaprima SET 
+           nombre = :nombre, tipo= :tipo,
+            stock= :stock,estado = :estado
+            WHERE  idMateria = : idMateria";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrMateriaPrima = array();
+            $tmp = new MateriaPrima();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Materia = new MateriaPrima($valor);
+                    array_push($arrMateriaPrima, $Materia);
+                    unset($Materia);
+                }
+                return $arrMateriaPrima;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
 
+    static function searchForId(int $id): ?object
+    {
+        try {
+            if ($id > 0) {
+                $tmpmateria = new MateriaPrima();
+                $tmpmateria->Connect();
+                $getrow = $tmpmateria->getRow("SELECT * FROM ornamentacion.materiaprima WHERE idMateria =?", array($id));
+                $tmpmateria->Disconnect();
+                return ($getrow) ? new MateriaPrima($getrow) : null;
+            } else {
+                throw new Exception('Id de Materia Prima Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
+
+
+    /**
+     * @param $idMateria
+     * @return bool
+     */
+    public static function materiaRegistrado($nombre): bool
+    {
+        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
+        $result = materiaprima::search("SELECT * FROM ornamentacion.materiaprima where nombre= '" . $nombre."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return orden::search("SELECT * FROM ornamentacion.orden");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+            ':idMateria' =>    $this->getIdMateria(),
+            ':nombre' =>    $this->getNombreo(),
+            ':tipo' =>   $this->getTipo(),
+            ':stock' =>  $this->getStock(),
+            ':estado' =>   $this->getEstado(),
+
+        ];
+    }
 }

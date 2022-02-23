@@ -1,24 +1,61 @@
 <?php
+
 namespace App\Models;
-class Fabricacion
+
+use App\Enums\Estado;
+use JetBrains\PhpStorm\Internal\TentativeType;
+
+class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
 {
-private ? int $idFabricacion;
-private int $cantidad;
-private int $MateriaPrima;
-private int $Usuario_IdUsuario;
+
+    private ?int $idFabricacion;
+    private int $numeroFabricacion;
+    private int $cantidad;
+    private Estado $estado;
+    private int $MateriaPrima_idMateria;
+    private int $Usuario_IdUsuario;
 
     /**
-     * @param int|null $idFabricacion
-     * @param int $cantidad
-     * @param int $MateriaPrima
-     * @param int $Usuario_IdUsuario
+     * Usuarios constructor. Recibe un array asociativo
+     * @param array $fabricacion
      */
-    public function __construct(?int $idFabricacion, int $cantidad, int $MateriaPrima, int $Usuario_IdUsuario)
+    public function __construct(array $fabricacion = [])
     {
-        $this->idFabricacion = $idFabricacion;
-        $this->cantidad = $cantidad;
-        $this->MateriaPrima = $MateriaPrima;
-        $this->Usuario_IdUsuario = $Usuario_IdUsuario;
+        parent::__construct();
+        $this->setIdFabricacion($fabricacion['idFabricacion'] ?? null);
+        $this->setNumeroFabricacion($fabricacion['numeroFabricacion'] ?? 0);
+        $this->setCantidad($fabricacion['cantidad'] ?? 0);
+        $this->setEstado($fabricacion['estado'] ?? Estado::INACTIVO);
+        $this->setMateriaPrimaIdMateria($fabricacion['MateriaPrima_idMateria'] ?? 0);
+        $this->setUsuarioIdUsuario($fabricacion['Usuario_IdUsuario'] ?? 0);
+
+    }
+
+
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
+    }
+    /**
+     * @return Estado
+     */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
     }
 
     /**
@@ -40,6 +77,22 @@ private int $Usuario_IdUsuario;
     /**
      * @return int
      */
+    public function getNumeroFabricacion(): int
+    {
+        return $this->numeroFabricacion;
+    }
+
+    /**
+     * @param int $numeroFabricacion
+     */
+    public function setNumeroFabricacion(int $numeroFabricacion): void
+    {
+        $this->numeroFabricacion = $numeroFabricacion;
+    }
+
+    /**
+     * @return int
+     */
     public function getCantidad(): int
     {
         return $this->cantidad;
@@ -56,17 +109,17 @@ private int $Usuario_IdUsuario;
     /**
      * @return int
      */
-    public function getMateriaPrima(): int
+    public function getMateriaPrimaIdMateria(): int
     {
-        return $this->MateriaPrima;
+        return $this->MateriaPrima_idMateria;
     }
 
     /**
-     * @param int $MateriaPrima
+     * @param int $MateriaPrima_idMateria
      */
-    public function setMateriaPrima(int $MateriaPrima): void
+    public function setMateriaPrimaIdMateria(int $MateriaPrima_idMateria): void
     {
-        $this->MateriaPrima = $MateriaPrima;
+        $this->MateriaPrima_idMateria = $MateriaPrima_idMateria;
     }
 
     /**
@@ -84,85 +137,124 @@ private int $Usuario_IdUsuario;
     {
         $this->Usuario_IdUsuario = $Usuario_IdUsuario;
     }
-    /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
-     */
-    protected function save(string $query): ?bool
 
+
+
+
+
+
+    protected function save(string $query): ?bool
     {
         $arrData = [
-            ':idFabricacion' =>    $this->getidFabricacion(),
-            ':cantidad' =>   $this->getcantidad(),
-            ':MateriaPrima' =>   $this->getMateriaPrima(),
-            ':Usuario_IdUsuario' =>   $this->getUsuario_IdUsuario(),
-
+            ':idFabricacion' =>    $this->getIdFabricacion(),
+            ':numeroFabricacion' =>   $this->getNumeroFabricacion(),
+            ':cantidad' =>   $this->getCantidad(),
+            ':estado' =>   $this->getEstado(),
+            ':MateriaPrima_idMateria' =>   $this->getMateriaPrimaIdMateria(),
+            ':Usuario_IdUsuario' =>   $this->getUsuarioIdUsuario(),
 
         ];
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:idFabricacion,:cantidad,:MateriaPrima,:Usuario_IdUsuario)";
+        $query = "INSERT INTO ornamentacion.fabricacion  VALUES (
+            :idFabricacion,:numeroFabricacion,:cantidad,
+            :estado,:MateriaPrima_idMateria,:Usuario_IdUsuario
+        
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE proyecto.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.fabricacion SET 
+            numeroFabricacion = :numeroFabricacion,
+            cantidad = :cantidad, estado = :estado, MateriaPrima_idMateria = :MateriaPrima_idMateria, 
+            Usuario_IdUsuario = :Usuario_IdUsuario WHERE IdUsuario = :IdUsuario";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrFabricacion = array();
+            $tmp = new Fabricacion();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Fabricacion = new Fabricacion($valor);
+                    array_push($arrFabricacion, $Fabricacion);
+                    unset($Fabricacion);
+                }
+                return $arrFabricacion;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
 
+    static function searchForId(int $id): ?object
+    {
+        try {
+            if ($id > 0) {
+                $tmpFabricacion = new Fabricacion();
+                $tmpFabricacion->Connect();
+                $getrow = $tmpFabricacion->getRow("SELECT * FROM ornamentacion.fabricacion WHERE idFabricacion =?", array($id));
+                $tmpFabricacion->Disconnect();
+                return ($getrow) ? new Fabricacion($getrow) : null;
+            } else {
+                throw new Exception('Id de fabricacion Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
 
+    /**
+     * @param $numeroPedido
+     * @return bool
+     */
+    public static function pedidoRegistrado($numeroFabricacion): bool
+    {
+        $result = fabricacion::search("SELECT * FROM ornamentacion.fabricacion where numeroFabricacion = '" . $numeroFabricacion."' ");
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return fabricacion::search("SELECT * FROM ornamentacion.fabricacion");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): mixed
+    {
+        return [
+
+
+
+        ];
+    }
 }
