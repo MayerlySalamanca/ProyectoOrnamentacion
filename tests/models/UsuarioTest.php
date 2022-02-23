@@ -4,6 +4,7 @@ namespace App\Models;
 use App\Enums\Estado;
 use App\Enums\Roll;
 use App\Models\Usuario;
+
 use PHPUnit\Framework\TestCase;
 
 class UsuarioTest extends TestCase
@@ -12,7 +13,7 @@ class UsuarioTest extends TestCase
     public function testInsert()
     {
         $Usuario = new Usuario(
-            [   'IdUsuario' => null,
+            ['IdUsuario' => null,
                 'documento' => 1555,
                 'nombre' => 'jose',
                 'telefono' => 'dsadasd',
@@ -25,6 +26,5 @@ class UsuarioTest extends TestCase
         $Usuario->insert();
         $this->assertSame(true, $Usuario->usuarioRegistrado(1555));
     }
-
 
 }
