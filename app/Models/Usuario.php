@@ -47,7 +47,7 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setNombres($usuario['nombre'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setRoll($usuario['roll'] ?? Roll::CLIENTE);
+        $this->setRoll($usuario['roll'] ?? Roll::PROVEEDOR);
         $this->setContrasena($usuario['contrasena'] ?? '');
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
 

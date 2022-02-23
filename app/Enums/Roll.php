@@ -6,14 +6,14 @@ enum Roll: string
 {
     case ADMINISTRADOR = 'administrador';
     case PROVEEDOR= "proveedor";
-    case CLIENTE= "cliente";
+    case VENDEDOR= "vendedor";
 
     public function toString(): string
     {
         return match ($this) {
             self::ADMINISTRADOR => 'administrador',
             self::PROVEEDOR => 'proveedor',
-            self::CLIENTE=>'cliente',
+            self::VENDEDOR=>'vendedor',
         };
     }
 }

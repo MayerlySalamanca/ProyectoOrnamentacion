@@ -18,7 +18,7 @@ class UsuarioTest extends TestCase
                 'nombre' => 'jose',
                 'telefono' => 'dsadasd',
                 'direccion' => 'DSADSAD',
-                'roll' => 'administrador',
+                'roll' => Roll::VENDEDOR,
                 'contrasena' => 'dadsdasdasd',
                 'estado' => 'Activo']
         );
