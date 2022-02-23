@@ -80,7 +80,7 @@
   </component>
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" />
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/vendor/autoload.php" phpunit_phar_path="$PROJECT_DIR$/../../bin/php/php-8.1.2-Win32-vs16-x64/php.exe" />
     </phpunit_settings>
   </component>
 </project>

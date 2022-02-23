@@ -15,7 +15,7 @@ class ProveedorTest extends TestCase
                 'documento' => 221,
                 'nombre' => 'jose',
                 'ciudad' => 'ditaa',
-                'estado' => 'Activo']
+                'estado' => 'Inactivo']
         );
 
         $Proveedor->insert();

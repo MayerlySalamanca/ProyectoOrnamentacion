@@ -222,7 +222,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     protected function save(string $query): ?bool
     {
         $arrData = [
-            ':idProducto' =>    $this->getIdProducto(),
+            ':IdProducto' =>    $this->getIdProducto(),
             ':tipo' =>   $this->getTipo(),
             ':nombre' =>   $this->getNombre(),
             ':cantidad' =>   $this->getCantidad(),
@@ -242,7 +242,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 
     function insert(): ?bool
     {
-        $query = "INSERT INTO ornamentacion.Producto VALUES (
+        $query = "INSERT INTO ornamentacion.producto VALUES (
             :IdProducto,:tipo,:nombre,
             :cantidad,:valor,:material,:tamano,:diseno,:tipoServicio,:estado
         )";
@@ -251,7 +251,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 
     function update(): ?bool
     {
-        $query = "UPDATE ornamentacion.Producto SET 
+        $query = "UPDATE ornamentacion.producto SET 
             tipo = :tipo,
             nombre = :nombre, cantidad= :cantidad, valor = :valor,material= : material,tamano = :tamano,diseno = :diseno,tipoServicio = :tipoServicio, estado = :estado WHERE IdProducto = :IdProducto";
         return $this->save($query);
@@ -274,7 +274,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 
             if (!empty($getrows)) {
                 foreach ($getrows as $valor) {
-                    $Producto = new Usuario($valor);
+                    $Producto = new Producto($valor);
                     array_push($arrProducto, $Producto);
                     unset($Producto);
                 }
@@ -293,9 +293,9 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
             if ($id > 0) {
                 $tmpProducto = new Producto();
                 $tmpProducto->Connect();
-                $getrow = $tmpProducto->getRow("SELECT * FROM ornamentacion.Producto WHERE idProducto =?", array($id));
+                $getrow = $tmpProducto->getRow("SELECT * FROM ornamentacion.producto WHERE IdProducto =?", array($id));
                 $tmpProducto->Disconnect();
-                return ($getrow) ? new Usuario($getrow) : null;
+                return ($getrow) ? new Producto($getrow) : null;
             } else {
                 throw new Exception('Id de Producto Invalido');
             }
