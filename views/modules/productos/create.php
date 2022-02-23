@@ -1,8 +1,7 @@
 <?php
 require("../../partials/routes.php");
-require_once("../../partials/check_login.php");
+// require_once("../../partials/check_login.php");
 
-use App\Controllers\CategoriasController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -32,11 +31,11 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Crear un Nuevo <?= $nameModel ?></h1>
+                        <h1>Crear una nueva <?= $nameModel ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?= $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?=  $adminlteURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
                             <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
                             <li class="breadcrumb-item active">Crear</li>
                         </ol>
@@ -55,7 +54,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-box"></i> &nbsp; Información del <?= $nameModel ?></h3>
+                                <h3 class="card-title"><i class="fas fa-box"></i> &nbsp; Información de la <?= $nameModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -71,47 +70,34 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
+
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                        <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese el nombre" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                            <input required type="text" class="form-control" id="nombres" name="nombres"
+                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+                                        <label for="orden" class="col-sm-2 col-form-label">
+                                            Orden</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="precio" name="precio"
-                                                   placeholder="Ingrese el precio" value="<?= $frmSession['precio'] ?? '' ?>">
+                                            <select id="orden" name="orden" class="form-control select2bs4 select2-info">
+                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "1") ? "selected" : ""; ?> value="1">Primero</option>
+                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "2") ? "selected" : ""; ?> value="2">Segundo</option>
+                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "3") ? "selected" : ""; ?> value="3">Tercero</option>
+                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "4") ? "selected" : ""; ?> value="4">Cuarto</option>
+                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "5") ? "selected" : ""; ?> value="5">Quinto</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="porcentaje_ganancia" class="col-sm-2 col-form-label">Porcentaje de Ganancia</label>
+                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" min="1" step="0.1" class="form-control" id="porcentaje_ganancia" name="porcentaje_ganancia"
-                                                   placeholder="Ingrese el porcentaje de ganancia" value="<?= $frmSession['porcentaje_ganancia'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="stock" class="col-sm-2 col-form-label">Stock</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" minlength="6" class="form-control" id="stock"
-                                                   name="stock" placeholder="Ingrese el stock" value="<?= $frmSession['stock'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="categoria_id" class="col-sm-2 col-form-label">Categoria</label>
-                                        <div class="col-sm-10 ">
-                                            <?= CategoriasController::selectCategoria(
-                                                array(
-                                                    'id' => 'categoria_id',
-                                                    'name' => 'categoria_id',
-                                                    'defaultValue' => (!empty($frmSession['categoria_id'])) ? $frmSession['categoria_id'] : '',
-                                                    'class' => 'form-control select2bs4 select2-info',
-                                                    'where' => "estado = 'Activo'"
-                                                )
-                                            );
-                                            ?>
+                                            <select required id="estado" name="estado" class="custom-select">
+                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
+                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <hr>
