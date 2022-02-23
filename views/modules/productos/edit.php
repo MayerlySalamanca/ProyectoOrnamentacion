@@ -1,18 +1,17 @@
 <?php
 require("../../partials/routes.php");
-require_once("../../partials/check_login.php");
-require("../../../app/Controllers/ProductosController.php");
+// require_once("../../partials/check_login.php");
+// require("../../../app/Controllers/CategoriasController.php");
 
 use App\Controllers\CategoriasController;
-use App\Controllers\ProductosController;
+use App\Models\Categorias;
 use App\Models\GeneralFunctions;
-use App\Models\Productos;
 use Carbon\Carbon;
 
-$nameModel = "Producto";
-$nameForm = 'frmEdit'.$nameModel;
+$nameModel = "Categoria";
 $pluralModel = $nameModel.'s';
-$frmSession = $_SESSION[$nameForm] ?? NULL;
+$nameForm = 'frmEdit'.$nameModel;
+$frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
 ?>
 <!DOCTYPE html>
@@ -75,71 +74,56 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataProducto = ProductosController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataProducto Productos */
-                                if (!empty($DataProducto)) {
+                                $DataCategoria = CategoriasController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataCategoria Categorias */
+                                if (!empty($DataCategoria)) {
                                     ?>
                                     <div class="card-body">
                                         <!-- form start -->
                                         <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
-                                            <input id="id" name="id" value="<?= $DataProducto->getId(); ?>"
+                                            <input id="id" name="id" value="<?= $DataCategoria->getId(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
+                                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombre"
-                                                           name="nombre" value="<?= $DataProducto->getNombre(); ?>"
-                                                           placeholder="Ingrese el nombre">
+                                                    <input required type="text" class="form-control" id="nombres"
+                                                           name="nombres" value="<?= $DataCategoria->getNombre(); ?>"
+                                                           placeholder="Ingrese el nombres">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
-                                                <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+                                                <label for="orden" class="form-control select2bs4 select2-info"> Orden</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="precio"
-                                                           name="precio" value="<?= $DataProducto->getPrecio(); ?>"
-                                                           placeholder="Ingrese el precio">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="porcentaje_ganancia" class="col-sm-2 col-form-label">Porcentaje de Ganancia</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="number" min="1" step="0.1" class="form-control" id="porcentaje_ganancia" name="porcentaje_ganancia"
-                                                           value="<?= $DataProducto->getPorcentajeGanancia(); ?>" placeholder="Ingrese el porcentaje de ganancia">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="stock" class="col-sm-2 col-form-label">Stock</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="number" minlength="6" class="form-control"
-                                                           id="stock" name="stock"
-                                                           value="<?= $DataProducto->getStock(); ?>"
-                                                           placeholder="Ingrese el stock">
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="categoria_id" class="col-sm-2 col-form-label">Categoria</label>
-                                                <div class="col-sm-10 ">
-                                                    <?= CategoriasController::selectCategoria(
-                                                        array(
-                                                            'id' => 'categoria_id',
-                                                            'name' => 'categoria_id',
-                                                            'defaultValue' => (!empty($DataProducto)) ? $DataProducto->getCategoriaId() : '',
-                                                            'class' => 'form-control select2bs4 select2-info',
-                                                            'where' => "estado = 'Activo'"
-                                                        )
-                                                    )
-                                                    ?>
+                                                    <select id="orden" name="orden"
+                                                            class="custom-select">
+                                                        <option <?= ($DataCategoria->getTipoDocumento() == "1") ? "selected" : ""; ?>
+                                                                value="1">Primero
+                                                        </option>
+                                                        <option <?= ($DataCategoria->getTipoDocumento() == "2") ? "selected" : ""; ?>
+                                                                value="2">Segundo
+                                                        </option>
+                                                        <option <?= ($DataCategoria->getTipoDocumento() == "3") ? "selected" : ""; ?>
+                                                                value="3">Tercero
+                                                        </option>
+                                                        <option <?= ($DataCategoria->getTipoDocumento() == "4") ? "selected" : ""; ?>
+                                                                value="4">Cuarto
+                                                        </option>
+                                                        <option <?= ($DataCategoria->getTipoDocumento() == "5") ? "selected" : ""; ?>
+                                                                value="5">Quinto
+                                                        </option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
                                                     <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataProducto->getEstado() == "Activo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataCategoria->getEstado() == "Activo") ? "selected" : ""; ?>
                                                                 value="Activo">Activo
                                                         </option>
-                                                        <option <?= ($DataProducto->getEstado() == "Inactivo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataCategoria->getEstado() == "Inactivo") ? "selected" : ""; ?>
                                                                 value="Inactivo">Inactivo
                                                         </option>
                                                     </select>

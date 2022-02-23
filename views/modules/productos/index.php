@@ -1,26 +1,20 @@
 <?php
-require_once("../../../app/Controllers/UsuariosController.php");
+require_once("../../../app/Controllers/CategoriasController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
 use App\Controllers\CategoriasController;
-use App\Controllers\ProductosController;
 use App\Models\GeneralFunctions;
-use App\Models\Productos;
 use App\Models\Categorias;
 
-$nameModel = "Producto";
+$nameModel = "Categoria";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
-
-/* Si llega el idCategoria cargar los datos de esa categoria */
-/* @var $_SESSION['idCategoria'] Categorias */
-$_SESSION['idCategoria'] = !empty($_GET['idCategoria']) ? CategoriasController::searchForID(['id' => $_GET['idCategoria']]) : NULL;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $pluralModel ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $plcategoría ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -96,57 +90,43 @@ $_SESSION['idCategoria'] = !empty($_GET['idCategoria']) ? CategoriasController::
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombres</th>
-                                                <th>Precio</th>
-                                                <th>Ganancia</th>
-                                                <th>Venta</th>
-                                                <th>Stock</th>
-                                                <th>Categoría</th>
+                                                <th>Descripción</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrProductos = array();
-                                            if(!empty($_SESSION['idCategoria'])){
-                                                $arrProductos = $_SESSION['idCategoria']->getProductosCategoria();
-                                            }else{
-                                                $arrProductos = ProductosController::getAll();
-                                            }
-
-                                            /* @var $arrProductos Productos[] */
-                                            foreach ($arrProductos as $producto) {
+                                            $arrCategorias = CategoriasController::getAll();
+                                            /* @var $arrCategorias Categorias[] */
+                                            foreach ($arrCategorias as $categoria) {
                                                 ?>
                                                 <tr>
-                                                    <td><?= $producto->getId(); ?></td>
-                                                    <td><?= $producto->getNombre(); ?></td>
-                                                    <td><?= GeneralFunctions::formatCurrency($producto->getPrecio()); ?></td>
-                                                    <td><?= $producto->getPorcentajeGanancia(); ?>%</td>
-                                                    <td><?= GeneralFunctions::formatCurrency($producto->getPrecioVenta()); ?></td>
-                                                    <td><?= $producto->getStock(); ?></td>
-                                                    <td><?= $producto->getCategoria()->getNombre(); ?></td>
-                                                    <td><?= $producto->getEstado(); ?></td>
+                                                    <td><?= $categoria->getId(); ?></td>
+                                                    <td><?= $categoria->getNombre(); ?></td>
+                                                    <td><?= $categoria->getDescripcion(); ?></td>
+                                                    <td><?= $categoria->getEstado(); ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $producto->getId(); ?>"
+                                                        <a href="edit.php?id=<?= $categoria->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
                                                            class="btn docs-tooltip btn-primary btn-xs"><i
                                                                     class="fa fa-edit"></i></a>
-                                                        <a href="show.php?id=<?= $producto->getId(); ?>"
+                                                        <a href="show.php?id=<?= $categoria->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>
-                                                        <a href="../fotos/index.php?idProducto=<?= $producto->getId(); ?>"
-                                                           type="button" data-toggle="tooltip" title="Gestionar Fotos"
+                                                        <a href="../productos/index.php?idCategoria=<?= $categoria->getId(); ?>"
+                                                           type="button" data-toggle="tooltip" title="Ver Productos"
                                                            class="btn docs-tooltip btn-success btn-xs"><i
-                                                                    class="fa fa-photo-video"></i></a>
-                                                        <?php if ($producto->getEstado() != "Activo") { ?>
-                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $producto->getId(); ?>"
+                                                                    class="fa fa-sitemap"></i></a>
+                                                        <?php if ($categoria->getEstado() != "Activo") { ?>
+                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $categoria->getId(); ?>"
                                                                type="button" data-toggle="tooltip" title="Activar"
                                                                class="btn docs-tooltip btn-success btn-xs"><i
                                                                         class="fa fa-check-square"></i></a>
                                                         <?php } else { ?>
                                                             <a type="button"
-                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=inactivate&id=<?= $producto->getId(); ?>"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=inactivate&id=<?= $categoria->getId(); ?>"
                                                                data-toggle="tooltip" title="Inactivar"
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>
@@ -160,11 +140,7 @@ $_SESSION['idCategoria'] = !empty($_GET['idCategoria']) ? CategoriasController::
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombres</th>
-                                                <th>Precio</th>
-                                                <th>Ganancia</th>
-                                                <th>Venta</th>
-                                                <th>Stock</th>
-                                                <th>Categoría</th>
+                                                <th>Descripción</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
