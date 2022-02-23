@@ -186,7 +186,7 @@ class Pedidos extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "INSERT INTO ornamentacion.pedidos VALUES (
             :idPedidos,:numeroPedido,:nombre,
-            :fechaPedido,:fechaEntrega,:estado,:Proveedor_IdProveedor,
+            :fechaPedido,:fechaEntrega,:estado,:Proveedor_IdProveedor
         )";
         return $this->save($query);
     }

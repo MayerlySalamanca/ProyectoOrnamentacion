@@ -189,7 +189,7 @@
                         <li class="nav-item">
                             <a href="<?= $baseURL ?>/views/modules/pedidos/index.php" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Deatlle del Pedido</p>
+                                <p>Detalle del Pefacturadido</p>
                             </a>
                         </li>
                     </ul>
