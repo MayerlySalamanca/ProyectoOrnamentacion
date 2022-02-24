@@ -72,34 +72,34 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">numeroFactura</label>
+                                        <label for="numeroFactura" class="col-sm-2 col-form-label">numeroFactura</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="number" class="form-control" id="numeroFactura" name="numeroFactura"
+                                                   placeholder="designe un numero a la factura" value="<?= $frmSession['numeroFactura'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">Nombre Cliente</label>
+                                        <label for="nombreCliente" class="col-sm-2 col-form-label">Nombre Cliente</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="text" class="form-control" id="nombreCliente" name="nombreCliente"
+                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombreCliente'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">cantidad</label>
+                                        <label for="cantidad" class="col-sm-2 col-form-label">cantidad</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="number" class="form-control" id="cantidad" name="cantidad"
+                                                   placeholder="Ingrese la cantidad" value="<?= $frmSession['cantidad'] ?? '' ?>">
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">fecha</label>
+                                        <label for="fecha" class="col-sm-2 col-form-label">fecha</label>
                                         <div class="col-sm-10">
-                                            <input required type="date" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="date" class="form-control" id="fecha" name="fecha"
+                                                   placeholder="fecha" value="<?= $frmSession['fecha'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -115,12 +115,20 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">valor</label>
+                                        <label for="valor" class="col-sm-2 col-form-label">valor</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="number" class="form-control" id="valor" name="valor"
+                                                   placeholder="Ingrese lel valor" value="<?= $frmSession['valor'] ?? '' ?>">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="usuarioVendedor" class="col-sm-2 col-form-label">Vendedor</label>
+                                        <div class="col-sm-10">
+                                            <input required type="number" class="form-control" id="usuarioVendedor" name="usuarioVendedor"
+                                                   placeholder="Ingrese el nombre del vendedor" value="<?= $frmSession['usuarioVendedor'] ?? '' ?>">
+                                        </div>
+                                    </div>
+                                        <hr>
                                     <hr>
                                     <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
                                     <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>

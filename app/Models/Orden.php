@@ -13,16 +13,20 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
     private int $fabricacionId;
     private int $Factura_IdFactura;
     private int $Producto_IdProducto;
-    private Estado $estado;
+    private int $cantidad;
+
+    private ?Factura $factura;
+    private ?Producto $producto;
 
     public function __construct(array $Orden = [])
     {
         parent::__construct();
         $this->setIdOrdenCompra($Orden['idOrdenCompra'] ?? null);
+        $this->setCantidad($Orden['cantidad'] ?? 0);
         $this->setFabricacionId($Orden['fabricacionId'] ?? 0);
         $this->setFacturaIdFactura($Orden['Factura_IdFactura'] ?? 0);
         $this->setProductoIdProducto($Orden['Producto_IdProducto'] ?? 0);
-        $this->setEstado($Orden['estado'] ?? Estado::INACTIVO);
+
 
 
 
@@ -35,26 +39,24 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
         }
     }
 
-
     /**
-     * @return Estado
+     * @return int
      */
-    public function getEstado(): string
+    public function getCantidad(): int
     {
-        return $this->estado->toString();
+        return $this->cantidad;
     }
 
     /**
-     * @param EstadoCategorias|null $estado
+     * @param int $cantidad
      */
-    public function setEstado(null|string|Estado $estado): void
+    public function setCantidad(int $cantidad): void
     {
-        if(is_string($estado)){
-            $this->estado = Estado::from($estado);
-        }else{
-            $this->estado = $estado;
-        }
+        $this->cantidad = $cantidad;
     }
+
+
+
 
     /**
      * @return int|null
@@ -119,46 +121,79 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $this->Producto_IdProducto = $Producto_IdProducto;
     }
-
-
-    protected function save(string $query): ?bool
+    /* Relaciones */
+    /**
+     * Retorna el objeto venta correspondiente al detalle venta
+     * @return Ventas|null
+     */
+    public function getVenta(): ?Factura
     {
-        $arrData = [
-            ':idOrdenCompra' =>    $this->getIdOrdenCompra(),
-            ':fabricacionId' =>    $this-> getFabricacionId(),
-            ':Factura_IdFacturae' =>   $this->getFacturaIdFactura(),
-            ':Producto_IdProducto' =>  $this->getProductoIdProducto(),
-            ':estado' =>   $this->getEstado(),
+        if(!empty($this->Factura_IdFactura)){
+            $this->factura = factura::searchForId($this->Factura_IdFactura) ?? new Factura();
+            return $this->factura;
+        }
+        return NULL;
+    }
 
-        ];
+    /**
+     * Retorna el objeto producto correspondiente al detalle venta
+     * @return Producto|null
+     */
+    public function getProducto(): ?Producto
+    {
+        if(!empty($this->producto_id)){
+            $this->producto = Producto::searchForId($this->Producto_IdProducto) ?? new Producto();
+            return $this->producto;
+        }
+        return NULL;
+    }
+
+    protected function save(string $query, string $type = 'insert'): ?bool
+    {
+        if($type == 'deleted'){
+            $arrData = [ ':id' =>   $this->getId() ];
+        }else {
+            $arrData = [
+                ':idOrdenCompra' => $this->getIdOrdenCompra(),
+                ':cantidad' => $this->getCantidad(),
+                ':fabricacionId' => $this->getFabricacionId(),
+                ':Factura_IdFacturae' => $this->getFacturaIdFactura(),
+                ':Producto_IdProducto' => $this->getProductoIdProducto(),
+
+
+            ];
+        }
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    function insert(): ?bool
+    function insert() : ?bool
     {
-        $query = "INSERT INTO ornamentacion.ordencompra VALUES (
-            :idOrdenCompra,:estado,:fabricacionId,:Factura_IdFactura,
-            :Producto_IdProducto
-        )";
-        return $this->save($query);
+        $query = "INSERT INTO ornamentacion.ordencompra VALUES (:idOrdenCompra,:cantidad,:fabricacionId,:Factura_IdFactura,:Producto_IdProducto,)";
+        if($this->save($query)){
+            return $this->getProducto()->susaddStock($this->getCantidad());
+        }
+        return false;
     }
 
-    function update(): ?bool
+    /**
+     * @return mixed
+     */
+    public function update() : bool
     {
         $query = "UPDATE ornamentacion.ordencompra SET 
-           fabricacionId = :fabricacionId, Factura_IdFactura= :Factura_IdFactura,
-            Producto_IdProducto= :Producto_IdProducto,estado = :estado
-            WHERE  idOrdenCompra = : idOrdenCompra";
+            cantidad = :cantidad, 
+            fabricacionId = :fabricacionId, Factura_IdFactura = :Factura_IdFactura,
+            Producto_IdProducto = : Producto_IdProducto WHERE idOrdenCompra = :idOrdenCompra";
         return $this->save($query);
     }
 
     function deleted(): ?bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
-        return $this->update();                    //Guarda los cambios..
+        $query = "DELETE FROM ornamentacion.ordencompra WHERE idOrdenCompra = :idOrdenCompra";
+        return $this->save($query, 'deleted');                 //Guarda los cambios.
     }
 
     static function search($query): ?array
@@ -217,13 +252,30 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
             return false;
         }
     }
+    public static function productoEnFactura($Factura_IdFactura,$Producto_IdProducto): bool
+    {
+        $result = Orden::search("SELECT idOrdenCompra FROM ornamentacion.ordencompra where  Factura_IdFactura = '" . $Factura_IdFactura. "' and Producto_IdProducto = '" . $Producto_IdProducto. "'");
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * @return mixed
+     */
+    public static function getAll() : array
+    {
+        return DetalleVentas::search("SELECT * FROM ornamentacion.ordencompra");
+    }
 
     /**
-     * @return array|null
+     * @return string
      */
-    static function getAll(): ?array
+    public function __toString() : string
     {
-        return orden::search("SELECT * FROM ornamentacion.orden");
+        return "Factura: ".$this->factura->getNumeroFactura().", Producto: ".$this->producto->getNombre().", Cantidad: $this->cantidad, Precio Venta: $this->precio_venta";
+
     }
 
     /**

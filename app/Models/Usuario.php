@@ -24,6 +24,7 @@ class Usuario extends AbstractDBConnection implements Model
     private String $telefono;
     private string $direccion;
     private Roll $roll;
+    private string $usuario;
     private ?string $contrasena;
     private Estado $estado;
 
@@ -48,6 +49,7 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
         $this->setRoll($usuario['roll'] ?? Roll::PROVEEDOR);
+        $this->setUsuario($usuario['usuario'] ?? '');
         $this->setContrasena($usuario['contrasena'] ?? '');
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
 
@@ -59,6 +61,24 @@ class Usuario extends AbstractDBConnection implements Model
             $this->Disconnect();
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getUsuario(): string
+    {
+        return ucwords($this->usuario);
+    }
+
+    /**
+     * @param string $usuario
+     */
+    public function setUsuario(string $usuario): void
+    {
+        $this->usuario = trim(mb_strtolower($usuario, 'UTF-8'));
+
+    }
+
 
     /**
      * @return int|null
@@ -97,7 +117,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getNombres(): string
     {
-        return $this->nombres;
+        return ucwords($this->nombres);
     }
 
     /**
@@ -105,7 +125,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function setNombres(string $nombres): void
     {
-        $this->nombres = $nombres;
+      $this->nombres = trim(mb_strtolower($nombres, 'UTF-8'));
     }
 
     /**
@@ -129,7 +149,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getDireccion(): string
     {
-        return $this->direccion;
+        return ucwords($this->direccion);
     }
 
     /**
@@ -145,7 +165,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getRoll(): string
     {
-        return $this->roll->toString();
+        return ucwords($this->roll->toString());
     }
 
     /**
@@ -182,7 +202,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getEstado(): string
     {
-        return $this->estado->toString();
+        return ucwords($this->estado->toString());
     }
 
     /**
@@ -213,6 +233,7 @@ class Usuario extends AbstractDBConnection implements Model
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
             ':roll' =>   $this->getRoll(),
+            ':usuario' => $this->getUsuario(),
             ':contrasena' =>   $hashPassword,
             ':estado' =>   $this->getEstado(),
 
@@ -230,7 +251,7 @@ class Usuario extends AbstractDBConnection implements Model
     {
         $query = "INSERT INTO ornamentacion.usuario VALUES (
             :IdUsuario,:documento,:nombre,
-            :telefono,:direccion,:roll,
+            :telefono,:direccion,:roll,:usuario,
             :contrasena,:estado
         )";
         return $this->save($query);
@@ -242,9 +263,9 @@ class Usuario extends AbstractDBConnection implements Model
     public function update(): ?bool
     {
         $query = "UPDATE ornamentacion.usuario SET 
-            nombres = :nombres,
-            documento = :documento, telefono = :telefono, direccion = :direccion, 
-            contrasena = :contrasena, rol = :rol, estado = :estado WHERE IdUsuario = :IdUsuario";
+            
+            documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
+            contrasena = :contrasena, estado = :estado WHERE IdUsuario = :IdUsuario";
         return $this->save($query);
     }
 

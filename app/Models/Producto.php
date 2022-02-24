@@ -3,23 +3,22 @@
 namespace App\Models;
 
 use App\Enums\Estado;
-use App\Enums\Roll;
-use App\Enums\TipoServicioProduct;
 use App\Enums\Tipo;
 use JetBrains\PhpStorm\Internal\TentativeType;
 
 class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 {
-    private ?int  $IdProducto;
-    private Tipo $tipo;
-    private string $nombre;
-    private int $cantidad;
-     private double $valor;
+     private ?int  $IdProducto;
+     private Tipo $tipo;
+     private string $nombre;
+     private int $cantidad;
+     private int $valor;
      private string $material;
      private string $tamano;
      private string $diseno;
-    private  TipoServicioProduct $tipoServicio;
-    private Estado $estado;
+     private string $descripcion;
+     private Estado $estado;
+     private int $stock;
 
     public function __construct(array $Producto = [])
     {
@@ -27,13 +26,14 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setIdProducto($Producto['idProducto'] ?? null);
         $this->setTipo($Producto['tipo'] ?? Tipo::PRODUCTO);
         $this->setNombre($Producto['nombre'] ?? '');
-        $this->setCantidad($Producto['cantidad'] ?? '');
-        $this->setValor($Producto['valor'] ?? '');
-        $this->setMaterial($Producto['material'] ?? Roll::CLIENTE);
+        $this->setStock($Producto['stock'] ?? 0);
+        $this->setValor($Producto['valor'] ?? 0);
+        $this->setMaterial($Producto['material'] ?? '');
         $this->setTamano($Producto['tamano'] ?? '');
         $this->setDiseno($Producto['diseno'] ?? '');
-        $this->setTipoServicio($Producto['tipoServicio'] ?? TipoServicioProduct::FABRICACION );
+        $this->setDescripcion($Producto['descripcion'] ?? '');
         $this->setEstado($Producto['estado'] ?? Estado::INACTIVO);
+
 
     }
 
@@ -43,6 +43,39 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
             $this->Disconnect();
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getDescripcion(): string
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * @param string $descripcion
+     */
+    public function setDescripcion(string $descripcion): void
+    {
+        $this->descripcion = $descripcion;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
+
+    /**
+     * @param int $stock
+     */
+    public function setStock(int $stock): void
+    {
+        $this->stock = $stock;
+    }
+
 
     /**
      * @return Tipo
@@ -58,33 +91,11 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     public function setTipo(null|string|Tipo $tipo): void
     {
         if(is_string($tipo)){
-            $this->tipo = Estado::from($tipo);
+            $this->tipo = Tipo::from($tipo);
         }else{
             $this->tipo = $tipo;
         }
     }
-
-    /**
-     * @return String
-     */
-    public function getTipoServicio(): String
-    {
-        return $this->tipoServicio->toString();
-    }
-
-    /**
-     * @param string|TipoServicioProduct|null $tipoServicio
-     */
-    public function setTipoServicio(null|string|TipoServicioProduct $tipoServicio): void
-    {
-        if(is_string($tipoServicio)){
-            $this->tipoServicio = Estado::from($tipoServicio);
-        }else{
-            $this->tipoServicio = $tipoServicio;
-        }
-    }
-
-
     /**
      * @return Estado
      */
@@ -154,20 +165,22 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
     /**
-     * @return float
+     * @return int
      */
-    public function getValor(): float
+    public function getValor(): int
     {
         return $this->valor;
     }
 
     /**
-     * @param float $valor
+     * @param int $valor
      */
-    public function setValor(float $valor): void
+    public function setValor(int $valor): void
     {
         $this->valor = $valor;
     }
+
+
 
     /**
      * @return string
@@ -225,13 +238,14 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
             ':IdProducto' =>    $this->getIdProducto(),
             ':tipo' =>   $this->getTipo(),
             ':nombre' =>   $this->getNombre(),
-            ':cantidad' =>   $this->getCantidad(),
+            ':stock' =>   $this->getStock(),
             ':valor' =>   $this->getValor(),
             ':material' =>   $this->getMaterial(),
             ':tamano' =>   $this->getTamano(),
             ':diseno' =>   $this->getDiseno(),
-            ':tipoServicio' =>   $this->getTipoServicio(),
+            ':descripcion' =>   $this->getDescripcion(),
             ':estado' =>   $this->getEstado(),
+
 
         ];
         $this->Connect();
@@ -244,7 +258,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "INSERT INTO ornamentacion.producto VALUES (
             :IdProducto,:tipo,:nombre,
-            :cantidad,:valor,:material,:tamano,:diseno,:tipoServicio,:estado
+            :stock,:valor,:material,:tamano,:diseno,:descripcion,:estado
         )";
         return $this->save($query);
     }
@@ -253,7 +267,10 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "UPDATE ornamentacion.producto SET 
             tipo = :tipo,
-            nombre = :nombre, cantidad= :cantidad, valor = :valor,material= : material,tamano = :tamano,diseno = :diseno,tipoServicio = :tipoServicio, estado = :estado WHERE IdProducto = :IdProducto";
+            nombre = :nombre,stock= :stock, valor = :valor,
+            material= : material,tamano = :tamano,diseno = :diseno,
+           ,descripcion = :descripcion,
+            estado = :estado WHERE IdProducto = :IdProducto";
         return $this->save($query);
     }
 
@@ -323,6 +340,24 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     static function getAll(): ?array
     {
         return Producto::search("SELECT * FROM ornamentacion.producto");
+    }
+    public function susaddStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() - $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
+    public function addStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() + $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
     }
 
     /**

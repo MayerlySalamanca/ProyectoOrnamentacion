@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\MateriaPrima;
+use App\Models\Usuario;
 use App\Enums\Estado;
 use JetBrains\PhpStorm\Internal\TentativeType;
 
@@ -15,6 +16,8 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     private int $MateriaPrima_idMateria;
     private int $Usuario_IdUsuario;
 
+    private ?MateriaPrima $materiaPrima;
+    private ?Usuario $usuario;
     /**
      * Usuarios constructor. Recibe un array asociativo
      * @param array $fabricacion
@@ -139,50 +142,82 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
 
-
-
-
-
-    protected function save(string $query): ?bool
+    /* Relaciones */
+    /**
+     * Retorna el objeto venta correspondiente al detalle venta
+     * @return MateriaPrima|null
+     */
+    public function getMateriaPrima(): ?MateriaPrima
     {
-        $arrData = [
-            ':idFabricacion' =>    $this->getIdFabricacion(),
-            ':numeroFabricacion' =>   $this->getNumeroFabricacion(),
-            ':cantidad' =>   $this->getCantidad(),
-            ':estado' =>   $this->getEstado(),
-            ':MateriaPrima_idMateria' =>   $this->getMateriaPrimaIdMateria(),
-            ':Usuario_IdUsuario' =>   $this->getUsuarioIdUsuario(),
+        if(!empty($this->MateriaPrima_idMateria)){
+            $this->materiaPrima = MateriaPrima::searchForId($this->MateriaPrima_idMateria) ?? new MateriaPrima();
+            return $this->materiaPrima;
+        }
+        return NULL;
+    }
 
-        ];
+    /**
+     * Retorna el objeto producto correspondiente al detalle venta
+     * @return Productos|null
+     */
+    public function getUsuario(): ?Usuario
+    {
+        if(!empty($this->Usuario_IdUsuario)){
+            $this->usuario = Usuario::searchForId($this->Usuario_IdUsuario) ?? new Usuario();
+            return $this->usuario;
+        }
+        return NULL;
+    }
+
+
+
+
+    protected function save(string $query, string $type = 'insert'): ?bool
+    {
+        if($type == 'deleted'){
+            $arrData = [ ':id' =>   $this->getId() ];
+        }else {
+            $arrData = [
+                ':idFabricacion' => $this->getIdFabricacion(),
+                ':numeroFabricacion' => $this->getNumeroFabricacion(),
+                ':cantidad' => $this->getCantidad(),
+                ':estado' => $this->getEstado(),
+                ':MateriaPrima_idMateria' => $this->getMateriaPrimaIdMateria(),
+                ':Usuario_IdUsuario' => $this->getUsuarioIdUsuario(),
+
+            ];
+        }
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    function insert(): ?bool
+    function insert() : ?bool
     {
-        $query = "INSERT INTO ornamentacion.fabricacion  VALUES (
-            :idFabricacion,:numeroFabricacion,:cantidad,
-            :estado,:MateriaPrima_idMateria,:Usuario_IdUsuario
-        
-        )";
-        return $this->save($query);
+        $query = "INSERT INTO ornamentacion.fabricacion VALUES (:idFabricacion,:numeroFabricacion,:cantidad,:estado,:MateriaPrima_idMateria,:Usuario_IdUsuario)";
+        if($this->save($query)){
+            return $this->getMateriaPrima()->substractStock($this->getCantidad());
+        }
+        return false;
     }
 
-    function update(): ?bool
+    /**
+     * @return mixed
+     */
+    public function update() : bool
     {
         $query = "UPDATE ornamentacion.fabricacion SET 
-            numeroFabricacion = :numeroFabricacion,
-            cantidad = :cantidad, estado = :estado, MateriaPrima_idMateria = :MateriaPrima_idMateria, 
-            Usuario_IdUsuario = :Usuario_IdUsuario WHERE IdUsuario = :IdUsuario";
+            numeroFabricacion = :numeroFabricacion,cantidad = :cantidad, estado =:estado,
+            MateriaPrima_idMateria = :MateriaPrima_idMateria,
+            Usuario_IdUsuario = : Usuario_IdUsuario WHERE idFabricacion = :idFabricacion";
         return $this->save($query);
     }
 
     function deleted(): ?bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
-        return $this->update();                    //Guarda los cambios..
+        $query = "DELETE FROM ornamentacion.fabricacion WHERE idFabricacion = :idFabricacion";
+        return $this->save($query, 'deleted');                 //Guarda los cambios..
     }
 
     static function search($query): ?array
@@ -235,6 +270,21 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $result = fabricacion::search("SELECT * FROM ornamentacion.fabricacion where numeroFabricacion = '" . $numeroFabricacion."' ");
         if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @param $MateriaPrima_idMateria
+     * @param $Usuario_IdUsuario
+     * @return bool
+     */
+    public static function fabricacionEnFactura($MateriaPrima_idMateria,$Usuario_IdUsuario): bool
+    {
+        $result = Fabricacion::search("SELECT idFabricacion FROM ornamentacion.fabricacion where MateriaPrima_idMateria = '" . $MateriaPrima_idMateria. "' and Usuario_IdUsuario = '" . $Usuario_IdUsuario. "'");
+        if (count($result) > 0) {
             return true;
         } else {
             return false;

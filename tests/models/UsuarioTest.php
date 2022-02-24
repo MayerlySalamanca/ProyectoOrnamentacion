@@ -15,10 +15,11 @@ class UsuarioTest extends TestCase
         $Usuario = new Usuario(
             ['IdUsuario' => null,
                 'documento' => 1555,
-                'nombre' => 'jose',
-                'telefono' => 'dsadasd',
-                'direccion' => 'DSADSAD',
+                'nombre' => 'Dilan Galeano',
+                'telefono' => '3227247325',
+                'direccion' => 'crr 4',
                 'roll' => Roll::VENDEDOR,
+                'usuario' => 'admin1',
                 'contrasena' => 'dadsdasdasd',
                 'estado' => 'Activo']
         );

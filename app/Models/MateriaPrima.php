@@ -223,10 +223,28 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
             return false;
         }
     }
+    public function addStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() + $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
+    public function substractStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() - $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
 
     static function getAll(): ?array
     {
-        return orden::search("SELECT * FROM ornamentacion.orden");
+        return orden::search("SELECT * FROM ornamentacion.materiaprima");
     }
 
     /**

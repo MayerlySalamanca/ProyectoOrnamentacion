@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Models;
+use App\Models\MateriaPrima;
 
+use App\Models\Pedidos;
 use App\Enums\Estado;
 use JetBrains\PhpStorm\Internal\TentativeType;
 
@@ -16,6 +18,8 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
     private int $pedidosId;
     private int $materiaPrimaId;
 
+    private ?MateriaPrima $materiaPrima;
+    private ?Pedidos $pedidos;
     /**
      * Usuarios constructor. Recibe un array asociativo
      * @param array $detallepedido
@@ -156,18 +160,50 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
         $this->materiaPrimaId = $materiaPrimaId;
     }
 
-    protected function save(string $query): ?bool
+    /* Relaciones */
+    /**
+     * Retorna el objeto venta correspondiente al detalle venta
+     * @return MateriaPrima|null
+     */
+    public function getMateriaPrima(): ?MateriaPrima
     {
-        $arrData = [
-            ':idDetallePedido' =>    $this->getIdDetallePedido(),
-            ':numeroDetallePedido' =>   $this->getNumeroDetallePedido(),
-            ':valor' =>   $this->getValor(),
-            ':cantidad' =>   $this->getCantidad(),
-            ':estado' =>   $this->getEstado(),
-            ':pedidosId' =>   $this->getPedidosId(),
-            ':materiaPrimaId' =>   $this->getMateriaPrimaId(),
+        if(!empty($this->materiaPrimaId)){
+            $this->materiaPrima = MateriaPrima::searchForId($this->materiaPrimaId) ?? new MateriaPrima();
+            return $this->materiaPrima;
+        }
+        return NULL;
+    }
 
-        ];
+    /**
+     * Retorna el objeto producto correspondiente al detalle venta
+     * @return Productos|null
+     */
+    public function getPeidos(): ?Pedidos
+    {
+        if(!empty($this->id)){
+            $this->pedidos = Pedidos::searchForId($this->pedidosId) ?? new Pedidos();
+            return $this->pedidos;
+        }
+        return NULL;
+    }
+
+
+    protected function save(string $query, string $type = 'insert'): ?bool
+    {
+        if($type == 'deleted'){
+            $arrData = [ ':id' =>   $this->getId() ];
+        }else {
+            $arrData = [
+                ':idDetallePedido' => $this->getIdDetallePedido(),
+                ':numeroDetallePedido' => $this->getNumeroDetallePedido(),
+                ':valor' => $this->getValor(),
+                ':cantidad' => $this->getCantidad(),
+                ':estado' => $this->getEstado(),
+                ':pedidosId' => $this->getPedidosId(),
+                ':materiaPrimaId' => $this->getMateriaPrimaId(),
+
+            ];
+        }
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
@@ -176,12 +212,16 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
 
     function insert(): ?bool
     {
+
         $query = "INSERT INTO ornamentacion.detallepedido  VALUES (
             :idDetallePedido,:numeroDetallePedido,:valor,:cantidad,
             :estado,:pedidosId,:materiaPrimaId
         
         )";
-        return $this->save($query);
+        if($this->save($query)){
+            return $this->getMateriaPrima()->addStock($this->getCantidad());
+        }
+        return false;
     }
 
     function update(): ?bool
@@ -193,11 +233,13 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
         return $this->save($query);
     }
 
-    function deleted(): ?bool
+
+        public function deleted() : bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
-        return $this->update();                    //Guarda los cambios..
+        $query = "DELETE FROM ornamentacion.detallepedido WHERE idDetallePedido = :idDetallePedido";
+        return $this->save($query, 'deleted');
     }
+
 
     static function search($query): ?array
     {
@@ -249,6 +291,15 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
     {
         $result = detallepedido::search("SELECT * FROM ornamentacion.detallepedido where numeroDetallePedido = '" . $numeroDetallePedido."' ");
         if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static function pedidoEnFactura($materiaPrimaId,$pedidosId): bool
+    {
+        $result = DetallePedido::search("SELECT idDetallePedido FROM ornamentacion.detallepedido where pedidosId = '" . $pedidosId. "' and materiaPrimaId = '" . $materiaPrimaId. "'");
+        if (count($result) > 0) {
             return true;
         } else {
             return false;

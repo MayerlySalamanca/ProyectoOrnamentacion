@@ -199,7 +199,7 @@ public function setNumeroFactura(int $numeroFactura): void
     {
         $query = "INSERT INTO ornamentacion.factura VALUES (
             :IdFactura,:numeroFactura,:nombreCliente,:cantidad,
-            :fecha,:estado,:valor,:usuarioVendedor,
+            :fecha,:estado,:valor,:usuarioVendedor
         )";
         return $this->save($query);
     }
@@ -267,7 +267,7 @@ public function setNumeroFactura(int $numeroFactura): void
      */
     public static function facturaRegistrado($numeroFactura): bool
     {
-        $result = factura::search("SELECT * FROM ornamentacion.factura where IdFactura = '" . $numeroFactura."' ");
+        $result = factura::search("SELECT * FROM ornamentacion.factura where numeroFactura = '" . $numeroFactura."' ");
         if (!empty($result) && count($result)>0) {
             return true;
         } else {
