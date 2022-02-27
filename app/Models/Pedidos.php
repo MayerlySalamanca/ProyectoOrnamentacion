@@ -84,7 +84,7 @@ class Pedidos extends AbstractDBConnection implements Model
     {
         if(empty($numero_serie)){
             $this->Connect();
-            $this->numero_serie = 'FC-'.($this->countRowsTable('ventas')+1).'-'.date('Y-m-d');
+            $this->numero_serie = 'FC-'.($this->countRowsTable('facturacion')+1).'-'.date('Y-m-d');
             $this->Disconnect();
         }else{
             $this->numero_serie = $numero_serie;

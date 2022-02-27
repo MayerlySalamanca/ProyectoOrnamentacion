@@ -104,6 +104,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                             <select required id="roll" name="roll" class="custom-select">
                                                 <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "administrador") ? "selected" : ""; ?> value="administrador">Administrador</option>
                                                 <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "vendedor") ? "selected" : ""; ?> value="vendedor">Vendedor</option>
+                                                <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "cliente") ? "selected" : ""; ?> value="cliente">cliente</option>
                                             </select>
                                         </div>
                                     </div>

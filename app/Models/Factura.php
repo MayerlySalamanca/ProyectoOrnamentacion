@@ -6,6 +6,7 @@ use App\Enums\Estado;
 use App\Enums\EstadoFactura;
 use App\Models\Usuario;
 use App\Interfaces\Model;
+
 use Carbon\Carbon;
 use Exception;
 use JsonSerializable;
@@ -14,16 +15,17 @@ class Factura extends AbstractDBConnection implements Model
 {
     private ?int $idFactura;
     private string $numeroFactura;
-    private int $nombreCliente; // Id numerico (1,2,3,4) almacena en BD
-    private int $usuarioVendedor;
+    private int $usuarioCliente;
+    private int $usuarioVendedor;// Id numerico (1,2,3,4) almacena en BD
     private Carbon $fecha;
-    private int $valor;
-    private Estado $estado;
+    private float $monto;
+    private EstadoFactura $estado;
 
 
     /* Relaciones */
 
     private ?Usuario $empleado;
+    private ?Usuario $cliente;
     private ?array $detalleVentas;
 
     /**
@@ -33,13 +35,13 @@ class Factura extends AbstractDBConnection implements Model
     public function __construct(array $venta = [])
     {
         parent::__construct();
-        $this->setIdUsuario($venta['idFactura'] ?? NULL);
-        $this->setNumeroFactura($venta['numeroFactura'] ?? NULL);
-        $this->setNombreCliente($venta['nombreCliente'] ?? 0);
+        $this->setIdFactura($venta['idFactura'] ?? NULL);
+        $this->setNumeroFactura($venta['numeroFactura'] ?? '');
+        $this->setUsuarioCliente($venta['nombreCliente'] ?? 0);
         $this->setUsuarioVendedor($venta['usuarioVendedor'] ?? 0);
         $this->setFecha(!empty($venta['fecha']) ? Carbon::parse($venta['fecha']) : new Carbon());
-        $this->setValor($venta['valor'] ?? 0);
         $this->setEstado($venta['estado'] ?? EstadoFactura::PROCESO );
+        $this->setMonto();
 
     }
 
@@ -70,18 +72,20 @@ class Factura extends AbstractDBConnection implements Model
     /**
      * @return int
      */
-    public function getNombreCliente(): int
+    public function getUsuarioCliente(): int
     {
-        return $this->nombreCliente;
+        return $this->usuarioCliente;
     }
 
     /**
-     * @param int $nombreCliente
+     * @param int $usuarioCliente
      */
-    public function setNombreCliente(int $nombreCliente): void
+    public function setUsuarioCliente(int $usuarioCliente): void
     {
-        $this->nombreCliente = $nombreCliente;
+        $this->usuarioCliente = $usuarioCliente;
     }
+
+
 
     /**
      * @return int
@@ -100,21 +104,21 @@ class Factura extends AbstractDBConnection implements Model
     }
 
     /**
-     * @return int
+     * @return float|mixed
      */
-    public function getValor(): int
+    public function getMonto() : float
     {
-        return $this->valor;
+        return $this->monto;
     }
 
     /**
-     * @param int $valor
+     * @param float|mixed $monto
      */
-    public function setValor(int $valor): void
+    public function setMonto(): void
     {
         $total = 0;
         if($this->getIdFactura() != null){
-            $arrDetallesVenta = $this->getDetalleVenta();
+            $arrDetallesVenta = $this->getDetalleVentas();
             if(!empty($arrDetallesVenta)){
                 /* @var $arrDetallesVenta DetalleVentas[] */
                 foreach ($arrDetallesVenta as $DetalleVenta){
@@ -124,7 +128,6 @@ class Factura extends AbstractDBConnection implements Model
         }
         $this->monto = $total;
     }
-
     /**
      * @return Estado
      */
@@ -139,26 +142,12 @@ class Factura extends AbstractDBConnection implements Model
     public function setEstado(null|string|EstadoFactura $estado): void
     {
         if(is_string($estado)){
-            $this->estado = Estado::from($estado);
+            $this->estado = EstadoFactura::from($estado);
         }else{
             $this->estado = $estado;
         }
     }
-    /**
-     * @return array|null
-     */
-    public function getDetalleVentas(): ?array
-    {
-        return $this->detalleVentas;
-    }
 
-    /**
-     * @param array|null $detalleVentas
-     */
-    public function setDetalleVentas(?array $detalleVentas): void
-    {
-        $this->detalleVentas = $detalleVentas;
-    }
 
 
 
@@ -167,7 +156,7 @@ class Factura extends AbstractDBConnection implements Model
      */
     public function getNumeroFactura() : string
     {
-        return $this->numero_serie;
+        return $this->numeroFactura;
     }
 
     /**
@@ -217,17 +206,24 @@ class Factura extends AbstractDBConnection implements Model
         }
         return NULL;
     }
-
+    public function getCliente(): ?Usuario
+    {
+        if(!empty($this->usuarioCliente)){
+            $this->cliente = Usuario::searchForId($this->usuarioCliente) ?? new Usuario();
+            return $this->cliente;
+        }
+        return NULL;
+    }
 
     /**
      * retorna un array de detalles venta que perteneces a una venta
      * @return array
      */
-    public function getDetalleVenta(): ?array
+    public function getDetalleVentas(): ?array
     {
 
-        $this->detalleVenta = DetalleCompras::search('SELECT * FROM ornamentacion.detalle_ventas where ventas_id = '.$this->idFactura);
-        return $this->detalleVenta;
+        $this->detalleVentas = DetalleCompras::search('SELECT * FROM ornamentacion.detalle_ventas where ventas_id = '.$this->idFactura);
+        return $this->detalleVentas;
     }
 
     /**
@@ -239,11 +235,11 @@ class Factura extends AbstractDBConnection implements Model
         $arrData = [
             ':idFactura' =>    $this->getIdFactura(),
             ':numeroFactura' =>   $this->getNumeroFactura(),
-            ':nombreCliente' =>   $this->getNombreCliente(),
+            ':usuarioCliente' =>   $this->getUsuarioCliente(),
             ':usuarioVendedor' =>   $this->getUsuarioVendedor(),
             ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':valor' =>   $this->getValor(),
-            ':estado' =>   $this->getEstado(),
+            ':monto' =>   $this->getMonto(),
+            ':estado' =>   $this->getEstado()
 
         ];
         $this->Connect();
@@ -257,19 +253,17 @@ class Factura extends AbstractDBConnection implements Model
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO ornamentacion.factura VALUES (:idFactura,:numeroFactura,:nombreCliente,:usuarioVendedor,:fecha,:valor,:estado)";
+        $query = "INSERT INTO ornamentacion.factura VALUES (:idFactura,:numeroFactura,:usuarioCliente,:usuarioVendedor,:fecha,:monto,:estado)";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
+
     public function update() : ?bool
     {
         $query = "UPDATE ornamentacion.factura SET 
-            numeroFactura = :numeroFactura, nombreCliente = :nombreCliente,
+            numeroFactura = :numeroFactura, usuarioCliente = :usuarioCliente,
             usuarioVendedor = :usuarioVendedor, fecha = :fecha,
-            valor = :valor, estado = :estado
+            monto = :monto, estado = :estado
              WHERE idFactura = :idFactura";
         return $this->save($query);
     }
@@ -279,7 +273,7 @@ class Factura extends AbstractDBConnection implements Model
      */
     public function deleted() : bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        $this->setEstado("Anulada"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
@@ -313,7 +307,7 @@ class Factura extends AbstractDBConnection implements Model
      * @return Factura
      * @throws Exception
      */
-    public static function searchForId($id) : ?array
+    public static function searchForId($id) : ?Factura
     {
         try {
             if ($id > 0) {
@@ -361,7 +355,7 @@ class Factura extends AbstractDBConnection implements Model
      */
     public function __toString() : string
     {
-        return "Numero Serie: $this->numeroFactura, Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha->toDateTimeString(), Valor: $this->valor, Estado: $this->estado";
+        return "Numero Serie: $this->numeroFactura, Cliente: ".$this->getCliente()->nombresCompletos().", Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha->toDateTimeString(), Valor: $this->valor, Estado: $this->estado";
     }
 
     /**
@@ -376,10 +370,10 @@ class Factura extends AbstractDBConnection implements Model
         return [
             ':idFactura' =>    $this->getIdFactura(),
             ':numeroFactura' =>   $this->getNumeroFactura(),
-            ':nombreCliente' =>   $this->getNombreCliente(),
-            ':usuarioVendedor' =>   $this->getUsuarioVendedor()->jsonSerialize(),
+            ':empleado' =>   $this->getEmpleado()->jsonSerialize(),
+            ':cliente' =>   $this->getCliente()->jsonSerialize(),
             ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':valor' =>   $this->getValor(),
+            ':Monto' =>   $this->getValor(),
             ':estado' =>   $this->getEstado(),
         ];
     }

@@ -28,7 +28,7 @@ class DetalleVentas extends AbstractDBConnection implements Model
     {
         parent::__construct();
         $this->setId($detalle_venta['idOrdenCompra'] ?? NULL);
-        $this->setVentasId($detalle_venta['venta_id'] ?? 0);
+        $this->setVentasId($detalle_venta['ventas_id'] ?? 0);
         $this->setProductoIdProducto($detalle_venta['Producto_IdProducto'] ?? 0);
         $this->setCantidad($detalle_venta['cantidad'] ?? 0);
         $this->setPrecio($detalle_venta['precio'] ?? 0.0);
@@ -284,9 +284,9 @@ class DetalleVentas extends AbstractDBConnection implements Model
      * @param $producto_id
      * @return bool
      */
-    public static function productoEnFactura($venta_id,$producto_id): bool
+    public static function productoEnFactura($ventas_id,$Producto_IdProducto): bool
     {
-        $result = DetalleVentas::search("SELECT idOrdenCompra FROM ornamentacion.detalle_ventas where ventas_id = '" . $venta_id. "' and Producto_IdProducto = '" . $producto_id. "'");
+        $result = DetalleVentas::search("SELECT idOrdenCompra FROM ornamentacion.detalle_ventas where ventas_id = '" . $ventas_id. "' and Producto_IdProducto = '" . $Producto_IdProducto. "'");
         if (count($result) > 0) {
             return true;
         } else {
@@ -299,7 +299,7 @@ class DetalleVentas extends AbstractDBConnection implements Model
      */
     public function __toString() : string
     {
-        return "Venta: ".$this->venta->getNumeroSerie().", Producto: ".$this->producto->getNombre().", Cantidad: $this->cantidad, Precio Venta: $this->precio";
+        return "Factura: ".$this->venta->getNumeroSerie().", Producto: ".$this->producto->getNombre().", Cantidad: $this->cantidad, Precio Venta: $this->precio";
     }
 
     /**
@@ -315,7 +315,7 @@ class DetalleVentas extends AbstractDBConnection implements Model
             'venta_id' => $this->getVenta()->jsonSerialize(),
             'Producto_IdProducto' => $this->getProductoIdProducto()->jsonSerialize(),
             'cantidad' => $this->getCantidad(),
-            'precio_venta' => $this->getPrecioVenta(),
+            'precio' => $this->getPrecioVenta(),
 
         ];
     }

@@ -1,15 +1,15 @@
 <?php
 require("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 
 use App\Controllers\ProductosController;
 use App\Controllers\UsuariosController;
-use App\Controllers\FacturasController;
-use App\Models\Factura;
+use App\Controllers\VentasController;
+use App\Models\DetalleVentas;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Factura";
+$nameModel = "Venta";
 $nameForm = 'frmCreate'.$nameModel;
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION[$nameForm] ?? NULL;
@@ -18,8 +18,8 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <?php
 $dataVenta = null;
 if (!empty($_GET['id'])) {
-    $dataVenta = FacturasController::searchForID(["id" => $_GET['id']]);
-    if ($dataVenta->getEstado() != "Activo"){
+    $dataVenta = VentasController::searchForID(["id" => $_GET['id']]);
+    if ($dataVenta->getEstado() != "En progreso"){
         header('Location: index.php?respuesta=warning&mensaje=La venta ya ha finalizado');
     }
 }
@@ -89,43 +89,20 @@ if (!empty($_GET['id'])) {
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
-
                                     <div class="form-group row">
-                                        <label for="numeroFactura" class="col-sm-4 col-form-label">Numero Factura</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="numeroFactura" name="numeroFactura"
-                                                   placeholder="Ingrese" value="<?= $frmSession['numeroFactura'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="nombreCliente" class="col-sm-4 col-form-label">Nombre Cliente</label>
-                                        <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombreCliente" name="nombreCliente"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombreCliente'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="cantidad" class="col-sm-4 col-form-label">cantidad</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="cantidad" name="cantidad"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['cantidad'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="valor" class="col-sm-4 col-form-label">valor</label>
-                                        <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="valor" name="valor"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['valor'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="estado" class="col-sm-5 col-form-label">Estado</label>
-                                        <div class="col-sm-10">
-                                            <select required id="estado" name="estado" class="custom-select">
-                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Proceso") ? "selected" : ""; ?> value="Proceso">Proceso</option>
-                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Finalizada") ? "selected" : ""; ?> value="Finalizada">Finalizado</option>
-                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Anulado") ? "selected" : ""; ?> value="Anulado">Anulada</option>
-                                            </select>
+                                        <label for="cliente_id" class="col-sm-4 col-form-label">Cliente</label>
+                                        <div class="col-sm-8">
+                                            <?= UsuariosController::selectUsuario(
+                                                array (
+                                                    'id' => 'cliente_id',
+                                                    'name' => 'cliente_id',
+                                                    'defaultValue' => (!empty($dataVenta)) ? $dataVenta->getCliente()->getId() : '',
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "rol = 'Cliente' and estado = 'Activo'"
+                                                )
+                                            )
+                                            ?>
+                                            <span class="text-info"><a href="../usuarios/create.php">Crear Cliente</a></span>
                                         </div>
                                     </div>
 
@@ -136,9 +113,9 @@ if (!empty($_GET['id'])) {
                                                 array (
                                                     'id' => 'empleado_id',
                                                     'name' => 'empleado_id',
-                                                    'defaultValue' => (!empty($dataVenta)) ? $dataVenta->getVendedor()->getIdUsuario() : '',
+                                                    'defaultValue' => (!empty($dataVenta)) ? $dataVenta->getEmpleado()->getId() : '',
                                                     'class' => 'form-control select2bs4 select2-info',
-                                                    'where' => "roll = 'Vendedor' and estado = 'Activo'"
+                                                    'where' => "rol = 'Empleado' and estado = 'Activo'"
                                                 )
                                             )
                                             ?>
@@ -221,7 +198,7 @@ if (!empty($_GET['id'])) {
                                             <tbody>
                                             <?php
                                             if (!empty($dataVenta) and !empty($dataVenta->getId())) {
-                                                $arrDetalleVentas = DetalleVentas::search("SELECT * FROM ornamentacion.i WHERE venta_id = ".$dataVenta->getId());
+                                                $arrDetalleVentas = DetalleVentas::search("SELECT * FROM weber.detalle_ventas WHERE venta_id = ".$dataVenta->getId());
                                                 if(count($arrDetalleVentas) > 0) {
                                                     /* @var $arrDetalleVentas DetalleVentas[] */
                                                     foreach ($arrDetalleVentas as $detalleVenta) {

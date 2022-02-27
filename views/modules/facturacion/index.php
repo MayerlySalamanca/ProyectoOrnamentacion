@@ -1,11 +1,11 @@
 <?php
-require_once("../../../app/Controllers/FacturasController.php");
+require_once("../../../app/Controllers/VentasController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\FacturasController;
+use App\Controllers\VentasController;
 use App\Models\GeneralFunctions;
-use App\Models\Factura;
+use App\Models\Ventas;
 
 $nameModel = "Venta";
 $pluralModel = $nameModel.'s';
@@ -101,8 +101,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrVentas = FacturasController::getAll();
-                                            /* @var $arrVentas Factura[] */
+                                            $arrVentas = VentasController::getAll();
+                                            /* @var $arrVentas Ventas[] */
                                             foreach ($arrVentas as $venta) {
                                                 ?>
                                                 <tr>

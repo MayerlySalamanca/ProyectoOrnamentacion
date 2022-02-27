@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
-require("../../../app/Controllers/UsuariosController.php");
+require_once("../../partials/check_login.php");
+require("../../../app/Controllers/VentasController.php");
 
-use App\Controllers\FacturasController;
-use App\Models\Factura;
+use App\Controllers\VentasController;
+use App\Models\Ventas;
 use App\Models\GeneralFunctions;
 
-$nameModel = "Usuario";
+$nameModel = "Venta";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
@@ -56,8 +56,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataVentas = FacturasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataVentas Factura */
+                                $DataVentas = VentasController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataVentas Ventas */
                                 if (!empty($DataVentas)) {
                                     ?>
                                     <div class="card-header">
