@@ -1,14 +1,14 @@
 <?php
 require("../../partials/routes.php");
-// require_once("../../partials/check_login.php");
-// require("../../../app/Controllers/CategoriasController.php");
+require_once("../../partials/check_login.php");
+require("../../../app/Controllers/MateriasController.php");
 
-use App\Controllers\CategoriasController;
-use App\Models\Categorias;
+use App\Controllers\MateriasController;
+use App\Models\MateriaPrima;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Categoria";
+$nameModel = "Materia";
 $pluralModel = $nameModel.'s';
 $nameForm = 'frmEdit'.$nameModel;
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
@@ -74,56 +74,73 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataCategoria = CategoriasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataCategoria Categorias */
-                                if (!empty($DataCategoria)) {
+                                $DataMaterias = MateriasController::searchForID(["idMateria" => $_GET["id"]]);
+                                /* @var $DataMaterias MateriaPrima */
+                                if (!empty($DataMaterias)) {
                                     ?>
                                     <div class="card-body">
                                         <!-- form start -->
                                         <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
-                                            <input id="id" name="id" value="<?= $DataCategoria->getId(); ?>"
+                                            <input id="idMateria" name="idMateria" value="<?= $DataMaterias->getIdMateria(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombres"
-                                                           name="nombres" value="<?= $DataCategoria->getNombre(); ?>"
+                                                    <input required type="text" class="form-control" id="nombre"
+                                                           name="nombre" value="<?= $DataMaterias->getNombre(); ?>"
                                                            placeholder="Ingrese el nombres">
                                                 </div>
                                             </div>
-
                                             <div class="form-group row">
-                                                <label for="orden" class="form-control select2bs4 select2-info"> Orden</label>
+                                                <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                                                 <div class="col-sm-10">
-                                                    <select id="orden" name="orden"
-                                                            class="custom-select">
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "1") ? "selected" : ""; ?>
-                                                                value="1">Primero
+                                                    <select id="tipo" name="tipo" class="custom-select">
+                                                        <option <?= ($DataMaterias->getTipo() == "Varilla") ? "selected" : ""; ?>
+                                                                value="Varilla">Varilla
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "2") ? "selected" : ""; ?>
-                                                                value="2">Segundo
+                                                        <option <?= ($DataMaterias->getTipo() == "Perfiles") ? "selected" : ""; ?>
+                                                                value="Perfiles">Perfiles
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "3") ? "selected" : ""; ?>
-                                                                value="3">Tercero
+                                                        <option <?= ($DataMaterias->getTipo() == "Marco") ? "selected" : ""; ?>
+                                                                value="Marco">Marco
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "4") ? "selected" : ""; ?>
-                                                                value="4">Cuarto
+                                                        <option <?= ($DataMaterias->getTipo() == "Divisiones") ? "selected" : ""; ?>
+                                                                value="Divisiones">Divisiones
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "5") ? "selected" : ""; ?>
-                                                                value="5">Quinto
+                                                        <option <?= ($DataMaterias->getTipo() == "Angulo") ? "selected" : ""; ?>
+                                                                value="Angulo">Angulo
+                                                        </option>
+                                                        <option <?= ($DataMaterias->getTipo() == "Pintura") ? "selected" : ""; ?>
+                                                                value="Pintura">Pintura
+                                                        </option>
+                                                        </option>
+                                                        <option <?= ($DataMaterias->getTipo() == "Anticorrosivo") ? "selected" : ""; ?>
+                                                                value="Anticorrosivo">Anticorrosivo
+                                                        </option>
+                                                        <option <?= ($DataMaterias->getTipo() == "Lija") ? "selected" : ""; ?>
+                                                                value="Lija">Lija
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <label for="stock" class="col-sm-2 col-form-label">stock</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="number" class="form-control" id="stock"
+                                                           name="stock" value="<?= $DataMaterias->getStock(); ?>"
+                                                           placeholder="Ingrese ">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
                                                     <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataCategoria->getEstado() == "Activo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataMaterias->getEstado() == "Activo") ? "selected" : ""; ?>
                                                                 value="Activo">Activo
                                                         </option>
-                                                        <option <?= ($DataCategoria->getEstado() == "Inactivo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataMaterias->getEstado() == "Inactivo") ? "selected" : ""; ?>
                                                                 value="Inactivo">Inactivo
                                                         </option>
                                                     </select>

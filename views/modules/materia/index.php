@@ -1,20 +1,21 @@
 <?php
-require_once("../../../app/Controllers/CategoriasController.php");
+require_once("../../../app/Controllers/MateriasController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\CategoriasController;
+use App\Controllers\MateriasController;
 use App\Models\GeneralFunctions;
-use App\Models\Categorias;
+use App\Models\MateriaPrima;
 
-$nameModel = "Categoria";
+
+$nameModel = "Materia";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $plcategoría ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $pluralModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -90,43 +91,41 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombres</th>
-                                                <th>Descripción</th>
-                                                <th>Estado</th>
+                                                <th>tipo</th>
+                                                <th>stock</th>
+                                                <th>estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrCategorias = CategoriasController::getAll();
-                                            /* @var $arrCategorias Categorias[] */
-                                            foreach ($arrCategorias as $categoria) {
+                                            $arrMaterias = MateriasController::getAll();
+                                            /* @var $arrMaterias MateriaPrima[] */
+                                            foreach ($arrMaterias as $materias) {
                                                 ?>
                                                 <tr>
-                                                    <td><?= $categoria->getId(); ?></td>
-                                                    <td><?= $categoria->getNombre(); ?></td>
-                                                    <td><?= $categoria->getDescripcion(); ?></td>
-                                                    <td><?= $categoria->getEstado(); ?></td>
+                                                    <td><?= $materias->getIdMateria(); ?></td>
+                                                    <td><?= $materias->getNombre(); ?></td>
+                                                    <td><?= $materias->getTipo(); ?></td>
+                                                    <td><?= $materias->getStock(); ?></td>
+                                                    <td><?= $materias->getEstado(); ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $categoria->getId(); ?>"
+                                                        <a href="edit.php?id=<?= $materias->getIdMateria(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
                                                            class="btn docs-tooltip btn-primary btn-xs"><i
                                                                     class="fa fa-edit"></i></a>
-                                                        <a href="show.php?id=<?= $categoria->getId(); ?>"
+                                                        <a href="show.php?id=<?= $materias->getIdMateria(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>
-                                                        <a href="../productos/index.php?idCategoria=<?= $categoria->getId(); ?>"
-                                                           type="button" data-toggle="tooltip" title="Ver Productos"
-                                                           class="btn docs-tooltip btn-success btn-xs"><i
-                                                                    class="fa fa-sitemap"></i></a>
-                                                        <?php if ($categoria->getEstado() != "Activo") { ?>
-                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $categoria->getId(); ?>"
+                                                        <?php if ($materias->getEstado() != "Activo") { ?>
+                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $materias->getIdMateria(); ?>"
                                                                type="button" data-toggle="tooltip" title="Activar"
                                                                class="btn docs-tooltip btn-success btn-xs"><i
                                                                         class="fa fa-check-square"></i></a>
                                                         <?php } else { ?>
                                                             <a type="button"
-                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=inactivate&id=<?= $categoria->getId(); ?>"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=inactivate&id=<?= $materias->getIdMateria(); ?>"
                                                                data-toggle="tooltip" title="Inactivar"
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>

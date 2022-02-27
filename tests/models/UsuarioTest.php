@@ -14,18 +14,18 @@ class UsuarioTest extends TestCase
     {
         $Usuario = new Usuario(
             ['IdUsuario' => null,
-                'documento' => 1555,
-                'nombre' => 'Dilan Galeano',
+                'documento' => 555,
+                'nombre' => 'pepe',
                 'telefono' => '3227247325',
                 'direccion' => 'crr 4',
                 'roll' => Roll::VENDEDOR,
-                'usuario' => 'admin1',
-                'contrasena' => 'dadsdasdasd',
+                'usuario' => 'Dil7',
+                'contrasena' => '123456',
                 'estado' => 'Activo']
         );
 
         $Usuario->insert();
-        $this->assertSame(true, $Usuario->usuarioRegistrado(1555));
+        $this->assertSame(true, $Usuario->usuarioRegistrado(555));
     }
 
 }

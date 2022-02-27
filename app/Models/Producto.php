@@ -11,12 +11,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
      private ?int  $IdProducto;
      private Tipo $tipo;
      private string $nombre;
-     private int $cantidad;
      private int $valor;
-     private string $material;
-     private string $tamano;
-     private string $diseno;
-     private string $descripcion;
      private Estado $estado;
      private int $stock;
 
@@ -28,10 +23,6 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setNombre($Producto['nombre'] ?? '');
         $this->setStock($Producto['stock'] ?? 0);
         $this->setValor($Producto['valor'] ?? 0);
-        $this->setMaterial($Producto['material'] ?? '');
-        $this->setTamano($Producto['tamano'] ?? '');
-        $this->setDiseno($Producto['diseno'] ?? '');
-        $this->setDescripcion($Producto['descripcion'] ?? '');
         $this->setEstado($Producto['estado'] ?? Estado::INACTIVO);
 
 
@@ -44,25 +35,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getDescripcion(): string
-    {
-        return $this->descripcion;
-    }
 
-    /**
-     * @param string $descripcion
-     */
-    public function setDescripcion(string $descripcion): void
-    {
-        $this->descripcion = $descripcion;
-    }
-
-    /**
-     * @return int
-     */
     public function getStock(): int
     {
         return $this->stock;
@@ -148,21 +121,6 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         $this->nombre = $nombre;
     }
 
-    /**
-     * @return int
-     */
-    public function getCantidad(): int
-    {
-        return $this->cantidad;
-    }
-
-    /**
-     * @param int $cantidad
-     */
-    public function setCantidad(int $cantidad): void
-    {
-        $this->cantidad = $cantidad;
-    }
 
     /**
      * @return int
@@ -182,56 +140,6 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 
 
 
-    /**
-     * @return string
-     */
-    public function getMaterial(): string
-    {
-        return $this->material;
-    }
-
-    /**
-     * @param string $material
-     */
-    public function setMaterial(string $material): void
-    {
-        $this->material = $material;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTamano(): string
-    {
-        return $this->tamano;
-    }
-
-    /**
-     * @param string $tamano
-     */
-    public function setTamano(string $tamano): void
-    {
-        $this->tamano = $tamano;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDiseno(): string
-    {
-        return $this->diseno;
-    }
-
-    /**
-     * @param string $diseno
-     */
-    public function setDiseno(string $diseno): void
-    {
-        $this->diseno = $diseno;
-    }
-
-
-
     protected function save(string $query): ?bool
     {
         $arrData = [
@@ -240,10 +148,6 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
             ':nombre' =>   $this->getNombre(),
             ':stock' =>   $this->getStock(),
             ':valor' =>   $this->getValor(),
-            ':material' =>   $this->getMaterial(),
-            ':tamano' =>   $this->getTamano(),
-            ':diseno' =>   $this->getDiseno(),
-            ':descripcion' =>   $this->getDescripcion(),
             ':estado' =>   $this->getEstado(),
 
 
@@ -258,7 +162,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "INSERT INTO ornamentacion.producto VALUES (
             :IdProducto,:tipo,:nombre,
-            :stock,:valor,:material,:tamano,:diseno,:descripcion,:estado
+            :stock,:valor,:estado
         )";
         return $this->save($query);
     }
@@ -268,8 +172,6 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         $query = "UPDATE ornamentacion.producto SET 
             tipo = :tipo,
             nombre = :nombre,stock= :stock, valor = :valor,
-            material= : material,tamano = :tamano,diseno = :diseno,
-           ,descripcion = :descripcion,
             estado = :estado WHERE IdProducto = :IdProducto";
         return $this->save($query);
     }

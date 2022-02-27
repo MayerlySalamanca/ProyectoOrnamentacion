@@ -1,15 +1,15 @@
 <?php
 require("../../partials/routes.php");
-// require_once("../../partials/check_login.php");
-// require("../../../app/Controllers/CategoriasController.php");
+require_once("../../partials/check_login.php");
+require("../../../app/Controllers/ProveedoresController.php");
 
-use App\Controllers\CategoriasController;
-use App\Models\Categorias;
+use App\Controllers\ProveedoresController;
+use App\Models\Proveedor;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Categoria";
-$pluralModel = $nameModel.'s';
+$nameModel = "Proveedor";
+$pluralModel = $nameModel.'es';
 $nameForm = 'frmEdit'.$nameModel;
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
@@ -74,61 +74,56 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataCategoria = CategoriasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataCategoria Categorias */
-                                if (!empty($DataCategoria)) {
+                                $DataProveedor = ProveedoresController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataProveedor Proveedor+  */
+                                if (!empty($DataProveedor)) {
                                     ?>
                                     <div class="card-body">
                                         <!-- form start -->
                                         <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
-                                            <input id="id" name="id" value="<?= $DataCategoria->getId(); ?>"
+                                            <input id="IdProveedor" name="IdProveedor" value="<?= $DataProveedor->getIdProveedor(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                                                <label for="documento" class="col-sm-2 col-form-label">Documento</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombres"
-                                                           name="nombres" value="<?= $DataCategoria->getNombre(); ?>"
-                                                           placeholder="Ingrese el nombres">
+                                                    <input required type="number" class="form-control" id="nombres"
+                                                           name="documento" value="<?= $DataProveedor->getDocumento(); ?>"
+                                                           placeholder="Ingrese el numero del documento">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="orden" class="form-control select2bs4 select2-info"> Orden</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                                 <div class="col-sm-10">
-                                                    <select id="orden" name="orden"
-                                                            class="custom-select">
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "1") ? "selected" : ""; ?>
-                                                                value="1">Primero
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "2") ? "selected" : ""; ?>
-                                                                value="2">Segundo
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "3") ? "selected" : ""; ?>
-                                                                value="3">Tercero
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "4") ? "selected" : ""; ?>
-                                                                value="4">Cuarto
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "5") ? "selected" : ""; ?>
-                                                                value="5">Quinto
-                                                        </option>
-                                                    </select>
+                                                    <input required type="text" class="form-control" id="nombre"
+                                                           name="nombre" value="<?= $DataProveedor->getNombre(); ?>"
+                                                           placeholder="Ingrese el nombres">
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label for="ciudad" class="col-sm-2 col-form-label">Ciudad</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="text" class="form-control" id="ciudad"
+                                                           name="ciudad" value="<?= $DataProveedor->getCiudad(); ?>"
+                                                           placeholder="Ingrese el numero del telefono">
+                                                </div>
+                                            </div>
+
                                             <div class="form-group row">
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
                                                     <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataCategoria->getEstado() == "Activo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataProveedor->getEstado() == "Activo") ? "selected" : ""; ?>
                                                                 value="Activo">Activo
                                                         </option>
-                                                        <option <?= ($DataCategoria->getEstado() == "Inactivo") ? "selected" : ""; ?>
+                                                        <option <?= ($DataProveedor->getEstado() == "Inactivo") ? "selected" : ""; ?>
                                                                 value="Inactivo">Inactivo
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <hr>
                                             <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
                                             <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>

@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
-// require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Producto";
+$nameModel = "Proveedor";
 $nameForm = 'frmCreate'.$nameModel;
-$pluralModel = $nameModel.'s';
+$pluralModel = $nameModel.'es';
 $frmSession = $_SESSION[$nameForm] ?? NULL;
 ?>
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?=  $adminlteURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?=  $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
                             <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
                             <li class="breadcrumb-item active">Crear</li>
                         </ol>
@@ -72,25 +72,27 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                                        <label for="documento" class="col-sm-2 col-form-label">Docuemnto</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="number" class="form-control" id="documento" name="documento"
+                                                   placeholder="Ingrese el numero de documento" value="<?= $frmSession['documento'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="orden" class="col-sm-2 col-form-label">
-                                            Orden</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
-                                            <select id="orden" name="orden" class="form-control select2bs4 select2-info">
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "1") ? "selected" : ""; ?> value="1">Primero</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "2") ? "selected" : ""; ?> value="2">Segundo</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "3") ? "selected" : ""; ?> value="3">Tercero</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "4") ? "selected" : ""; ?> value="4">Cuarto</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "5") ? "selected" : ""; ?> value="5">Quinto</option>
-                                            </select>
+                                            <input required type="text" class="form-control" id="nombre" name="nombre"
+                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="ciudad" class="col-sm-2 col-form-label">ciudad</label>
+                                        <div class="col-sm-10">
+                                            <input required type="text" class="form-control" id="ciudad" name="ciudad"
+                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['ciudad'] ?? '' ?>">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">

@@ -152,8 +152,8 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     function update(): ?bool
     {
         $query = "UPDATE ornamentacion.proveedor SET 
-            nombre = :nombre,
-            documento = :documento, ciudad= :ciudad, estado = :estado WHERE IdProveedor = :IdProveedor";
+            nombre = :nombre,documento = :documento, 
+            ciudad= :ciudad, estado = :estado WHERE IdProveedor = :IdProveedor";
         return $this->save($query);
 
     }
@@ -175,7 +175,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 
             if (!empty($getrows)) {
                 foreach ($getrows as $valor) {
-                    $Proveedor = new Usuario($valor);
+                    $Proveedor = new Proveedor($valor);
                     array_push($arrProveedor, $Proveedor);
                     unset($Proveedor);
                 }
@@ -194,9 +194,9 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
             if ($id > 0) {
                 $tmpProveedor = new Proveedor();
                 $tmpProveedor->Connect();
-                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.usuario WHERE idProveedor =?", array($id));
+                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.proveedor WHERE idProveedor =?", array($id));
                 $tmpProveedor->Disconnect();
-                return ($getrow) ? new Usuario($getrow) : null;
+                return ($getrow) ? new Proveedor($getrow) : null;
             } else {
                 throw new Exception('Id de Proveedor Invalido');
             }
@@ -212,7 +212,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function proveedorRegistrado($documento): bool
     {
-        //$result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = " . $documento);
+
         $result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = '" . $documento."' ");
         if (!empty($result) && count($result)>0) {
             return true;
@@ -229,10 +229,10 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     /**
      * @inheritDoc
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
-            ':IdProveedor' =>    $this->getIdProveedor(),
+            ':idProveedor' =>    $this->getIdProveedor(),
             ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombre(),
             ':ciudad' =>   $this->getCiudad(),
@@ -240,4 +240,5 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 
         ];
     }
+
 }

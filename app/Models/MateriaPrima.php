@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Models;
 
+namespace App\Models;
+use App\Interfaces\Model;
 use App\Enums\Estado;
 use App\Enums\TipoMateria;
 use JetBrains\PhpStorm\Internal\TentativeType;
 
-class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
+require_once "AbstractDBConnection.php";
+require_once (__DIR__."\..\Interfaces\Model.php");
+require_once (__DIR__.'/../../vendor/autoload.php');
+
+class MateriaPrima extends AbstractDBConnection implements Model
 {
 
     private ?int $idMateria;
@@ -15,16 +20,14 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
     private int $stock;
     private Estado $estado;
 
-    public function __construct(array $Orden = [])
+    public function __construct(array $materia = [])
     {
         parent::__construct();
-        $this->setIdMateria($Orden['idMateria'] ?? null);
-        $this->setNombre($Orden['nombre'] ?? '');
-        $this->setTipo($Orden['tipo'] ?? TipoMateria::PINTURA);
-        $this->setStock($Orden['stock'] ?? 0);
-        $this->setEstado($Orden['estado'] ?? Estado::INACTIVO);
-
-
+        $this->setIdMateria($materia['idMateria'] ?? null);
+        $this->setNombre($materia['nombre'] ?? '');
+        $this->setTipo($materia['tipo'] ?? TipoMateria::PERFILES);
+        $this->setStock($materia['stock'] ?? 0);
+        $this->setEstado($materia['estado'] ?? Estado::INACTIVO);
 
     }
 
@@ -133,8 +136,7 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
             ':nombre' =>    $this->getNombre(),
             ':tipo' =>   $this->getTipo(),
             ':stock' =>  $this->getStock(),
-            ':estado' =>   $this->getEstado(),
-
+            ':estado' =>   $this->getEstado()
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -154,9 +156,9 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
     function update(): ?bool
     {
         $query = "UPDATE ornamentacion.materiaprima SET 
-           nombre = :nombre, tipo= :tipo,
-            stock= :stock,estado = :estado
-            WHERE  idMateria = : idMateria";
+            nombre = :nombre , tipo = :tipo,
+            stock= :stock ,estado = :estado
+            WHERE  idMateria = :idMateria";
         return $this->save($query);
     }
 
@@ -215,8 +217,8 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function materiaRegistrado($nombre): bool
     {
-        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
-        $result = materiaprima::search("SELECT * FROM ornamentacion.materiaprima where nombre= '" . $nombre."' ");
+
+        $result = MateriaPrima::search("SELECT * FROM ornamentacion.materiaprima where nombre= '" . $nombre."' ");
         if (!empty($result) && count($result)>0) {
             return true;
         } else {
@@ -242,23 +244,22 @@ class MateriaPrima extends AbstractDBConnection implements \App\Interfaces\Model
         return $result;
     }
 
+
     static function getAll(): ?array
     {
-        return orden::search("SELECT * FROM ornamentacion.materiaprima");
+        return MateriaPrima::search("SELECT * FROM ornamentacion.materiaprima");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize() : array
     {
         return [
-            ':idMateria' =>    $this->getIdMateria(),
-            ':nombre' =>    $this->getNombreo(),
-            ':tipo' =>   $this->getTipo(),
-            ':stock' =>  $this->getStock(),
-            ':estado' =>   $this->getEstado(),
-
+            'idMateria' => $this->getIdMateria(),
+            'nombre' => $this->getNombre(),
+            'tipo' => $this->getTipo(),
+            'stock' => $this->getStock(),
+            'estado' => $this->getEstado(),
         ];
     }
+
+
 }

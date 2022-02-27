@@ -1,5 +1,6 @@
 <?php require("partials/routes.php"); ?>
-<?php // require("partials/check_login.php"); ?>
+<?php  require("partials/check_login.php"); ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +13,6 @@
 <!-- Site wrapper -->
 <div class="wrapper">
     <?php require("partials/navbar_customization.php"); ?>
-
     <?php require("partials/sliderbar_main_menu.php"); ?>
 
     <!-- Content Wrapper. Contains page content -->
@@ -53,8 +53,7 @@
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor condimentum lacinia quis vel eros donec ac odio tempor. Vel eros donec ac odio tempor orci. Et ligula ullamcorper malesuada proin libero. Scelerisque viverra mauris in aliquam sem fringilla. Sed ullamcorper morbi tincidunt ornare. Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Aenean sed adipiscing diam donec adipiscing tristique risus nec feugiat. Mauris vitae ultricies leo integer malesuada nunc. Id nibh tortor id aliquet lectus. Orci nulla pellentesque dignissim enim sit amet venenatis urna. Enim nunc faucibus a pellentesque sit amet porttitor. Volutpat commodo sed egestas egestas. Imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor. Ac auctor augue mauris augue. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui.
                     <br>
                     <br>
-                    <center><img src="ProyectoOrnamentacion/views/public/img/OIP.jpg" width="300"
-                         height="201"></center>
+                  <center> <img src="<?= $baseURL ?>/views/public/img/soldadura.jpg" width="500" height="300" /></center>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

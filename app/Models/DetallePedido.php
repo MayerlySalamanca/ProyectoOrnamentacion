@@ -191,10 +191,10 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
     protected function save(string $query, string $type = 'insert'): ?bool
     {
         if($type == 'deleted'){
-            $arrData = [ ':id' =>   $this->getId() ];
+            $arrData = [ ':idDetallePedido' =>   $this->getIdDetallePedido() ];
         }else {
             $arrData = [
-                ':idDetallePedido' => $this->getIdDetallePedido(),
+                ':idDetallePedido' =>   $this->getIdDetallePedido(),
                 ':numeroDetallePedido' => $this->getNumeroDetallePedido(),
                 ':valor' => $this->getValor(),
                 ':cantidad' => $this->getCantidad(),
@@ -318,7 +318,13 @@ class DetallePedido extends AbstractDBConnection implements \App\Interfaces\Mode
     {
         return [
 
-
+            ':idDetallePedido' => $this->getIdDetallePedido(),
+            ':numeroDetallePedido' => $this->getNumeroDetallePedido(),
+            ':valor' => $this->getValor(),
+            ':cantidad' => $this->getCantidad(),
+            ':estado' => $this->getEstado(),
+            ':pedidosId' => $this->getPeidos()->jsonSerialize(),
+            ':materiaPrimaId' => $this->getMateriaPrima()->jsonSerialize(),
 
         ];
     }

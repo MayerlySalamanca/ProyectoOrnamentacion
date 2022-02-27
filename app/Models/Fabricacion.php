@@ -11,6 +11,8 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
 
     private ?int $idFabricacion;
     private int $numeroFabricacion;
+    private string $nombre;
+    private string $stock;
     private int $cantidad;
     private Estado $estado;
     private int $MateriaPrima_idMateria;
@@ -175,7 +177,7 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     protected function save(string $query, string $type = 'insert'): ?bool
     {
         if($type == 'deleted'){
-            $arrData = [ ':id' =>   $this->getId() ];
+            $arrData = [ ':idFabricacion' =>   $this->getIdFabricacion() ];
         }else {
             $arrData = [
                 ':idFabricacion' => $this->getIdFabricacion(),
@@ -195,7 +197,7 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
 
     function insert() : ?bool
     {
-        $query = "INSERT INTO ornamentacion.fabricacion VALUES (:idFabricacion,:numeroFabricacion,:cantidad,:estado,:MateriaPrima_idMateria,:Usuario_IdUsuario)";
+        $query = "INSERT INTO ornamentacion.fabricacion VALUES (:idFabricacion,:numeroFabricacion,:nombre,:stock,:cantidad,:estado,:MateriaPrima_idMateria,:Usuario_IdUsuario)";
         if($this->save($query)){
             return $this->getMateriaPrima()->substractStock($this->getCantidad());
         }
@@ -208,7 +210,7 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     public function update() : bool
     {
         $query = "UPDATE ornamentacion.fabricacion SET 
-            numeroFabricacion = :numeroFabricacion,cantidad = :cantidad, estado =:estado,
+            numeroFabricacion = :numeroFabricacion,nombre= :nombre,stock=:stock,cantidad = :cantidad, estado =:estado,
             MateriaPrima_idMateria = :MateriaPrima_idMateria,
             Usuario_IdUsuario = : Usuario_IdUsuario WHERE idFabricacion = :idFabricacion";
         return $this->save($query);
@@ -290,6 +292,24 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
             return false;
         }
     }
+    public function resStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() - $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
+    public function addStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() + $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
 
     static function getAll(): ?array
     {
@@ -302,7 +322,12 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     public function jsonSerialize(): mixed
     {
         return [
-
+            ':idFabricacion' => $this->getIdFabricacion(),
+            ':numeroFabricacion' => $this->getNumeroFabricacion(),
+            ':cantidad' => $this->getCantidad(),
+            ':estado' => $this->getEstado(),
+            ':MateriaPrima_idMateria' => $this->getMateriaPrima()->jsonSerialize(),
+            ':Usuario_IdUsuario' => $this-> getUsuario()->jsonSerialize(),
 
 
         ];

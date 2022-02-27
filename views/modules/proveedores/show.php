@@ -1,14 +1,14 @@
 <?php
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
-require("../../../app/Controllers/CategoriasController.php");
+require("../../../app/Controllers/ProveedoresController.php");
 
-use App\Controllers\CategoriasController;
-use App\Models\Categorias;
+use App\Controllers\ProveedoresController;
+use App\Models\Proveedor;
 use App\Models\GeneralFunctions;
 
-$nameModel = "Categoria";
-$pluralModel = $nameModel.'s';
+$nameModel = "Proveedor";
+$pluralModel = $nameModel.'es';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
 <!DOCTYPE html>
@@ -56,13 +56,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataCategoria = CategoriasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataCategoria Categorias */
-                                if (!empty($DataCategoria)) {
+                                $DataProveedor = ProveedoresController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataProveedor Proveedor */
+                                if (!empty($DataProveedor)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-box"></i> &nbsp; Ver Información
-                                            de <?= $DataCategoria->getNombre() ?? '' ?></h3>
+                                            de <?= $DataProveedor->getNombre() ?? '' ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
@@ -81,16 +81,21 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <div class="row">
                                             <div class="col-sm-10">
                                                 <p>
-                                                    <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
+                                                    <strong><i class="fas fa-book mr-1"></i> Documento</strong>
                                                 <p class="text-muted">
-                                                    <?= $DataCategoria->getNombre() ?>
+                                                    <?= $DataProveedor->getDocumento() ?>
                                                 </p>
                                                 <hr>
-                                                <strong><i class="fas fa-align-justify mr-1"></i> Descripción</strong>
-                                                <p class="text-muted"><?= $DataCategoria->getDescripcion() ?></p>
+                                                    <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
+                                                <p class="text-muted">
+                                                    <?= $DataProveedor->getNombre() ?>
+                                                </p>
+                                                <hr>
+                                                <strong><i class="fas fa-align-justify mr-1"></i> Ciudad</strong>
+                                                <p class="text-muted"><?= $DataProveedor->getCiudad() ?></p>
                                                 <hr>
                                                 <strong><i class="far fa-file-alt mr-1"></i> Estado</strong>
-                                                <p class="text-muted"><?= $DataCategoria->getEstado() ?></p>
+                                                <p class="text-muted"><?= $DataProveedor->getEstado() ?></p>
                                                 </p>
                                             </div>
                                         </div>
@@ -104,7 +109,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </a>
                                             </div>
                                             <div class="col-auto">
-                                                <a role="button" href="edit.php?id=<?= $DataCategoria->getId(); ?>" class="btn btn-primary float-right"
+                                                <a role="button" href="edit.php?id=<?= $DataProveedor->getIdProveedor(); ?>" class="btn btn-primary float-right"
                                                    style="margin-right: 5px;">
                                                     <i class="fas fa-edit"></i> Editar <?= $nameModel ?>
                                                 </a>

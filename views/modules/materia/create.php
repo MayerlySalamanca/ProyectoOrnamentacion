@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
-// require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Materias Primas";
+$nameModel = "Materia";
 $nameForm = 'frmCreate'.$nameModel;
-$pluralModel = $nameModel.' ';
+$pluralModel = $nameModel.'s';
 $frmSession = $_SESSION[$nameForm] ?? NULL;
 ?>
 <!DOCTYPE html>
@@ -35,7 +35,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?=  $adminlteURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?=  $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
                             <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
                             <li class="breadcrumb-item active">Crear</li>
                         </ol>
@@ -70,35 +70,33 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
-
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                                   placeholder="Ingrese" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="Tipo" class="col-sm-2 col-form-label">Tipo</label>
+                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                                         <div class="col-sm-10">
-                                            <select required id="estado" name="estado" class="custom-select">
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Varilla") ? "selected" : ""; ?> value="Varilla">Varilla</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Perfiles") ? "selected" : ""; ?> value="Perfiles">Perfiles</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Marco") ? "selected" : ""; ?> value="Marco">Marco</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Diviciones") ? "selected" : ""; ?> value="Diviciones">Diviciones</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Angulo") ? "selected" : ""; ?> value="Angulo">Angulo</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Pintura") ? "selected" : ""; ?> value="Pintura">Pintura</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Anticorrosivo") ? "selected" : ""; ?> value="Anticorrosivo">Anticorrosivo</option>
-                                                <option <?= ( !empty($frmSession['Tipo']) && $frmSession['Tipo'] == "Lija") ? "selected" : ""; ?> value="Lija">Lija</option>
-
+                                            <select required id="tipo" name="tipo" class="custom-select">
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Varilla") ? "selected" : ""; ?> value="Varilla">Varilla</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Perfiles") ? "selected" : ""; ?> value="Perfiles">Perfiles</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Marco") ? "selected" : ""; ?> value="Marco">Marco</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Divisiones") ? "selected" : ""; ?> value="Divisiones">Divisiones</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Angulo") ? "selected" : ""; ?> value="Angulo">Angulo</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Pintura") ? "selected" : ""; ?> value="Pintura">Pintura</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Anticorrosivo") ? "selected" : ""; ?> value="Anticorrosivo">Anticorrosivo</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Lija") ? "selected" : ""; ?> value="Lija">Lija</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Stock</label>
+                                        <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
+                                            <input required type="number" class="form-control" id="stock" name="stock"
+                                                   placeholder="Ingrese" value="<?= $frmSession['stock'] ?? '' ?>">
                                         </div>
                                     </div>
 

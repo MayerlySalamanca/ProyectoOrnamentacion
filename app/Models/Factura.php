@@ -15,7 +15,8 @@ class Factura extends AbstractDBConnection implements \App\Interfaces\Model
     private Carbon $fecha;
     private EstadoFactura $estado;
     private int $valor;
-    private int  $usuarioVendedor;
+
+    private ?Usuario  $Vendedor;
 
     public function __construct(array $Factura = [])
     {
@@ -27,7 +28,7 @@ class Factura extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setFecha(!empty($Factura['fecha']) ? Carbon::parse($Factura['fecha']) : new Carbon());
         $this->setEstado($Factura['estado'] ?? EstadoFactura::PROCESO);
         $this->setValor($Factura['valor'] ?? 0);
-        $this->setUsuarioVendedor($Factura['usuarioVendedor'] ?? 0);
+
 
 
     }
@@ -156,20 +157,21 @@ public function setNumeroFactura(int $numeroFactura): void
     }
 
     /**
-     * @return int
+     * @return Usuario|null
      */
-    public function getUsuarioVendedor(): int
+    public function getVendedor(): ?Usuario
     {
-        return $this->usuarioVendedor;
+        if(!empty($this->empleado_id)){
+            $this->empleado = Usuarios::searchForId($this->empleado_id) ?? new Usuarios();
+            return $this->empleado;
+        }
+        return NULL;
     }
 
     /**
-     * @param int $usuarioVendedor
+     * @return int
      */
-    public function setUsuarioVendedor(int $usuarioVendedor): void
-    {
-        $this->usuarioVendedor = $usuarioVendedor;
-    }
+
 
 
     /**
@@ -187,7 +189,7 @@ public function setNumeroFactura(int $numeroFactura): void
             ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ':estado' =>   $this->getEstado(),
             ':valor' =>   $this->getValor(),
-            ':usuarioVendedor' =>   $this->getUsuarioVendedor(),
+
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -199,7 +201,7 @@ public function setNumeroFactura(int $numeroFactura): void
     {
         $query = "INSERT INTO ornamentacion.factura VALUES (
             :IdFactura,:numeroFactura,:nombreCliente,:cantidad,
-            :fecha,:estado,:valor,:usuarioVendedor
+            :fecha,:estado,:valor
         )";
         return $this->save($query);
     }
@@ -208,7 +210,7 @@ public function setNumeroFactura(int $numeroFactura): void
     {
         $query = "UPDATE ornamentacion.factura SET 
             numeroFactura = :numeroFactura,nombreCliente=: nombreCliente,cantidad = :cantidad, fecha= :fecha,
-            estado = :estado,valor = :valor,usuarioVendedor = :usuarioVendedor,
+            estado = :estado,valor = :valor
             WHERE IdFactura = :IdFactura";
         return $this->save($query);
     }
@@ -274,6 +276,11 @@ public function setNumeroFactura(int $numeroFactura): void
             return false;
         }
     }
+    public function __toString() : string
+    {
+        return "numeroFactura: $this->numero_serie, Vendedor: ".$this->getVendedor()->getNombres().", Fecha Venta: $this->fecha->toDateTimeString(), Monto: $this->valor, Estado: $this->estado";
+    }
+
 
     static function getAll(): ?array
     {
@@ -286,7 +293,14 @@ public function setNumeroFactura(int $numeroFactura): void
     public function jsonSerialize(): mixed
     {
         return [
-
+            ':IdFactura' =>    $this->getIdFactura(),
+            ':numeroFactura' =>    $this->getNumeroFactura(),
+            ':nombreCliente' =>    $this->getNombreCliente(),
+            ':cantidad' =>   $this->getCantidad(),
+            ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':estado' =>   $this->getEstado(),
+            ':valor' =>   $this->getValor(),
+            ':usuarioVendedor' =>   $this->getVendedor()->jsonSerialize(),
 
 
         ];

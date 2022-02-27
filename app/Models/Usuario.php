@@ -18,7 +18,7 @@ class Usuario extends AbstractDBConnection implements Model
 {
 
 
-    private ?int $idUsuario;
+    private ? int $idUsuario;
     private int $documento;
     private string $nombres;
     private String $telefono;
@@ -48,7 +48,7 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setNombres($usuario['nombre'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setRoll($usuario['roll'] ?? Roll::PROVEEDOR);
+        $this->setRoll($usuario['roll'] ?? Roll::ADMINISTRADOR);
         $this->setUsuario($usuario['usuario'] ?? '');
         $this->setContrasena($usuario['contrasena'] ?? '');
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
@@ -169,7 +169,7 @@ class Usuario extends AbstractDBConnection implements Model
     }
 
     /**
-     * @param string|Roll|null $roll
+     * @param Roll $roll
      */
     public function setRoll(null|string|Roll $roll): void
     {
@@ -180,6 +180,8 @@ class Usuario extends AbstractDBConnection implements Model
             $this->roll = $roll;
         }
     }
+
+
 
     /**
      * @return string|null
@@ -227,7 +229,7 @@ class Usuario extends AbstractDBConnection implements Model
         $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
 
         $arrData = [
-            ':IdUsuario' =>    $this->getIdUsuario(),
+            ':idUsuario' =>    $this->getIdUsuario(),
             ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombres(),
             ':telefono' =>   $this->getTelefono(),
@@ -250,7 +252,7 @@ class Usuario extends AbstractDBConnection implements Model
     public function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.usuario VALUES (
-            :IdUsuario,:documento,:nombre,
+            :idUsuario,:documento,:nombre,
             :telefono,:direccion,:roll,:usuario,
             :contrasena,:estado
         )";
@@ -265,7 +267,7 @@ class Usuario extends AbstractDBConnection implements Model
         $query = "UPDATE ornamentacion.usuario SET 
             
             documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
-            contrasena = :contrasena, estado = :estado WHERE IdUsuario = :IdUsuario";
+            contrasena = :contrasena, estado = :estado WHERE idUsuario = :idUsuario";
         return $this->save($query);
     }
 
@@ -367,21 +369,21 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function __toString(): string
     {
-        return "Nombres: $this->nombres, 
+        return "Nombre: $this->nombres, 
                 Documento: $this->documento, 
                 Telefono: $this->telefono, 
                 Direccion: $this->direccion, 
                 ";
     }
 
-    public function login($user, $password): Usuario|String|null
+    public function login($usuario, $password): Usuario|String|null
     {
 
         try {
-            $resultUsuario = Usuario::search("SELECT * FROM usuario WHERE user = '$user'");
+            $resultUsuario = Usuario::search("SELECT * FROM ornamentacion.usuario WHERE usuario = '$usuario'");
             /* @var $resultUsuario Usuario[] */
             if (!empty($resultUsuario) && count($resultUsuario) >= 1) {
-                if (password_verify($password, $resultUsuario[0]->getPassword())) {
+                if (password_verify($password, $resultUsuario[0]->getContrasena())) {
                     if ($resultUsuario[0]->getEstado() == 'Activo') {
                         return $resultUsuario[0];
                     } else {
@@ -409,15 +411,14 @@ class Usuario extends AbstractDBConnection implements Model
     public function jsonSerialize(): array
     {
         return [
-            ':IdUsuario' =>    $this->getIdUsuario(),
-            ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombres(),
+            ':idUsuario' => $this->getIdUsuario(),
+            ':documento' => $this->getDocumento(),
+            ':nombre' =>  $this->getNombres(),
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
             ':roll' =>   $this->getRoll(),
             ':contrasena'=> $this-> getContrasena() ,
-            ':estado' =>   $this->getEstado(),
-
+            ':estado' =>   $this->getEstado()
         ];
     }
 

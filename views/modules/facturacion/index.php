@@ -1,20 +1,21 @@
 <?php
-require_once("../../../app/Controllers/CategoriasController.php");
+require_once("../../../app/Controllers/FacturasController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\CategoriasController;
+use App\Controllers\FacturasController;
 use App\Models\GeneralFunctions;
-use App\Models\Categorias;
+use App\Models\Ventas;
 
-$nameModel = "Categoria";
+$nameModel = "Venta";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $plcategoría ?></title>
+    <title><?= $_ENV['TITLE_SITE'] ?> | Gestión de <?= $pluralModel ?></title>
     <?php require("../../partials/head_imports.php"); ?>
     <!-- DataTables -->
     <link rel="stylesheet" href="<?= $adminlteURL ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
@@ -58,7 +59,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Default box -->
                         <div class="card card-dark">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-boxes"></i> &nbsp; Gestionar <?= $pluralModel ?></h3>
+                                <h3 class="card-title"><i class="fas fa-shopping-cart"></i> &nbsp; Gestionar <?= $pluralModel ?></h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="index.php" data-source-selector="#card-refresh-content"
@@ -85,49 +86,46 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </div>
                                 <div class="row">
                                     <div class="col">
-                                        <table id="tbl<?= $pluralModel ?>" class="datatable table table-bordered table-striped">
+                                        <table id="tbl<?= $nameModel ?>" class="datatable table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombres</th>
-                                                <th>Descripción</th>
+                                                <th>Numero</th>
+                                                <th>Cliente</th>
+                                                <th>Empleado</th>
+                                                <th>Fecha Venta</th>
+                                                <th>Monto</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrCategorias = CategoriasController::getAll();
-                                            /* @var $arrCategorias Categorias[] */
-                                            foreach ($arrCategorias as $categoria) {
+                                            $arrVentas = FacturasController::getAll();
+                                            /* @var $arrVentas Ventas[] */
+                                            foreach ($arrVentas as $venta) {
                                                 ?>
                                                 <tr>
-                                                    <td><?= $categoria->getId(); ?></td>
-                                                    <td><?= $categoria->getNombre(); ?></td>
-                                                    <td><?= $categoria->getDescripcion(); ?></td>
-                                                    <td><?= $categoria->getEstado(); ?></td>
+                                                    <td><?= $venta->getId(); ?></td>
+                                                    <td><?= $venta->getNumeroSerie(); ?></td>
+                                                    <td><?= $venta->getCliente()->getNombres(); ?> <?= $venta->getCliente()->getApellidos(); ?></td>
+                                                    <td><?= $venta->getEmpleado()->getNombres(); ?> <?= $venta->getEmpleado()->getApellidos(); ?></td>
+                                                    <td><?= $venta->getFechaVenta(); ?></td>
+                                                    <td><?= GeneralFunctions::formatCurrency($venta->getMonto()); ?></td>
+                                                    <td><?= $venta->getEstado(); ?></td>
                                                     <td>
-                                                        <a href="edit.php?id=<?= $categoria->getId(); ?>"
-                                                           type="button" data-toggle="tooltip" title="Actualizar"
-                                                           class="btn docs-tooltip btn-primary btn-xs"><i
-                                                                    class="fa fa-edit"></i></a>
-                                                        <a href="show.php?id=<?= $categoria->getId(); ?>"
+                                                        <a href="show.php?id=<?php echo $venta->getId(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>
-                                                        <a href="../productos/index.php?idCategoria=<?= $categoria->getId(); ?>"
-                                                           type="button" data-toggle="tooltip" title="Ver Productos"
-                                                           class="btn docs-tooltip btn-success btn-xs"><i
-                                                                    class="fa fa-sitemap"></i></a>
-                                                        <?php if ($categoria->getEstado() != "Activo") { ?>
-                                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $categoria->getId(); ?>"
-                                                               type="button" data-toggle="tooltip" title="Activar"
+                                                        <?php if ($venta->getEstado() == "En progreso") { ?>
+                                                            <a href="create.php?id=<?php echo $venta->getId(); ?>"
+                                                               type="button" data-toggle="tooltip" title="Retomar"
                                                                class="btn docs-tooltip btn-success btn-xs"><i
-                                                                        class="fa fa-check-square"></i></a>
-                                                        <?php } else { ?>
+                                                                        class="fa fa-undo-alt"></i></a>
                                                             <a type="button"
-                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=inactivate&id=<?= $categoria->getId(); ?>"
-                                                               data-toggle="tooltip" title="Inactivar"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=cancel&Id=<?= $venta->getId(); ?>"
+                                                               data-toggle="tooltip" title="Cancelar"
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>
                                                         <?php } ?>
@@ -139,8 +137,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombres</th>
-                                                <th>Descripción</th>
+                                                <th>Numero</th>
+                                                <th>Cliente</th>
+                                                <th>Empleado</th>
+                                                <th>Fecha Venta</th>
+                                                <th>Monto</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -159,6 +160,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                     </div>
                 </div>
             </div>
+
+
         </section>
         <!-- /.content -->
     </div>
@@ -170,5 +173,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <?php require('../../partials/scripts.php'); ?>
 <!-- Scripts requeridos para las datatables -->
 <?php require('../../partials/datatables_scripts.php'); ?>
+
 </body>
 </html>

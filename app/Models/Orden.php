@@ -10,7 +10,7 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
 {
 
     private ?int  $idOrdenCompra;
-    private int $fabricacionId;
+    private int $Fabricacion_idFabricacion;
     private int $Factura_IdFactura;
     private int $Producto_IdProducto;
     private int $cantidad;
@@ -23,9 +23,9 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
         parent::__construct();
         $this->setIdOrdenCompra($Orden['idOrdenCompra'] ?? null);
         $this->setCantidad($Orden['cantidad'] ?? 0);
-        $this->setFabricacionId($Orden['fabricacionId'] ?? 0);
         $this->setFacturaIdFactura($Orden['Factura_IdFactura'] ?? 0);
         $this->setProductoIdProducto($Orden['Producto_IdProducto'] ?? 0);
+        $this->setFabricacionIdFabricacion($Orden['Fabricacion_idFabricacion'] ?? 0);
 
 
 
@@ -37,6 +37,22 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
         if ($this->isConnected()) {
             $this->Disconnect();
         }
+    }
+
+    /**
+     * @return int
+     */
+    public function getFabricacionIdFabricacion(): int
+    {
+        return $this->Fabricacion_idFabricacion;
+    }
+
+    /**
+     * @param int $Fabricacion_idFabricacion
+     */
+    public function setFabricacionIdFabricacion(int $Fabricacion_idFabricacion): void
+    {
+        $this->Fabricacion_idFabricacion = $Fabricacion_idFabricacion;
     }
 
     /**
@@ -126,7 +142,7 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
      * Retorna el objeto venta correspondiente al detalle venta
      * @return Ventas|null
      */
-    public function getVenta(): ?Factura
+    public function getFactura(): ?Factura
     {
         if(!empty($this->Factura_IdFactura)){
             $this->factura = factura::searchForId($this->Factura_IdFactura) ?? new Factura();
@@ -156,9 +172,10 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
             $arrData = [
                 ':idOrdenCompra' => $this->getIdOrdenCompra(),
                 ':cantidad' => $this->getCantidad(),
-                ':fabricacionId' => $this->getFabricacionId(),
-                ':Factura_IdFacturae' => $this->getFacturaIdFactura(),
+                ':Factura_IdFactura' => $this->getFacturaIdFactura(),
                 ':Producto_IdProducto' => $this->getProductoIdProducto(),
+                ':Fabricacion_idFabricacion' => $this->getFabricacionIdFabricacion(),
+
 
 
             ];
@@ -185,7 +202,7 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "UPDATE ornamentacion.ordencompra SET 
             cantidad = :cantidad, 
-            fabricacionId = :fabricacionId, Factura_IdFactura = :Factura_IdFactura,
+            Factura_IdFactura = :Factura_IdFactura,
             Producto_IdProducto = : Producto_IdProducto WHERE idOrdenCompra = :idOrdenCompra";
         return $this->save($query);
     }
@@ -286,8 +303,8 @@ class Orden extends AbstractDBConnection implements \App\Interfaces\Model
         return [
             ':idOrdenCompra' =>    $this->getIdOrdenCompra(),
             ':fabricacionId' =>    $this-> getFabricacionId(),
-            ':Factura_IdFacturae' =>   $this->getFacturaIdFactura(),
-            ':Producto_IdProducto' =>  $this->getProductoIdProducto(),
+            ':Factura_IdFacturae' =>   $this->getFactura()->jsonSerialize(),
+            ':Producto_IdProducto' =>  $this->getProducto()->jsonSerialize(),
             ':estado' =>   $this->getEstado(),
 
 

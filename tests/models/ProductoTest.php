@@ -16,17 +16,13 @@ class ProductoTest extends TestCase
             [   'IdProducto' => null,
                 'tipo' =>Tipo::PRODUCTO,
                 'nombre' => 'perra',
-                'cantidad' => 2,
+                'stock' => 2,
                 'valor' => 12000,
-                'material' => 'hierro',
-                'tamano' => '18cm x 30cm',
-                'diseno' => 'flores rejadas',
-                'descripcion' => 'que hacen',
                 'estado' => Estado::ACTIVO]
         );
 
         $Producto->insert();
-        $this->assertSame(true, $Producto->productoRegistrado('Puerta'));
+        $this->assertSame(true, $Producto->productoRegistrado('perra'));
     }
 
 }

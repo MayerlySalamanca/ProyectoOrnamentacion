@@ -1,7 +1,6 @@
 <?php
 require("../../partials/routes.php");
 // require_once("../../partials/check_login.php");
-
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -35,7 +34,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="<?=  $adminlteURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?=  $baseURL; ?>/views/"><?= $_ENV['ALIASE_SITE'] ?></a></li>
                             <li class="breadcrumb-item"><a href="index.php"><?= $pluralModel ?></a></li>
                             <li class="breadcrumb-item active">Crear</li>
                         </ol>
@@ -72,25 +71,39 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo de producto</label>
                                         <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="nombres" name="nombres"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombres'] ?? '' ?>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="orden" class="col-sm-2 col-form-label">
-                                            Orden</label>
-                                        <div class="col-sm-10">
-                                            <select id="orden" name="orden" class="form-control select2bs4 select2-info">
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "1") ? "selected" : ""; ?> value="1">Primero</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "2") ? "selected" : ""; ?> value="2">Segundo</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "3") ? "selected" : ""; ?> value="3">Tercero</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "4") ? "selected" : ""; ?> value="4">Cuarto</option>
-                                                <option <?= (!empty($frmSession['orden']) && $frmSession['orden'] == "5") ? "selected" : ""; ?> value="5">Quinto</option>
+                                            <select required id="tipo" name="tipo" class="custom-select">
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Fabricacion") ? "selected" : ""; ?> value="Fabricacion">Fabricación</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Instalacion") ? "selected" : ""; ?> value="Instalacion">Instalación</option>
+                                                <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Producto") ? "selected" : ""; ?> value="Producto">Producto</option>
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
+                                        <div class="col-sm-10">
+                                            <input required type="text" class="form-control" id="nombre" name="nombre"
+                                                   placeholder="Ingrese" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                    <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                                    <div class="col-sm-10">
+                                        <input required type="number" class="form-control" id="stock" name="stock"
+                                               placeholder="Ingrese la cantidad" value="<?= $frmSession['stock'] ?? '' ?>">
+                                    </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="valor" class="col-sm-2 col-form-label">Precio</label>
+                                        <div class="col-sm-10">
+                                            <input required type="number" class="form-control" id="valor" name="valor"
+                                                   placeholder="Ingrese el precio" value="<?= $frmSession['valor'] ?? '' ?>">
+                                        </div>
+                                    </div>
+
                                     <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
