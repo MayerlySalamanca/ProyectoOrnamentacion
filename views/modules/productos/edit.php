@@ -52,7 +52,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
         <section class="content">
             <!-- Generar Mensajes de alerta -->
             <?= (!empty($_GET['respuesta'])) ? GeneralFunctions::getAlertDialog($_GET['respuesta'], $_GET['mensaje']) : ""; ?>
-            <?= (empty($_GET['IdProducto'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
+            <?= (empty($_GET['id'])) ? GeneralFunctions::getAlertDialog('error', 'Faltan Criterios de Búsqueda') : ""; ?>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
@@ -71,10 +71,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </div>
                             </div>
                             <!-- /.card-header -->
-                            <?php if (!empty($_GET["IdProducto"]) && isset($_GET["IdProducto"])) { ?>
+                            <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $Producto = ProductosController::searchForID(["IdProducto" => $_GET["IdProducto"]]);
+                                $Producto = ProductosController::searchForID(["id" => $_GET["id"]]);
                                 /* @var $Producto Producto */
                                 if (!empty($Producto)) {
                                     ?>
@@ -85,7 +85,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <input id="IdProducto" name="IdProducto" value="<?= $Producto->getIdProducto(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+                                                <label for="tipo" class="col-sm-2 col-form-label">Tipo Producto</label>
                                                 <div class="col-sm-10">
                                                     <select id="tipo" name="tipo" class="custom-select">
                                                         <option <?= ($Producto->getTipo() == "Fabricacion") ? "selected" : ""; ?>
@@ -113,63 +113,62 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <div class="col-sm-10">
                                                     <input required type="number" class="form-control" id="stock"
                                                            name="stock" value="<?= $Producto->getStock(); ?>"
-                                                           placeholder="Ingrese la cantidad>
+                                                           placeholder="Ingrese la cantidad">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                     <label for="valor" class="col-sm-2 col-form-label">valor</label>
                                                     <div class="col-sm-10">
                                                         <input required type="number" class="form-control" id="valor"
-                                                               name="valor" value="<?= $Producto->getStock(); ?>"
-                                                               placeholder="Ingrese el valor>
+                                                               name="valor" value="<?= $Producto->getValor(); ?>"
+                                                               placeholder="Ingrese el valor">
                                                 </div>
                                             </div>
 
+                            <div class="form-group row">
+                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <select id="estado" name="estado" class="custom-select">
+                                        <option <?= ($Producto->getEstado() == "Activo") ? "selected" : ""; ?>
+                                                value="Activo">Activo
+                                        </option>
+                                        <option <?= ($Producto->getEstado() == "Inactivo") ? "selected" : ""; ?>
+                                                value="Inactivo">Inactivo
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
 
-                                            </div>
-                                            <div class="form-group row">
-                                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
-                                                <div class="col-sm-10">
-                                                    <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($Producto->getEstado() == "Activo") ? "selected" : ""; ?>
-                                                                value="Activo">Activo
-                                                        </option>
-                                                        <option <?= ($Producto->getEstado() == "Inactivo") ? "selected" : ""; ?>
-                                                                value="Inactivo">Inactivo
-                                                        </option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
-                                            <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
-                                        </form>
-                                    </div>
-                                    <!-- /.card-body -->
-
-                                <?php } else { ?>
-                                    <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button>
-                                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                                        No se encontro ningun registro con estos parametros de
-                                        busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                                    </div>
-                                <?php } ?>
-                                </p>
-                            <?php } ?>
+                            <hr>
+                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
+                            <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
+                            </form>
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
+
+                        <?php } else { ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                No se encontro ningun registro con estos parametros de
+                                busqueda <?= ($_GET['mensaje']) ?? "" ?>
+                            </div>
+                        <?php } ?>
+                        </p>
+                        <?php } ?>
                     </div>
+                    <!-- /.card -->
                 </div>
             </div>
-        </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-    <?php require('../../partials/footer.php'); ?>
+<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

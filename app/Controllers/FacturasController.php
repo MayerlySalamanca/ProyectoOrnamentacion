@@ -6,7 +6,7 @@ require (__DIR__.'/../../vendor/autoload.php');
 
 use App\Models\Factura;
 use App\Models\GeneralFunctions;
-use App\Models\Ventas;
+use App\Models\Factura;
 use Carbon\Carbon;
 
 class FacturasController{

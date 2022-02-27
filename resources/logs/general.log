@@ -3333,3 +3333,181 @@
 
 )
   
+[2022-02-27T15:23:02.043141+00:00] General.ERROR: Exception  
+[2022-02-27T15:23:02.055647+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-27T15:23:02.056009+00:00] General.ERROR: Line: 38  
+[2022-02-27T15:23:02.056278+00:00] General.ERROR: Mensaje: SQLSTATE[HY000] [1049] Unknown database 'ornamentacion'  
+[2022-02-27T15:23:02.056818+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 38
+            [function] => __construct
+            [class] => PDO
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => mysql:host=127.0.0.1;port=3306;dbname=ornamentacion;charset=utf8
+                    [1] => ornamentacion
+                    [2] => ornamentacion1
+                    [3] => Array
+                        (
+                            [1002] => SET NAMES utf8
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 191
+            [function] => Connect
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 245
+            [function] => search
+            [class] => App\Models\Producto
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.producto
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 77
+            [function] => getAll
+            [class] => App\Models\Producto
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\productos\index.php
+            [line] => 108
+            [function] => getAll
+            [class] => App\Controllers\ProductosController
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-27T15:24:14.288612+00:00] General.ERROR: Exception  
+[2022-02-27T15:24:14.289209+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-27T15:24:14.289450+00:00] General.ERROR: Line: 122  
+[2022-02-27T15:24:14.289677+00:00] General.ERROR: Mensaje: SQLSTATE[22001]: String data, right truncated: 1406 Data too long for column 'direccion' at row 1  
+[2022-02-27T15:24:14.290072+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Usuario.php
+            [line] => 244
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.usuario VALUES (
+            :idUsuario,:documento,:nombre,
+            :telefono,:direccion,:roll,:usuario,
+            :contrasena,:estado
+        )
+                    [1] => Array
+                        (
+                            [:idUsuario] => 
+                            [:documento] => 1007568396
+                            [:nombre] => Dilan Galeano
+                            [:telefono] => 3227247325
+                            [:direccion] => Crr 4 # 4-68
+                            [:roll] => Administrador
+                            [:usuario] => Dil7
+                            [:contrasena] => $2y$10$8g02EBBQ09QCvkQCWGsfZe.zg1ookutSY3yn55EIppiVYjEYEqa4O
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Usuario.php
+            [line] => 259
+            [function] => save
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.usuario VALUES (
+            :idUsuario,:documento,:nombre,
+            :telefono,:direccion,:roll,:usuario,
+            :contrasena,:estado
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\UsuariosController.php
+            [line] => 36
+            [function] => insert
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\UsuariosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

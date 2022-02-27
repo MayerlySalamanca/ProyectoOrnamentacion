@@ -5,7 +5,7 @@ require_once("../../partials/check_login.php");
 
 use App\Controllers\FacturasController;
 use App\Models\GeneralFunctions;
-use App\Models\Ventas;
+use App\Models\Factura;
 
 $nameModel = "Venta";
 $pluralModel = $nameModel.'s';
@@ -102,7 +102,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tbody>
                                             <?php
                                             $arrVentas = FacturasController::getAll();
-                                            /* @var $arrVentas Ventas[] */
+                                            /* @var $arrVentas Factura[] */
                                             foreach ($arrVentas as $venta) {
                                                 ?>
                                                 <tr>

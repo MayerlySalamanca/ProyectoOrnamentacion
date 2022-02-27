@@ -5,6 +5,8 @@ namespace App\Controllers;
 require (__DIR__.'/../../vendor/autoload.php');
 
 use App\Enums\Estado;
+use App\Enums\Tipo;
+use App\Enums\TipoMateria;
 use App\Models\GeneralFunctions;
 use App\Models\Producto;
 
@@ -16,17 +18,17 @@ class ProductosController{
     public function __construct(array $_FORM)
     {
         $this->dataProducto = array();
-        $this->dataProducto['IdProducto'] = $_FORM['IdProducto'] ?? NULL;
-        $this->dataProducto['tipo'] = $_FORM['tipo'] ?? 'Producto';
+        $this->dataProducto['idProducto'] = $_FORM['idProducto'] ?? NULL;
+        $this->dataProducto['tipo'] = $_FORM['tipo'] ?? Tipo::PRODUCTO;
         $this->dataProducto['nombre'] = $_FORM['nombre'] ?? NULL;
-        $this->dataProducto['stock'] = $_FORM['stock'] ?? NULL;
-        $this->dataProducto['valor'] = $_FORM['valor'] ?? NULL;
+        $this->dataProducto['stock'] = $_FORM['stock'] ?? 0;
+        $this->dataProducto['valor'] = $_FORM['valor'] ?? 0;
         $this->dataProducto['estado'] = $_FORM['estado'] ?? Estado::INACTIVO;
     }
 
     public function create($withFiles = null) {
         try {
-            if (!empty($this->dataProducto['nombre']) && !Producto::productoRegistrado($this->dataCategoria['nombre'])) {
+            if (!empty($this->dataProducto['nombre']) && !Producto::productoRegistrado($this->dataProducto['nombre'])) {
                 $Producto = new Producto($this->dataProducto);
                 if ($Producto->insert()) {
                     unset($_SESSION['frmCategorias']);
@@ -54,7 +56,9 @@ class ProductosController{
         }
     }
 
-    static public function searchForID (array $data){
+    static public function searchForID(array $data)
+    {
+
         try {
             $result = Producto::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
@@ -96,9 +100,9 @@ class ProductosController{
         }
     }
 
-    static public function inactivate (int $IdProducto){
+    static public function inactivate (int $idProducto){
         try {
-            $ObjProducto = Producto::searchForId($IdProducto);
+            $ObjProducto = Producto::searchForId($idProducto);
             $ObjProducto->setEstado("Inactivo");
             if($ObjProducto->update()){
                 header("Location: ../../views/modules/productos/index.php");
@@ -135,17 +139,17 @@ class ProductosController{
         if(is_array($arrProducto) && count($arrProducto) > 0){
             /* @var $arrProducto Producto[] */
             foreach ($arrProducto as $producto)
-                if (!ProveedoresController::productoIsInArray($producto->getIdProducto(),$params['arrExcluir']))
+                if (!ProductosController::productoIsInArray($producto->getIdProducto(),$params['arrExcluir']))
                     $htmlSelect .= "<option ".(($producto != "") ? (($params['defaultValue'] == $producto->getIdProducto()) ? "selected" : "" ) : "")." value='".$producto->getIdProducto()."'>".$producto->getNombre()."</option>";
         }
         $htmlSelect .= "</select>";
         return $htmlSelect;
     }
 
-    public static function productoIsInArray($IdProducto, $ArrProducto){
+    public static function productoIsInArray($idProducto, $ArrProducto){
         if(count($ArrProducto) > 0){
             foreach ($ArrProducto as $Producto){
-                if($Producto->getId() == $IdProducto){
+                if($Producto->getIdProducto() == $idProducto){
                     return true;
                 }
             }

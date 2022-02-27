@@ -4,7 +4,7 @@ require("../../partials/routes.php");
 require("../../../app/Controllers/UsuariosController.php");
 
 use App\Controllers\FacturasController;
-use App\Models\Ventas;
+use App\Models\Factura;
 use App\Models\GeneralFunctions;
 
 $nameModel = "Usuario";
@@ -57,7 +57,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
                                 $DataVentas = FacturasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataVentas Ventas */
+                                /* @var $DataVentas Factura */
                                 if (!empty($DataVentas)) {
                                     ?>
                                     <div class="card-header">

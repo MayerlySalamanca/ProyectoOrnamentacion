@@ -1,10 +1,10 @@
 <?php
 require("../../partials/routes.php");
-//require_once("../../partials/check_login.php");
+require_once("../../partials/check_login.php");
 require("../../../app/Controllers/ProductosController.php");
 
 use App\Controllers\ProductosController;
-use \App\Models\Producto ;
+use App\Models\Producto;
 use App\Models\GeneralFunctions;
 
 $nameModel = "Producto";
@@ -60,7 +60,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 /* @var $DataProducto Producto */
                                 if (!empty($DataProducto)) {
                                     ?>
-                                    <div class="card-header">
+                                   <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-box"></i> &nbsp; Ver Información
                                             de <?= $DataProducto->getNombre() ?? '' ?></h3>
                                         <div class="card-tools">
@@ -84,7 +84,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <strong><i class="far fa-file-alt mr-1"></i> Tipo</strong>
                                                 <p class="text-muted"><?= $DataProducto->getTipo() ?></p>
                                                 <hr>
-                                                    <strong><i class="fas fa-book mr-1"></i> Nombres</strong>
+                                                <strong><i class="fas fa-book mr-1"></i> Nombres</strong>
                                                 <p class="text-muted">
                                                     <?= $DataProducto->getNombre() ?>
                                                 </p>

@@ -6,6 +6,7 @@ use App\Enums\Estado;
 use App\Enums\Tipo;
 use JetBrains\PhpStorm\Internal\TentativeType;
 
+
 class Producto extends AbstractDBConnection implements \App\Interfaces\Model
 {
      private ?int  $IdProducto;
@@ -143,7 +144,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     protected function save(string $query): ?bool
     {
         $arrData = [
-            ':IdProducto' =>    $this->getIdProducto(),
+            ':idProducto' =>    $this->getIdProducto(),
             ':tipo' =>   $this->getTipo(),
             ':nombre' =>   $this->getNombre(),
             ':stock' =>   $this->getStock(),
@@ -161,7 +162,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.producto VALUES (
-            :IdProducto,:tipo,:nombre,
+            :idProducto,:tipo,:nombre,
             :stock,:valor,:estado
         )";
         return $this->save($query);
@@ -172,7 +173,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         $query = "UPDATE ornamentacion.producto SET 
             tipo = :tipo,
             nombre = :nombre,stock= :stock, valor = :valor,
-            estado = :estado WHERE IdProducto = :IdProducto";
+            estado = :estado WHERE idProducto = :idProducto";
         return $this->save($query);
     }
 
@@ -206,23 +207,24 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
         return null;
     }
 
-    static function searchForId(int $id): ?Producto
+    static function searchForId(int $id): ?object
     {
         try {
             if ($id > 0) {
-                $tmpProducto = new Producto();
-                $tmpProducto->Connect();
-                $getrow = $tmpProducto->getRow("SELECT * FROM ornamentacion.producto WHERE IdProducto =?", array($id));
-                $tmpProducto->Disconnect();
+                $tmProducto = new Producto();
+                $tmProducto->Connect();
+                $getrow = $tmProducto->getRow("SELECT * FROM ornamentacion.producto WHERE idProducto =?", array($id));
+                $tmProducto->Disconnect();
                 return ($getrow) ? new Producto($getrow) : null;
             } else {
-                throw new Exception('Id de Producto Invalido');
+                throw new Exception('Id de Producto invalido');
             }
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
+
     /**
      * @param $documento
      * @return bool
@@ -230,8 +232,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function productoRegistrado($nombre): bool
     {
-        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
-        $result = producto::search("SELECT * FROM ornamentacion.producto where nombre = '" . $nombre."' ");
+        $result =  Producto::search("SELECT * FROM ornamentacion.producto where nombre = '" . $nombre."' ");
         if (!empty($result) && count($result)>0) {
             return true;
         } else {
@@ -243,6 +244,7 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     {
         return Producto::search("SELECT * FROM ornamentacion.producto");
     }
+
     public function susaddStock(int $quantity)
     {
         $this->setStock( $this->getStock() - $quantity);
@@ -265,18 +267,14 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     /**
      * @inheritDoc
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
             ':idProducto' =>    $this->getIdProducto(),
             ':tipo' =>   $this->getTipo(),
             ':nombre' =>   $this->getNombre(),
-            ':cantidad' =>   $this->getCantidad(),
+            ':Stock' =>   $this->getStock(),
             ':valor' =>   $this->getValor(),
-            ':material' =>   $this->getMaterial(),
-            ':tamano' =>   $this->getTamano(),
-            ':diseno' =>   $this->getDiseno(),
-            ':tipoServicio' =>   $this->getTipoServicio(),
             ':estado' =>   $this->getEstado(),
 
 

@@ -2,179 +2,271 @@
 
 namespace App\Models;
 
-use App\Enums\Estado;
-use App\Enums\Roll;
-use App\Enums\Tipo;
-use App\Enums\TipoServicioProduct;
-use App\Models\Proveedor;
+use App\Interfaces\Model;
 use Carbon\Carbon;
-use JetBrains\PhpStorm\Internal\TentativeType;
+use Exception;
+use JsonSerializable;
 
-class Pedidos extends AbstractDBConnection implements \App\Interfaces\Model
+class Pedidos extends AbstractDBConnection implements Model
 {
+    private ?int $id;
+    private string $numero_serie;
+    private int $empleado_id;
+    private int $proveedor_id;
+    private Carbon $fecha_compra;
+    private float $monto;
+    private string $estado;
+    private Carbon $created_at;
+    private ?Carbon $updated_at;
 
-    private ?int $idPedido;
-    private int $numeroPedido;
-    private string $nombre;
-    private carbon $fechaPedido;
-    private carbon $fechaEntrega;
-    private Estado $estado;
-    private int  $Proveedor_IdProveedor;
+    /* Relaciones */
+    private ?Usuarios $empleado;
+    private ?Usuarios $proveedor;
+    private ?array $detalleCompra;
 
-    public function __construct(array $Pedidos = [])
+
+    /**
+     * Venta constructor. Recibe un array asociativo
+     * @param array $venta
+     */
+    public function __construct(array $venta = [])
     {
         parent::__construct();
-        $this->setIdPedido($Pedidos['idPedido'] ?? null);
-        $this->setNumeroPedido($Pedidos['numeroPedido'] ?? 0);
-        $this->setNombre($Pedidos['nombre'] ?? '');
-        $this->setFechaPedido(!empty($Pedidos['fechaPedido']) ? Carbon::parse($Pedidos['fechaPedido']) : new Carbon());
-        $this->setFechaEntrega(!empty($Pedidos['fechaEntrega']) ? Carbon::parse($Pedidos['fechaEntrega']) : new Carbon());
-        $this->setEstado($Pedidos['estado'] ?? Estado::INACTIVO);
-        $this->setProveedorIdProveedor($Pedidos['Proveedor_IdProveedor'] ?? 0);
-
-
+        $this->setId($venta['id'] ?? NULL);
+        $this->setNumeroSerie($venta['numero_serie'] ?? NULL);
+        $this->setProveedorId($venta['proveedor_id'] ?? 0);
+        $this->setEmpleadoId($venta['empleado_id'] ?? 0);
+        $this->setFechaCompra(!empty($venta['fecha_compra']) ? Carbon::parse($venta['fecha_compra']) : new Carbon());
+        $this->setEstado($venta['estado'] ?? 'En progreso');
+        $this->setCreatedAt(!empty($venta['created_at']) ? Carbon::parse($venta['created_at']) : new Carbon());
+        $this->setUpdatedAt(!empty($venta['updated_at']) ? Carbon::parse($venta['updated_at']) : new Carbon());
+        $this->setMonto();
     }
 
-    public function __destruct()
+    /**
+     *
+     */
+    function __destruct()
     {
-        if ($this->isConnected()) {
+        $this->Disconnect();
+    }
+
+    /**
+     * @return int|mixed
+     * @return int|mixed
+     */
+    public function getId() : ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int|mixed $id
+     */
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getNumeroSerie() : string
+    {
+        return $this->numero_serie;
+    }
+
+    /**
+     * @param
+     * @throws Exception
+     */
+    public function setNumeroSerie(string $numero_serie = null): void
+    {
+        if(empty($numero_serie)){
+            $this->Connect();
+            $this->numero_serie = 'FC-'.($this->countRowsTable('ventas')+1).'-'.date('Y-m-d');
             $this->Disconnect();
-        }
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumeroPedido(): int
-    {
-        return $this->numeroPedido;
-    }
-
-    /**
-     * @param int $numeroPedido
-     */
-    public function setNumeroPedido(int $numeroPedido): void
-    {
-        $this->numeroPedido = $numeroPedido;
-    }
-
-
-
-    /**
-     * @return Carbon
-     */
-    public function getFechaPedido(): Carbon
-    {
-        return $this->fechaPedido->locale('es');
-        //return $this->fechaPedido;
-    }
-
-    /**
-     * @param Carbon $fechaPedido
-     */
-    public function setFechaPedido(Carbon $fechaPedido): void
-    {
-        $this->fechaPedido = $fechaPedido;
-    }
-
-    /**
-     * @return Carbon
-     */
-    public function getFechaEntrega(): Carbon
-    {
-        return $this->fechaEntrega->locale('es');
-        //return $this->fechaEntrega;
-    }
-
-    /**
-     * @param Carbon $fechaEntrega
-     */
-    public function setFechaEntrega(Carbon $fechaEntrega): void
-    {
-        $this->fechaEntrega = $fechaEntrega;
-    }
-
-    /**
-     * @return Estado
-     */
-    public function getEstado(): string
-    {
-        return $this->estado->toString();
-    }
-
-    /**
-     * @param EstadoCategorias|null $estado
-     */
-    public function setEstado(null|string|Estado $estado): void
-    {
-        if(is_string($estado)){
-            $this->estado = Estado::from($estado);
         }else{
-            $this->estado = $estado;
+            $this->numero_serie = $numero_serie;
         }
-    }
-    /**
-     * @return int|null
-     */
-    public function getIdPedido(): ?int
-    {
-        return $this->idPedido;
-    }
-
-    /**
-     * @param int|null $idPedido
-     */
-    public function setIdPedido(?int $idPedido): void
-    {
-        $this->idPedido = $idPedido;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNombre(): string
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * @param string $nombre
-     */
-    public function setNombre(string $nombre): void
-    {
-        $this->nombre = $nombre;
     }
 
     /**
      * @return int
      */
-    public function getProveedorIdProveedor(): int
+    public function getProveedorId() : int
     {
-        return $this->Proveedor_IdProveedor;
+        return $this->proveedor_id;
     }
 
     /**
-     * @param int $Proveedor_IdProveedor
+     * @param int $proveedor_id
      */
-    public function setProveedorIdProveedor(int $Proveedor_IdProveedor): void
+    public function setProveedorId(int $proveedor_id): void
     {
-        $this->Proveedor_IdProveedor = $Proveedor_IdProveedor;
+        $this->proveedor_id = $proveedor_id;
     }
 
+    /**
+     * @return int
+     */
+    public function getEmpleadoId() : int
+    {
+        return $this->empleado_id;
+    }
 
+    /**
+     * @param int $empleado_id
+     */
+    public function setEmpleadoId(int $empleado_id): void
+    {
+        $this->empleado_id = $empleado_id;
+    }
 
+    /**
+     * @return Carbon|mixed
+     */
+    public function getFechaCompra() : Carbon
+    {
+        return $this->fecha_compra->locale('es');
+    }
 
+    /**
+     * @param Carbon|mixed $fecha_compra
+     */
+    public function setFechaCompra(Carbon $fecha_compra): void
+    {
+        $this->fecha_compra = $fecha_compra;
+    }
 
+    /**
+     * @return float|mixed
+     */
+    public function getMonto() : float
+    {
+        return $this->monto;
+    }
+
+    /**
+     * @param float|mixed $monto
+     */
+    public function setMonto(): void
+    {
+        $total = 0;
+        if($this->getId() != null){
+            $arrDetallesCompra = $this->getDetalleCompra();
+            if(!empty($arrDetallesCompra)){
+                /* @var $arrDetallesCompra DetalleCompras[] */
+                foreach ($arrDetallesCompra as $DetalleCompra){
+                    $total += $DetalleCompra->getTotalProducto();
+                }
+            }
+        }
+        $this->monto = $total;
+    }
+
+    /**
+     * @return mixed|string
+     */
+    public function getEstado() : string
+    {
+        return $this->estado;
+    }
+
+    /**
+     * @param mixed|string $estado
+     */
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getCreatedAt(): Carbon
+    {
+        return $this->created_at->locale('es');
+    }
+
+    /**
+     * @param Carbon $created_at
+     */
+    public function setCreatedAt(Carbon $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getUpdatedAt(): Carbon
+    {
+        return $this->updated_at->locale('es');
+    }
+
+    /**
+     * @param Carbon $updated_at
+     */
+    public function setUpdatedAt(Carbon $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /* Relaciones */
+    /**
+     * Retorna el objeto usuario del empleado correspondiente a la venta
+     * @return Usuarios|null
+     */
+    public function getEmpleado(): ?Usuarios
+    {
+        if(!empty($this->empleado_id)){
+            $this->empleado = Usuarios::searchForId($this->empleado_id) ?? new Usuarios();
+            return $this->empleado;
+        }
+        return NULL;
+    }
+
+    /**
+     * Retorna el objeto usuario del cliente correspondiente a la venta
+     * @return Usuarios|null
+     */
+    public function getProveedor(): ?Usuarios
+    {
+        if(!empty($this->proveedor_id)){
+            $this->proveedor = Usuarios::searchForId($this->proveedor_id) ?? new Usuarios();
+            return $this->proveedor;
+        }
+        return NULL;
+    }
+
+    /**
+     * retorna un array de detalles compra que perteneces a una venta
+     * @return array
+     */
+    public function getDetalleCompra(): ?array
+    {
+
+        $this->detalleCompra = DetalleCompras::search('SELECT * FROM weber.detalle_compras where compra_id = '.$this->id);
+        return $this->detalleCompra;
+    }
+
+    /**
+     * @param string $query
+     * @return bool|null
+     */
     protected function save(string $query): ?bool
     {
         $arrData = [
-            ':idPedidos' =>    $this->getIdPedido(),
-            ':numeroPedido' =>    $this->getNumeroPedido(),
-            ':nombre' =>   $this->getNombre(),
-            ':fechaPedido' =>  $this->getFechaPedido()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':fechaEntrega' =>  $this->getFechaEntrega()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':id' =>    $this->getId(),
+            ':numero_serie' =>   $this->getNumeroSerie(),
+            ':proveedor_id' =>   $this->getProveedorId(),
+            ':empleado_id' =>   $this->getEmpleadoId(),
+            ':fecha_compra' =>  $this->getFechaCompra()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':monto' =>   $this->getMonto(),
             ':estado' =>   $this->getEstado(),
-            ':Proveedor_IdProveedor' =>   $this->getProveedorIdProveedor(),
+            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString()
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -182,102 +274,137 @@ class Pedidos extends AbstractDBConnection implements \App\Interfaces\Model
         return $result;
     }
 
+    /**
+     * @return bool|null
+     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO ornamentacion.pedidos VALUES (
-            :idPedidos,:numeroPedido,:nombre,
-            :fechaPedido,:fechaEntrega,:estado,:Proveedor_IdProveedor
-        )";
+        $query = "INSERT INTO weber.compras VALUES (:id,:numero_serie,:empleado_id,:proveedor_id,:fecha_compra,:monto,:estado,:created_at,:updated_at)";
         return $this->save($query);
     }
 
-    function update(): ?bool
+    /**
+     * @return bool|null
+     */
+    public function update() : ?bool
     {
-        $query = "UPDATE ornamentacion.pedidos SET 
-            numeroPedido=: numeroPedido,nombre = :nombre, fechaPedido= :fechaPedido, fechaEntrega = :fechaEntrega,
-            estado = :estado,Proveedor_IdProveedor = :Proveedor_IdProveedor,
-            WHERE idPedidos = :IdidPedidos";
+        $query = "UPDATE weber.compras SET 
+            numero_serie = :numero_serie, empleado_id = :empleado_id, 
+            proveedor_id = :proveedor_id, fecha_compra = :fecha_compra,
+            monto = :monto, estado = :estado,
+            created_at = :created_at, updated_at = :updated_at WHERE id = :id";
         return $this->save($query);
     }
 
-    function deleted(): ?bool
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    static function search($query): ?array
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
     {
         try {
-            $arrPedidos = array();
+            $arrCompras = array();
             $tmp = new Pedidos();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            if (!empty($getrows)) {
-                foreach ($getrows as $valor) {
-                    $Pedidos = new Pedidos($valor);
-                    array_push($arrPedidos, $Pedidos);
-                    unset($Pedidos);
-                }
-                return $arrPedidos;
+            foreach ($getrows as $valor) {
+                $Compra = new Pedidos($valor);
+                array_push($arrCompras, $Compra);
+                unset($Compra);
             }
-            return null;
+            return $arrCompras;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception', $e);
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        return null;
-    }
-
-    static function searchForId(int $id): ?object
-    {
-        try {
-            if ($id > 0) {
-                $tmpPedidos = new Pedidos();
-                $tmpPedidos->Connect();
-                $getrow = $tmpPedidos->getRow("SELECT * FROM ornamentacion.pedidos WHERE idPedidos =?", array($id));
-                $tmpPedidos->Disconnect();
-                return ($getrow) ? new Pedidos($getrow) : null;
-            } else {
-                throw new Exception('Id de Pedidos Invalido');
-            }
-        } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception', $e);
-        }
-        return null;
+        return NULL;
     }
 
     /**
-     * @param $numeroPedido
-     * @return bool
+     * @param $id
+     * @return Factura
+     * @throws Exception
      */
-    public static function pedidoRegistrado($numeroPedido): bool
+    public static function searchForId($id) : ?Pedidos
     {
-        //$result = producto::search("SELECT * FROM ornamentacion.producto where nombre = " . $nombre);
+        try {
+            if ($id > 0) {
+                $Compra = new Pedidos();
+                $Compra->Connect();
+                $getrow = $Compra->getRow("SELECT * FROM weber.compras WHERE id =?", array($id));
+                $Compra->Disconnect();
+                return ($getrow) ? new Pedidos($getrow) : null;
+            }else{
+                throw new Exception('Id de compra Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
 
-        $result = pedidos::search("SELECT * FROM ornamentacion.pedidos where numeroPedido = '" . $numeroPedido."' ");
-        if (!empty($result) && count($result)>0) {
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
+    {
+        return Pedidos::search("SELECT * FROM weber.compras");
+    }
+
+    /**
+     * @param $numeroSerie
+     * @return bool
+     * @throws Exception
+     */
+    public static function facturaRegistrada($numeroSerie): bool
+    {
+        $numeroSerie = trim(strtolower($numeroSerie));
+        $result = Pedidos::search("SELECT id FROM weber.compras where numero_serie = '" . $numeroSerie. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
             return false;
         }
     }
 
-    static function getAll(): ?array
+    /**
+     * @return string
+     */
+    public function __toString() : string
     {
-        return pedidos::search("SELECT * FROM ornamentacion.pedidos");
+        return "Numero Serie: $this->numero_serie, Cliente: ".$this->getProveedor()->nombresCompletos().", Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha_compra->toDateTimeString(), Monto: $this->monto, Estado: $this->estado";
     }
 
+
     /**
-     * @inheritDoc
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize() : array
     {
         return [
-
-
-
+            'numero_serie' => $this->getNumeroSerie(),
+            'proveedor' => $this->getProveedor()->jsonSerialize(),
+            'empleado' => $this->getEmpleado()->jsonSerialize(),
+            'fecha_compra' => $this->getFechaCompra()->toDateTimeString(),
+            'monto' => $this->getMonto(),
+            'estado' => $this->getEstado(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
         ];
     }
 }
