@@ -134,6 +134,7 @@ class ProductosController{
         if(is_array($arrProducto) && count($arrProducto) > 0){
             /* @var $arrProducto Producto[] */
             foreach ($arrProducto as $producto)
+
                 if (!ProductosController::productoIsInArray($producto->getIdProducto(),$params['arrExcluir']))
                     $htmlSelect .= "<option ".(($producto != "") ? (($params['defaultValue'] == $producto->getIdProducto()) ? "selected" : "" ) : "")." value='".$producto->getIdProducto()."'>".$producto->getNombre()."</option>";
         }

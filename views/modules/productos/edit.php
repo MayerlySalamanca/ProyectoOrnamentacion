@@ -74,6 +74,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
+
                                 $Producto = ProductosController::searchForID(["id" => $_GET["id"]]);
                                 /* @var $Producto Producto */
                                 if (!empty($Producto)) {

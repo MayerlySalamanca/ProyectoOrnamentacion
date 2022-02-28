@@ -43,7 +43,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                 </div>
             </div><!-- /.container-fluid -->
         </section>
-
         <!-- Main content -->
         <section class="content">
             <!-- Generar Mensajes de alerta -->
