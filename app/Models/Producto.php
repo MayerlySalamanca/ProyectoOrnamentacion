@@ -9,7 +9,7 @@ use App\Interfaces\Model;
 
 class Producto extends AbstractDBConnection implements Model
 {
-     private ?int  $IdProducto;
+     private ?int  $idProducto;
      private Tipo $tipo;
      private string $nombre;
      private int $valor;
@@ -95,15 +95,15 @@ class Producto extends AbstractDBConnection implements Model
      */
     public function getIdProducto(): ?int
     {
-        return $this->IdProducto;
+        return $this->idProducto;
     }
 
     /**
-     * @param int|null $IdProducto
+     * @param int|null $idProducto
      */
-    public function setIdProducto(?int $IdProducto): void
+    public function setIdProducto(?int $idProducto): void
     {
-        $this->IdProducto = $IdProducto;
+        $this->idProducto = $idProducto;
     }
 
     /**
@@ -144,12 +144,12 @@ class Producto extends AbstractDBConnection implements Model
     protected function save(string $query): ?bool
     {
         $arrData = [
-            ':idProducto' =>    $this->getIdProducto(),
-            ':tipo' =>   $this->getTipo(),
-            ':nombre' =>   $this->getNombre(),
-            ':stock' =>   $this->getStock(),
-            ':valor' =>   $this->getValor(),
-            ':estado' =>   $this->getEstado(),
+            ':idProducto' => $this->getIdProducto(),
+            ':tipo' => $this->getTipo(),
+            ':nombre' => $this->getNombre(),
+            ':stock' => $this->getStock(),
+            ':valor' => $this->getValor(),
+            ':estado' => $this->getEstado(),
 
 
         ];
@@ -171,9 +171,8 @@ class Producto extends AbstractDBConnection implements Model
     function update(): ?bool
     {
         $query = "UPDATE ornamentacion.producto SET 
-            tipo = :tipo,
-            nombre = :nombre,stock= :stock, valor = :valor,
-            estado = :estado WHERE idProducto = :idProducto";
+            tipo= :tipo, nombre= :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE idProducto= :idProducto";
         return $this->save($query);
     }
 
@@ -207,13 +206,13 @@ class Producto extends AbstractDBConnection implements Model
         return null;
     }
 
-    static function searchForId(int $id): ?object
+    static function searchForId(int $Id): ?object
     {
         try {
-            if ($id > 0) {
+            if ($Id > 0) {
                 $tmProducto = new Producto();
                 $tmProducto->Connect();
-                $getrow = $tmProducto->getRow("SELECT * FROM ornamentacion.producto WHERE idProducto =?", array($id));
+                $getrow = $tmProducto->getRow("SELECT * FROM ornamentacion.producto WHERE idProducto =?", array($Id));
                 $tmProducto->Disconnect();
                 return ($getrow) ? new Producto($getrow) : null;
             } else {

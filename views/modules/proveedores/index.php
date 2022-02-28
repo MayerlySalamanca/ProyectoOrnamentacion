@@ -137,8 +137,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Nombres</th>
-                                                <th>Descripción</th>
+                                                <th>documento</th>
+                                                <th>nombre</th>
+                                                <th>ciudad</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>

@@ -53,6 +53,7 @@ class ProductosController{
     }
 
     static public function searchForID (array $data){
+
         try {
             $result = Producto::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {

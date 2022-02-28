@@ -21,7 +21,7 @@ if (!empty($_GET['controller'])){
         $controller = new $nameController($_POST);
         if (!empty($_GET['action']) and method_exists($controller, $_GET['action'])) {
             if(!empty($_GET['id'])){
-                $controller->{$_GET['action']}($_GET['id']);
+                $controller->{$_GET['action']}($_GET['id'])($_GET['Id']);
             }else if (!empty($_POST['request']) && $_POST['request'] == "ajax") {
                 //echo call_user_func_array(array($controller, $_GET['action']), $_POST);
                 echo $controller->{$_GET['action']}($_POST);

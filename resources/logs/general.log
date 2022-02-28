@@ -22072,3 +22072,444 @@
 
 )
   
+[2022-02-28T10:24:42.560621+00:00] General.ERROR: Exception  
+[2022-02-28T10:24:42.568204+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T10:24:42.568431+00:00] General.ERROR: Line: 74  
+[2022-02-28T10:24:42.568579+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idProductodProducto' in 'where clause'  
+[2022-02-28T10:24:42.568982+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 74
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [0] => 1
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 216
+            [function] => getRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.producto WHERE idProductodProducto =?
+                    [1] => Array
+                        (
+                            [0] => 1
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 57
+            [function] => searchForId
+            [class] => App\Models\Producto
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 1
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\productos\edit.php
+            [line] => 77
+            [function] => searchForID
+            [class] => App\Controllers\ProductosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 1
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-02-28T10:28:47.269286+00:00] General.ERROR: Exception  
+[2022-02-28T10:28:47.270287+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T10:28:47.270677+00:00] General.ERROR: Line: 122  
+[2022-02-28T10:28:47.271044+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-02-28T10:28:47.271435+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 157
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.producto SET 
+            tipo = :tipo,
+            nombre = :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE IdProducto = :IdProducto
+                    [1] => Array
+                        (
+                            [:idProducto] => 
+                            [:tipo] => Producto
+                            [:nombre] => puerta
+                            [:stock] => 35
+                            [:valor] => 1200
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 177
+            [function] => save
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.producto SET 
+            tipo = :tipo,
+            nombre = :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE IdProducto = :IdProducto
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 45
+            [function] => update
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProductosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T10:28:57.239117+00:00] General.ERROR: Exception  
+[2022-02-28T10:28:57.239913+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T10:28:57.240295+00:00] General.ERROR: Line: 122  
+[2022-02-28T10:28:57.240692+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-02-28T10:28:57.241183+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 157
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.producto SET 
+            tipo = :tipo,
+            nombre = :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE IdProducto = :IdProducto
+                    [1] => Array
+                        (
+                            [:idProducto] => 
+                            [:tipo] => Producto
+                            [:nombre] => puerta
+                            [:stock] => 5
+                            [:valor] => 1200
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 177
+            [function] => save
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.producto SET 
+            tipo = :tipo,
+            nombre = :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE IdProducto = :IdProducto
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 45
+            [function] => update
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProductosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T10:31:07.968861+00:00] General.ERROR: Exception  
+[2022-02-28T10:31:07.969400+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T10:31:07.969604+00:00] General.ERROR: Line: 122  
+[2022-02-28T10:31:07.970033+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-02-28T10:31:07.970129+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 157
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.producto VALUES (
+            :IdProducto,:tipo,:nombre,
+            :stock,:valor,:estado
+        )
+                    [1] => Array
+                        (
+                            [:idProducto] => 
+                            [:tipo] => Instalacion
+                            [:nombre] => ventana
+                            [:stock] => 2
+                            [:valor] => 1200
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 168
+            [function] => save
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.producto VALUES (
+            :IdProducto,:tipo,:nombre,
+            :stock,:valor,:estado
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 29
+            [function] => insert
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProductosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T14:56:35.465688+00:00] General.ERROR: Exception  
+[2022-02-28T14:56:35.470131+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T14:56:35.470353+00:00] General.ERROR: Line: 122  
+[2022-02-28T14:56:35.470471+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-02-28T14:56:35.470907+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 157
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.producto VALUES (
+            :idProducto,:tipo,:nombre,
+            :stock,:valor,:estado
+        )
+                    [1] => Array
+                        (
+                            [:IdProducto] => 
+                            [:tipo] => Fabricacion
+                            [:nombre] => Par
+                            [:stock] => 5
+                            [:valor] => 5000
+                            [:estado] => Activo
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Producto.php
+            [line] => 168
+            [function] => save
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.producto VALUES (
+            :idProducto,:tipo,:nombre,
+            :stock,:valor,:estado
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProductosController.php
+            [line] => 29
+            [function] => insert
+            [class] => App\Models\Producto
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProductosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

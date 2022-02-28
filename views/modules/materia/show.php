@@ -55,7 +55,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataMateria = MateriasController::searchForID(["idMateria" => $_GET["id"]]);
+                                $DataMateria = MateriasController::searchForID(["id" => $_GET["id"]]);
                                 /* @var $DataMateria MateriaPrima */
                                 if (!empty($DataMateria)) {
                                     ?>

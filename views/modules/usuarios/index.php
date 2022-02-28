@@ -100,7 +100,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Dirección</th>
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
-                                                <th>contraseña</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>
@@ -118,7 +117,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?= $Usuario->getDireccion(); ?></td>
                                                     <td><?= $Usuario->getRoll(); ?></td>
                                                     <td><?= $Usuario->getUsuario(); ?></td>
-                                                   <td><?= $Usuario->getContrasena(); ?></td>
                                                     <td><?= $Usuario->getEstado(); ?></td>
                                                 <td>
                                                         <a href="edit.php?id=<?= $Usuario->getIdUsuario(); ?>"
@@ -155,7 +153,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Dirección</th>
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
-                                                <th>contraseña</th>
                                                 <th>Estado</th>
                                                 <th>Acciones</th>
                                             </tr>

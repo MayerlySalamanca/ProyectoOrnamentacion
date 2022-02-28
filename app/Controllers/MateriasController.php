@@ -34,7 +34,7 @@ class MateriasController
             }
             $materia = new MateriaPrima($this->dataMateria);
             if ($materia->insert()) {
-                unset($_SESSION['frmUsuarios']);
+                unset($_SESSION['frmUMateria']);
                 header("Location: ../../views/modules/materia/index.php?respuesta=success&mensaje=materia Registrado");
 
 
@@ -51,7 +51,7 @@ class MateriasController
         try {
             $user = new MateriaPrima($this->dataMateria);
             if($user->update()){
-                unset($_SESSION['frmUsuarios']);
+                unset($_SESSION['frmMateria']);
             }
             header("Location: ../../views/modules/materia/show.php?id=" . $user->getIdMateria() . "&respuesta=success&mensaje=Usuario Actualizado");
         } catch (\Exception $e) {
@@ -61,7 +61,7 @@ class MateriasController
 
     static public function searchForID (array $data){
         try {
-            $result = MateriaPrima::searchForId($data['idMateria']);
+            $result = MateriaPrima::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result->jsonSerialize());
@@ -124,8 +124,8 @@ class MateriasController
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "idMateria";
-        $params['name'] = $params['name'] ?? "idMateria";
+        $params['id'] = $params['id'] ?? "materia_id";
+        $params['name'] = $params['name'] ?? "materia_id";
         $params['defaultValue'] = $params['defaultValue'] ?? "";
         $params['class'] = $params['class'] ?? "form-control";
         $params['where'] = $params['where'] ?? "";

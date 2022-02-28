@@ -74,7 +74,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataMaterias = MateriasController::searchForID(["idMateria" => $_GET["id"]]);
+                                $DataMaterias = MateriasController::searchForID(["id" => $_GET["id"]]);
                                 /* @var $DataMaterias MateriaPrima */
                                 if (!empty($DataMaterias)) {
                                     ?>
