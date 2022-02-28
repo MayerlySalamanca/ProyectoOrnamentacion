@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Models;
-use App\Models\Compras;
-use App\Models\MateriaPrima;
+
 use App\Interfaces\Model;
 use Carbon\Carbon;
 use Exception;
@@ -11,14 +10,14 @@ use JsonSerializable;
 class DetalleCompras extends AbstractDBConnection implements Model
 {
     private ?int $id;
-    private int $materia_id;
+    private int $producto_id;
     private int $compra_id;
     private int $cantidad;
     private float $precio_venta;
     private Carbon $created_at;
 
     /* Relaciones */
-    private ?MateriaPrima $materia;
+    private ?Productos $producto;
     private ?Compras $compra;
 
     /**
@@ -29,10 +28,11 @@ class DetalleCompras extends AbstractDBConnection implements Model
     {
         parent::__construct();
         $this->setId($detalle_compra['id'] ?? NULL);
-        $this->setMateriaId($detalle_compra['materia_id'] ?? 0);
+        $this->setProductoId($detalle_compra['producto_id'] ?? 0);
         $this->setCompraId($detalle_compra['compra_id'] ?? 0);
         $this->setCantidad($detalle_compra['cantidad'] ?? 0);
         $this->setPrecioVenta($detalle_compra['precio_venta'] ?? 0.0);
+        $this->setCreatedAt(!empty($categoria['created_at']) ? Carbon::parse($categoria['created_at']) : new Carbon());
     }
 
     /**
@@ -62,17 +62,17 @@ class DetalleCompras extends AbstractDBConnection implements Model
     /**
      * @return int
      */
-    public function getMateriaId(): int
+    public function getProductoId(): int
     {
-        return $this->materia_id;
+        return $this->producto_id;
     }
 
     /**
      * @param int $producto_id
      */
-    public function setMateriaId(int $materia_id): void
+    public function setProductoId(int $producto_id): void
     {
-        $this->materia_id = $materia_id;
+        $this->producto_id = $producto_id;
     }
 
     /**
@@ -125,14 +125,29 @@ class DetalleCompras extends AbstractDBConnection implements Model
 
     public function getTotalProducto() : float
     {
-        return $this->getPrecioVenta() ;
+        return $this->getPrecioVenta() * $this->getCantidad();
     }
 
+    /**
+     * @return Carbon
+     */
+    public function getCreatedAt(): Carbon
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param Carbon $created_at
+     */
+    public function setCreatedAt(Carbon $created_at): void
+    {
+        $this->created_at = $created_at;
+    }
 
     /* Relaciones */
     /**
      * Retorna el objeto venta correspondiente al detalle venta
-     * @return Pedidos|null
+     * @return Compras|null
      */
     public function getCompra(): ?Compras
     {
@@ -147,11 +162,11 @@ class DetalleCompras extends AbstractDBConnection implements Model
      * Retorna el objeto producto correspondiente al detalle venta
      * @return Productos|null
      */
-    public function getMateria(): ?MateriaPrima
+    public function getProducto(): ?Productos
     {
-        if(!empty($this->materia_id)){
-            $this->materia = MateriaPrima::searchForId($this->producto_id) ?? new MateriaPrima();
-            return $this->materia;
+        if(!empty($this->producto_id)){
+            $this->producto = Productos::searchForId($this->producto_id) ?? new Productos();
+            return $this->producto;
         }
         return NULL;
     }
@@ -163,11 +178,11 @@ class DetalleCompras extends AbstractDBConnection implements Model
         }else{
             $arrData = [
                 ':id' =>   $this->getId(),
-                ':materia_id' =>  $this->getMateria(),
+                ':producto_id' =>  $this->getProductoId(),
                 ':compra_id' =>   $this->getCompraId(),
                 ':cantidad' =>   $this->getCantidad(),
                 ':precio_venta' =>   $this->getPrecioVenta(),
-
+                ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ];
         }
 
@@ -179,9 +194,9 @@ class DetalleCompras extends AbstractDBConnection implements Model
 
     function insert() : ?bool
     {
-        $query = "INSERT INTO ornamentacion.detalle_compra VALUES (:id,:producto_id,:compra_id,:cantidad,:precio_venta)";
+        $query = "INSERT INTO weber.detalle_compras VALUES (:id,:producto_id,:compra_id,:cantidad,:precio_venta,:created_at)";
         if($this->save($query)){
-            return $this->getMateria()->addStock($this->getCantidad());
+            return $this->getProducto()->addStock($this->getCantidad());
         }
         return false;
     }
@@ -191,9 +206,9 @@ class DetalleCompras extends AbstractDBConnection implements Model
      */
     public function update() : bool
     {
-        $query = "UPDATE ornamentacion.detalle_compra SET 
-            materia_id = :materia_id, compra_id = :compra_id, cantidad = :cantidad, 
-            precio_venta = :precio_venta WHERE id = :id";
+        $query = "UPDATE weber.detalle_compras SET 
+            producto_id = :producto_id, compra_id = :compra_id, cantidad = :cantidad, 
+            precio_venta = :precio_venta, created_at = :created_at WHERE id = :id";
         return $this->save($query);
     }
 
@@ -202,7 +217,7 @@ class DetalleCompras extends AbstractDBConnection implements Model
      */
     public function deleted() : bool
     {
-        $query = "DELETE FROM ornamentacion.detalle_compra WHERE id = :id";
+        $query = "DELETE FROM detalle_compras WHERE id = :id";
         return $this->save($query, 'deleted');
     }
 
@@ -241,7 +256,7 @@ class DetalleCompras extends AbstractDBConnection implements Model
             if ($id > 0) {
                 $DetalleCompra = new DetalleCompras();
                 $DetalleCompra->Connect();
-                $getrow = $DetalleCompra->getRow("SELECT * FROM ornamentacion.detalle_compra WHERE id = ?", array($id));
+                $getrow = $DetalleCompra->getRow("SELECT * FROM weber.detalle_compras WHERE id = ?", array($id));
                 $DetalleCompra->Disconnect();
                 return ($getrow) ? new DetalleCompras($getrow) : null;
             }else{
@@ -258,7 +273,7 @@ class DetalleCompras extends AbstractDBConnection implements Model
      */
     public static function getAll() : array
     {
-        return DetalleCompras::search("SELECT * FROM ornamentacion.detalle_compra");
+        return DetalleCompras::search("SELECT * FROM weber.detalle_compras");
     }
 
     /**
@@ -269,7 +284,7 @@ class DetalleCompras extends AbstractDBConnection implements Model
 
     public static function productoEnFactura($compra_id,$producto_id): bool
     {
-        $result = DetalleCompras::search("SELECT id FROM ornamentacion.detalle_compra where compra_id = '" . $compra_id. "' and producto_id = '" . $producto_id. "'");
+        $result = DetalleCompras::search("SELECT id FROM weber.detalle_compras where compra_id = '" . $compra_id. "' and producto_id = '" . $producto_id. "'");
         if (count($result) > 0) {
             return true;
         } else {
@@ -295,11 +310,11 @@ class DetalleCompras extends AbstractDBConnection implements Model
     public function jsonSerialize() : array
     {
         return [
-            'materia_id' => $this->getMateria()->jsonSerialize(),
+            'producto_id' => $this->getProducto()->jsonSerialize(),
             'compra_id' => $this->getCompra()->jsonSerialize(),
             'cantidad' => $this->getCantidad(),
             'precio_venta' => $this->getPrecioVenta(),
-
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
         ];
     }
 }

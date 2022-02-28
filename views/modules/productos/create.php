@@ -134,5 +134,15 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#tipo').val('Fabricacion');
+        $('#nombre').val(' ');
+        $('#stock').val(' ');
+        $('#valor').val(' ');
+
+
+    });
+</script>
 </body>
 </html>

@@ -91,8 +91,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>#</th>
                                                 <th>documento</th>
                                                 <th>nombre</th>
-                                                <th>ciudad</th>
                                                 <th>Estado</th>
+                                                <th>ciudad</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
@@ -106,8 +106,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?= $proveedor->getIdProveedor(); ?></td>
                                                     <td><?= $proveedor->getDocumento(); ?></td>
                                                     <td><?= $proveedor->getNombre(); ?></td>
-                                                    <td><?= $proveedor->getCiudad(); ?></td>
                                                     <td><?= $proveedor->getEstado(); ?></td>
+                                                    <td><?= $proveedor->getMunicipio()->getDepartamento()->getNombre() . ' ' . $proveedor->getMunicipio()->getNombre() ?></td>
+
                                                     <td>
                                                         <a href="edit.php?id=<?= $proveedor->getIdProveedor(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
@@ -139,8 +140,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>#</th>
                                                 <th>documento</th>
                                                 <th>nombre</th>
-                                                <th>ciudad</th>
                                                 <th>Estado</th>
+                                                <th>ciudad</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>

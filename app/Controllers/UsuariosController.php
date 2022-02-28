@@ -25,22 +25,22 @@ class UsuariosController
         $this->dataUsuario['usuario'] = $_FORM['usuario'] ?? NULL;
         $this->dataUsuario['contrasena'] = $_FORM['contrasena'] ?? NULL;
         $this->dataUsuario['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataUsuario['municipiosId'] = $_FORM['municipiosId'] ?? NULL;
     }
 
     public function create($withFiles = null) {
         try {
             if (!empty($this->dataUsuario['documento']) && !Usuario::usuarioRegistrado($this->dataUsuario['documento'])) {
-
-            }
             $Usuario = new Usuario ($this->dataUsuario);
             if ($Usuario->insert()) {
                 unset($_SESSION['frmUsuarios']);
                 header("Location: ../../views/modules/usuarios/index.php?respuesta=success&mensaje=Usuario Registrado");
-
+            }
 
             } else {
                 header("Location: ../../views/modules/usuarios/create.php?respuesta=error&mensaje=Usuario ya registrado");
             }
+
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }

@@ -15,7 +15,7 @@ class DetalleComprasController
     {
         $this->dataDetalleCompra = array();
         $this->dataDetalleCompra['id'] = $_FORM['id'] ?? NULL;
-        $this->dataDetalleCompra['materia_id'] = $_FORM['materia_id'] ?? '';
+        $this->dataDetalleCompra['producto_id'] = $_FORM['producto_id'] ?? '';
         $this->dataDetalleCompra['compra_id'] = $_FORM['compra_id'] ?? '';
         $this->dataDetalleCompra['cantidad'] = $_FORM['cantidad'] ?? '';
         $this->dataDetalleCompra['precio_venta'] = $_FORM['precio_venta'] ?? '';
@@ -24,8 +24,8 @@ class DetalleComprasController
     public function create()
     {
         try {
-            if (!empty($this->dataDetalleCompra['compra_id']) and !empty($this->dataDetalleCompra['materia_id'])) {
-                if(DetalleCompras::productoEnFactura($this->dataDetalleCompra['compra_id'], $this->dataDetalleCompra['materia_id'])){
+            if (!empty($this->dataDetalleCompra['compra_id']) and !empty($this->dataDetalleCompra['producto_id'])) {
+                if(DetalleCompras::productoEnFactura($this->dataDetalleCompra['compra_id'], $this->dataDetalleCompra['producto_id'])){
                     $this->edit();
                 }else{
                     $DetalleCompra = new DetalleCompras($this->dataDetalleCompra);
@@ -45,13 +45,13 @@ class DetalleComprasController
     public function edit()
     {
         try {
-            $arrDetalleCompra = DetalleCompras::search("SELECT * FROM ornamentacion.detalle_compra WHERE compra_id = ".$this->dataDetalleCompra['compra_id']." and producto_id = ".$this->dataDetalleCompra['producto_id']);
+            $arrDetalleCompra = DetalleCompras::search("SELECT * FROM detalle_compras WHERE compra_id = ".$this->dataDetalleCompra['compra_id']." and producto_id = ".$this->dataDetalleCompra['producto_id']);
             /* @var $arrDetalleCompra DetalleCompras[] */
             $DetalleCompra = $arrDetalleCompra[0];
             $OldCantidad = $DetalleCompra->getCantidad();
             $DetalleCompra->setCantidad($OldCantidad + $this->dataDetalleCompra['cantidad']);
             if ($DetalleCompra->update()) {
-                $DetalleCompra->getMateria()->addStock($this->dataDetalleCompra['cantidad']);
+                $DetalleCompra->getProducto()->addStock($this->dataDetalleCompra['cantidad']);
                 unset($_SESSION['frmDetalleCompras']);
                 header("Location: ../../views/modules/compras/create.php?id=".$this->dataDetalleCompra['compra_id']."&respuesta=success&mensaje=Producto Actualizado");
             }
@@ -63,7 +63,7 @@ class DetalleComprasController
     public function deleted (int $id){
         try {
             $ObjDetalleCompra = DetalleCompras::searchForId($id);
-            $objProducto = $ObjDetalleCompra->getMateria();
+            $objProducto = $ObjDetalleCompra->getProducto();
             if($ObjDetalleCompra->deleted()){
                 $objProducto->substractStock($ObjDetalleCompra->getCantidad());
                 header("Location: ../../views/modules/compras/create.php?id=".$ObjDetalleCompra->getCompraId()."&respuesta=success&mensaje=Producto Eliminado");

@@ -83,7 +83,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <!-- form start -->
                                         <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
-                                            <input id="IdProducto" name="IdProducto" value="<?= $Producto->getIdProducto(); ?>"
+                                            <input id="idProducto" name="idProducto" value="<?= $Producto->getIdProducto(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
                                                 <label for="tipo" class="col-sm-2 col-form-label">Tipo Producto</label>

@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                     Bienvenidos a industria diarma una empresa familiar que lleva en la industria
+                    Bienvenidos a industria diarma una empresa familiar que lleva en la industria
                     de la ornamentación hace mas de 10 años, que implementa los valores de la industria
                     Colombia en cada uno de los procesos de construcción de sus productos, el cumplimiento y
                     compromiso con los clientes hacen de nuestra industria un núcleo familiar.

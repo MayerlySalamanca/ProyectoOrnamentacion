@@ -101,6 +101,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
                                                 <th>Estado</th>
+                                                <th>Municipio</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </thead>
@@ -118,6 +119,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?= $Usuario->getRoll(); ?></td>
                                                     <td><?= $Usuario->getUsuario(); ?></td>
                                                     <td><?= $Usuario->getEstado(); ?></td>
+                                                <td><?= $Usuario->getMunicipio()->getDepartamento()->getNombre() . ' ' . $Usuario->getMunicipio()->getNombre() ?></td>
                                                 <td>
                                                         <a href="edit.php?id=<?= $Usuario->getIdUsuario(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
@@ -154,6 +156,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
                                                 <th>Estado</th>
+                                                <th>Municipio</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>

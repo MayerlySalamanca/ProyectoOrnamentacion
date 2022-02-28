@@ -2,6 +2,9 @@
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
+use App\Models\Proveedor;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -86,20 +89,36 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="ciudad" class="col-sm-2 col-form-label">ciudad</label>
-                                        <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="ciudad" name="ciudad"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['ciudad'] ?? '' ?>">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
                                             <select required id="estado" name="estado" class="custom-select">
                                                 <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
                                                 <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
+                                        <div class="col-sm-5">
+                                            <?= DepartamentosController::selectDepartamentos(
+                                                array(
+                                                    'id' => 'idDepartamentos',
+                                                    'name' => 'idDepartamentos',
+                                                    'defaultValue' => '0', //Boyacá
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "estado = 'Activo'"
+                                                )
+                                            )
+                                            ?>
+                                        </div>
+                                        <div class="col-sm-5 ">
+                                            <?= MunicipiosController::selectMunicipios(array (
+                                                'id' => 'municipiosId',
+                                                'name' => 'municipiosId',
+                                                'defaultValue' => (!empty($frmSession['municipiosId'])) ? $frmSession['municipiosId'] : '',
+                                                'class' => 'form-control select2bs4 select2-info',
+                                                'where' => "departamentosId = 15 and estado = 'Activo'"))
+                                            ?>
                                         </div>
                                     </div>
                                     <hr>
@@ -123,5 +142,28 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#documento').val(' ');
+        $('#nombre').val(' ');
+        $('#estado').val('Activo');
+
+        $('#idDepartamentos').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipiosId",
+                nombre: "municipiosId",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamentosId = "+$('#idDepartamentos').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                $("#municipiosId").html(e).select2({ height: '100px'});
+            });
+        });
+        $('.btn-file span').html('Seleccionar');
+    });
+</script>
 </body>
 </html>

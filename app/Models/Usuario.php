@@ -27,8 +27,10 @@ class Usuario extends AbstractDBConnection implements Model
     private string $usuario;
     private ?string $contrasena;
     private Estado $estado;
+    private ?int $municipiosId;
 
     //Realaciones
+    private ? Municipio $municipios;
     private ?array $FabricacionUsuario;
     private ?array $FacturaUsurio;
 
@@ -52,7 +54,7 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setUsuario($usuario['usuario'] ?? '');
         $this->setContrasena($usuario['contrasena'] ?? '');
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
-
+        $this->setMunicipiosId($usuario['municipiosId']??null);
     }
 
     public function __destruct()
@@ -219,6 +221,33 @@ class Usuario extends AbstractDBConnection implements Model
         }
     }
 
+    /**
+     * @return int|null
+     */
+    public function getMunicipiosId(): ?int
+    {
+        return $this->municipiosId;
+    }
+
+    /**
+     * @param int|null $municipiosId
+     */
+    public function setMunicipiosId(?int $municipiosId): void
+    {
+        $this->municipiosId = $municipiosId;
+    }
+
+    /**
+     * @return Municipio|null
+     */
+    public function getMunicipio(): ?Municipio
+    {
+        if(!empty($this->municipiosId)){
+            $this->municipios = Municipio::searchForId( $this->municipiosId) ?? new Municipio();
+            return $this->municipios;
+        }
+        return null;
+    }
 
     /**
      * @param string $query
@@ -229,8 +258,8 @@ class Usuario extends AbstractDBConnection implements Model
         $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
 
         $arrData = [
-            ':idUsuario' =>    $this->getIdUsuario(),
-            ':documento' =>   $this->getDocumento(),
+            ':idUsuario' => $this->getIdUsuario(),
+            ':documento' => $this->getDocumento(),
             ':nombre' =>   $this->getNombres(),
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
@@ -238,7 +267,7 @@ class Usuario extends AbstractDBConnection implements Model
             ':usuario' => $this->getUsuario(),
             ':contrasena' =>   $hashPassword,
             ':estado' =>   $this->getEstado(),
-
+            ':municipiosId' => $this->getMunicipiosId()
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -254,7 +283,7 @@ class Usuario extends AbstractDBConnection implements Model
         $query = "INSERT INTO ornamentacion.usuario VALUES (
             :idUsuario,:documento,:nombre,
             :telefono,:direccion,:roll,:usuario,
-            :contrasena,:estado
+            :contrasena,:estado,:municipiosId
         )";
         return $this->save($query);
     }
@@ -265,9 +294,8 @@ class Usuario extends AbstractDBConnection implements Model
     public function update(): ?bool
     {
         $query = "UPDATE ornamentacion.usuario SET 
-            
             documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
-            contrasena = :contrasena, estado = :estado WHERE idUsuario = :idUsuario";
+            contrasena = :contrasena, estado = :estado , municipiosId = :municipiosId  WHERE idUsuario = :idUsuario";
         return $this->save($query);
     }
 
@@ -418,7 +446,8 @@ class Usuario extends AbstractDBConnection implements Model
             ':direccion' =>   $this->getDireccion(),
             ':roll' =>   $this->getRoll(),
             ':contrasena'=> $this-> getContrasena() ,
-            ':estado' =>   $this->getEstado()
+            ':estado' =>   $this->getEstado(),
+            ':municipiosId' => $this->getMunicipiosId(),
         ];
     }
 

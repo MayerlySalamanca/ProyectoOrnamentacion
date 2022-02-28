@@ -45,7 +45,6 @@ class ProductosController{
             if($producto->update()){
                 unset($_SESSION['frmProductos']);
             }
-
             header("Location: ../../views/modules/productos/show.php?id=" . $producto->getIdProducto() . "&respuesta=success&mensaje=Producto Actualizado");
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');

@@ -3,6 +3,8 @@ require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 require("../../../app/Controllers/UsuariosController.php");
 
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
 use App\Controllers\UsuariosController;
 use App\Models\Usuario;
 use App\Models\GeneralFunctions;
@@ -163,7 +165,33 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     </select>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group row">
+                                                <label for="municipiosId" class="col-sm-2 col-form-label">Municipio</label>
+                                                <div class="col-sm-5">
+                                                    <?=
+                                                    DepartamentosController::selectDepartamentos(
+                                                        array(
+                                                            'id' => 'idDepartamentos',
+                                                            'name' => 'idDepartamentos',
+                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipio()->getDepartamento()->getIdDepartamentos() : '15',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "estado = 'Activo'"
+                                                        )
+                                                    )
+                                                    ?>
+                                                </div>
+                                                <div class="col-sm-5 ">
+                                                    <?= MunicipiosController::selectMunicipios(
+                                                        array (
+                                                            'id' => 'municipiosId',
+                                                            'name' => 'municipiosId',
+                                                            'defaultValue' => (!empty($DataUsuario)) ? $DataUsuario->getMunicipiosId() : '',
+                                                            'class' => 'form-control select2bs4 select2-info',
+                                                            'where' => "departamentosId = ".$DataUsuario->getMunicipio()->getDepartamento()->getIdDepartamentos()." and estado = 'Activo'")
+                                                    )
+                                                    ?>
+                                                </div>
+                                            </div>
                                             <hr>
                                             <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
                                             <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
@@ -197,5 +225,26 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#idDepartamentos').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipiosId",
+                nombre: "municipiosId",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamentosId = "+$('#idDepartamentos').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                if (e)
+                    console.log(e);
+                $("#municipiosId").html(e).select2({ height: '100px'});
+            });
+        });
+        $('.btn-file span').html('Seleccionar');
+    });
+</script>
 </body>
 </html>

@@ -22513,3 +22513,1176 @@
 
 )
   
+[2022-02-28T20:53:13.784679+00:00] General.ERROR: Exception  
+[2022-02-28T20:53:13.791114+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T20:53:13.791285+00:00] General.ERROR: Line: 96  
+[2022-02-28T20:53:13.791586+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idDepartamentos' in 'where clause'  
+[2022-02-28T20:53:13.792129+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE idDepartamentos = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE idDepartamentos = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\usuarios\create.php
+            [line] => 159
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => municipiosId
+                            [name] => municipiosId
+                            [defaultValue] => 
+                            [class] => form-control select2bs4 select2-info
+                            [where] => idDepartamentos = 15 and estado = 'Activo'
+                            [isMultiple] => 
+                            [isRequired] => 1
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                            [request] => html
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-02-28T20:57:24.765813+00:00] General.ERROR: Exception  
+[2022-02-28T20:57:24.770758+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T20:57:24.770880+00:00] General.ERROR: Line: 96  
+[2022-02-28T20:57:24.770966+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departamento_id' in 'where clause'  
+[2022-02-28T20:57:24.771192+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 8 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 8 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 27
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [isMultiple] => false
+                            [isRequired] => true
+                            [id] => municipiosId
+                            [nombre] => municipiosId
+                            [defaultValue] => 
+                            [class] => form-control select2bs4 select2-info
+                            [where] => departamento_id = 8 and estado = 'Activo'
+                            [request] => ajax
+                            [name] => municipiosId
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-02-28T20:57:32.314252+00:00] General.ERROR: Exception  
+[2022-02-28T20:57:32.314959+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T20:57:32.315071+00:00] General.ERROR: Line: 96  
+[2022-02-28T20:57:32.315154+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departamento_id' in 'where clause'  
+[2022-02-28T20:57:32.315244+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 11 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 11 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 27
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [isMultiple] => false
+                            [isRequired] => true
+                            [id] => municipiosId
+                            [nombre] => municipiosId
+                            [defaultValue] => 
+                            [class] => form-control select2bs4 select2-info
+                            [where] => departamento_id = 11 and estado = 'Activo'
+                            [request] => ajax
+                            [name] => municipiosId
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-02-28T20:57:55.951734+00:00] General.ERROR: Exception  
+[2022-02-28T20:57:55.953332+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T20:57:55.953453+00:00] General.ERROR: Line: 96  
+[2022-02-28T20:57:55.953538+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'departamento_id' in 'where clause'  
+[2022-02-28T20:57:55.954086+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE departamento_id = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 27
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [isMultiple] => false
+                            [isRequired] => true
+                            [id] => municipiosId
+                            [nombre] => municipiosId
+                            [defaultValue] => 
+                            [class] => form-control select2bs4 select2-info
+                            [where] => departamento_id = 15 and estado = 'Activo'
+                            [request] => ajax
+                            [name] => municipiosId
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-02-28T21:57:08.101022+00:00] General.ERROR: Exception  
+[2022-02-28T21:57:08.105010+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T21:57:08.105153+00:00] General.ERROR: Line: 122  
+[2022-02-28T21:57:08.105256+00:00] General.ERROR: Mensaje: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''5004' = '5004'  WHERE idUsuario = '2'' at line 4  
+[2022-02-28T21:57:08.105576+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Usuario.php
+            [line] => 273
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.usuario SET 
+            
+            documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
+            contrasena = :contrasena, estado = :estado , :municipiosId = :municipiosId  WHERE idUsuario = :idUsuario
+                    [1] => Array
+                        (
+                            [:idUsuario] => 2
+                            [:documento] => 1300
+                            [:nombre] => Hgfdh
+                            [:telefono] => FVDSFDS
+                            [:direccion] => GFDGFD
+                            [:roll] => Administrador
+                            [:usuario] => Da
+                            [:contrasena] => $2y$10$AO6tFwsSzPgDP3rnODeQee/0DknvnJLnc9/GirchVugeQWdJNyp2i
+                            [:estado] => Activo
+                            [:municipiosId] => 5004
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Usuario.php
+            [line] => 300
+            [function] => save
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.usuario SET 
+            
+            documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
+            contrasena = :contrasena, estado = :estado , :municipiosId = :municipiosId  WHERE idUsuario = :idUsuario
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\UsuariosController.php
+            [line] => 54
+            [function] => update
+            [class] => App\Models\Usuario
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\UsuariosController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:17:08.177515+00:00] General.ERROR: Exception  
+[2022-02-28T22:17:08.182622+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:17:08.182766+00:00] General.ERROR: Line: 122  
+[2022-02-28T22:17:08.182872+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens  
+[2022-02-28T22:17:08.183255+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                    [1] => Array
+                        (
+                            [:IdProveedor] => 
+                            [:documento] => 1007568396
+                            [:nombre] => Dilan Galeano
+                            [:ciudad] => 
+                            [:estado] => Activo
+                            [:municipiosId] => 
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 176
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 27
+            [function] => insert
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:18:59.611568+00:00] General.ERROR: Exception  
+[2022-02-28T22:18:59.613144+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:18:59.613262+00:00] General.ERROR: Line: 122  
+[2022-02-28T22:18:59.613349+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens  
+[2022-02-28T22:18:59.613446+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                    [1] => Array
+                        (
+                            [:IdProveedor] => 
+                            [:documento] => 1007568396
+                            [:nombre] => Dilan Galeano
+                            [:ciudad] => 
+                            [:estado] => Activo
+                            [:municipiosId] => 
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 176
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 27
+            [function] => insert
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:55:54.430957+00:00] General.ERROR: Exception  
+[2022-02-28T22:55:54.436872+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:55:54.437032+00:00] General.ERROR: Line: 192  
+[2022-02-28T22:55:54.437119+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:55:54.437385+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 192
+            [function] => query
+            [class] => PDO
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT COUNT(*) FROM compras
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 87
+            [function] => countRowsTable
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => compras
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 38
+            [function] => setNumeroSerie
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 289
+            [function] => __construct
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 335
+            [function] => search
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [5] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 72
+            [function] => getAll
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\compras\index.php
+            [line] => 105
+            [function] => getAll
+            [class] => App\Controllers\ComprasController
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:55:54.476773+00:00] General.ERROR: Exception  
+[2022-02-28T22:55:54.477210+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:55:54.477343+00:00] General.ERROR: Line: 96  
+[2022-02-28T22:55:54.477453+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:55:54.477567+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 291
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 335
+            [function] => search
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 72
+            [function] => getAll
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\compras\index.php
+            [line] => 105
+            [function] => getAll
+            [class] => App\Controllers\ComprasController
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:56:01.071159+00:00] General.ERROR: Exception  
+[2022-02-28T22:56:01.071907+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:56:01.072000+00:00] General.ERROR: Line: 192  
+[2022-02-28T22:56:01.072081+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:56:01.072182+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 192
+            [function] => query
+            [class] => PDO
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT COUNT(*) FROM compras
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 87
+            [function] => countRowsTable
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => compras
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 38
+            [function] => setNumeroSerie
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 28
+            [function] => __construct
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => 
+                            [numero_serie] => 
+                            [empleado_id] => 3
+                            [provedor_id] => 2
+                            [fecha_compra] => Carbon\Carbon Object
+                                (
+                                    [endOfTime:protected] => 
+                                    [startOfTime:protected] => 
+                                    [constructedObjectId:protected] => 00000000000000020000000000000000
+                                    [localMonthsOverflow:protected] => 
+                                    [localYearsOverflow:protected] => 
+                                    [localStrictModeEnabled:protected] => 
+                                    [localHumanDiffOptions:protected] => 
+                                    [localToStringFormat:protected] => 
+                                    [localSerializer:protected] => 
+                                    [localMacros:protected] => 
+                                    [localGenericMacros:protected] => 
+                                    [localFormatFunction:protected] => 
+                                    [localTranslator:protected] => 
+                                    [dumpProperties:protected] => Array
+                                        (
+                                            [0] => date
+                                            [1] => timezone_type
+                                            [2] => timezone
+                                        )
+
+                                    [dumpLocale:protected] => 
+                                    [dumpDateProperties:protected] => 
+                                    [date] => 2022-02-28 22:56:01.029155
+                                    [timezone_type] => 3
+                                    [timezone] => UTC
+                                )
+
+                            [monto] => 0
+                            [estado] => Proceso
+                        )
+
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ComprasController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:56:01.091448+00:00] General.ERROR: Exception  
+[2022-02-28T22:56:01.091843+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:56:01.091935+00:00] General.ERROR: Line: 122  
+[2022-02-28T22:56:01.092282+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:56:01.092451+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 245
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.compras VALUES (:id,:numero_serie,:empleado_id,:provedor_id,:fecha_compra,:monto,:estado)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:numero_serie] => FC-1-2022-02-28
+                            [:provedor_id] => 2
+                            [:empleado_id] => 3
+                            [:fecha_compra] => 2022-02-28 22:56:01
+                            [:monto] => 0
+                            [:estado] => Proceso
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 256
+            [function] => save
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.compras VALUES (:id,:numero_serie,:empleado_id,:provedor_id,:fecha_compra,:monto,:estado)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 29
+            [function] => insert
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ComprasController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:57:23.464707+00:00] General.ERROR: Exception  
+[2022-02-28T22:57:23.465725+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:57:23.465951+00:00] General.ERROR: Line: 192  
+[2022-02-28T22:57:23.466108+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:57:23.466317+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 192
+            [function] => query
+            [class] => PDO
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT COUNT(*) FROM compras
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 87
+            [function] => countRowsTable
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => compras
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 38
+            [function] => setNumeroSerie
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => 
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 289
+            [function] => __construct
+            [class] => App\Models\Compras
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 335
+            [function] => search
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [5] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 72
+            [function] => getAll
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\compras\index.php
+            [line] => 105
+            [function] => getAll
+            [class] => App\Controllers\ComprasController
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-02-28T22:57:23.502906+00:00] General.ERROR: Exception  
+[2022-02-28T22:57:23.503670+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-02-28T22:57:23.503812+00:00] General.ERROR: Line: 96  
+[2022-02-28T22:57:23.503900+00:00] General.ERROR: Mensaje: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ornamentacion.compras' doesn't exist  
+[2022-02-28T22:57:23.503995+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 291
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Compras.php
+            [line] => 335
+            [function] => search
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.compras
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ComprasController.php
+            [line] => 72
+            [function] => getAll
+            [class] => App\Models\Compras
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\compras\index.php
+            [line] => 105
+            [function] => getAll
+            [class] => App\Controllers\ComprasController
+            [type] => ::
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

@@ -9,11 +9,10 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     private ?int  $IdProveedor;
     private int $documento;
     private string $nombre;
-    private string $ciudad;
     private Estado $estado;
+    private ? int $municipiosId;
 //Realacion
-    private ?array $pedidosProveedor;
-
+    private ? Municipio $municipios;
     /**
      * @param array $proveedor
      */
@@ -25,6 +24,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setNombre($proveedor['nombre'] ?? '') ;
         $this->setCiudad($proveedor['ciudad']?? '') ;
         $this->setEstado($proveedor['estado'] ?? Estado::INACTIVO);
+        $this->setMunicipiosId($proveedor['municipiosId']??null);
     }
     public function __destruct()
     {
@@ -122,6 +122,33 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
 
+    /**
+     * @return int|null
+     */
+    public function getMunicipiosId(): ?int
+    {
+        return $this->municipiosId;
+    }
+
+    /**
+     * @param int|null $municipiosId
+     */
+    public function setMunicipiosId(?int $municipiosId): void
+    {
+        $this->municipiosId = $municipiosId;
+    }
+
+    /**
+     * @return Municipio|null
+     */
+    public function getMunicipio(): ?Municipio
+    {
+        if(!empty($this->municipiosId)){
+            $this->municipios = Municipio::searchForId( $this->municipiosId) ?? new Municipio();
+            return $this->municipios;
+        }
+        return null;
+    }
 
     protected function save(string $query): ?bool
 
@@ -130,9 +157,8 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
             ':IdProveedor' =>    $this->getIdProveedor(),
             ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombre(),
-            ':ciudad' =>   $this->getCiudad(),
             ':estado' =>   $this->getEstado(),
-
+            ':municipiosId' =>$this->getMunicipiosId(),
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -144,7 +170,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "INSERT INTO ornamentacion.proveedor VALUES (
             :IdProveedor,:documento,:nombre,
-            :ciudad,:estado
+            :estado,:municipiosId
         )";
         return $this->save($query);
     }
@@ -152,10 +178,9 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     function update(): ?bool
     {
         $query = "UPDATE ornamentacion.proveedor SET 
-            nombre = :nombre,documento = :documento, 
-            ciudad= :ciudad, estado = :estado WHERE IdProveedor = :IdProveedor";
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor";
         return $this->save($query);
-
     }
 
     function deleted(): ?bool
@@ -233,10 +258,10 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     {
         return [
             ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombre()->jsonSerialize(),
+            ':nombre' =>   $this->getNombre(),
             ':ciudad' =>   $this->getCiudad(),
             ':estado' =>   $this->getEstado(),
-
+            ':municipis' => $this->getMunicipio()->getNombre(),
         ];
     }
 

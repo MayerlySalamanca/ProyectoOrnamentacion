@@ -2,6 +2,9 @@
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
+
+use App\Controllers\DepartamentosController;
+use App\Controllers\MunicipiosController;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -133,6 +136,30 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="form-group row">
+                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
+                                        <div class="col-sm-5">
+                                            <?= DepartamentosController::selectDepartamentos(
+                                                array(
+                                                    'id' => 'idDepartamentos',
+                                                    'name' => 'idDepartamentos',
+                                                    'defaultValue' => '0', //Boyacá
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "estado = 'Activo'"
+                                                )
+                                            )
+                                            ?>
+                                        </div>
+                                        <div class="col-sm-5 ">
+                                            <?= MunicipiosController::selectMunicipios(array (
+                                                'id' => 'municipiosId',
+                                                'name' => 'municipiosId',
+                                                'defaultValue' => (!empty($frmSession['municipiosId'])) ? $frmSession['municipiosId'] : '',
+                                                'class' => 'form-control select2bs4 select2-info',
+                                                'where' => "departamentosId = 15 and estado = 'Activo'"))
+                                            ?>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
                                     <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
@@ -154,5 +181,32 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
+<script>
+    $(function() {
+        $('#documento').val(' ');
+        $('#nombre').val(' ');
+        $('#telefono').val(' ');
+        $('#direccion').val(' ');
+        $('#usuario').val(' ');
+        $('#contrasena').val(' ');
+        $('#idDepartamentos').on('change', function() {
+            $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
+                isMultiple: false,
+                isRequired: true,
+                id: "municipiosId",
+                nombre: "municipiosId",
+                defaultValue: "",
+                class: "form-control select2bs4 select2-info",
+                where: "departamentosId = "+$('#idDepartamentos').val()+" and estado = 'Activo'",
+                request: 'ajax'
+            }, function(e) {
+                if (e)
+                    console.log(e);
+                $("#municipiosId").html(e).select2({ height: '100px'});
+            });
+        });
+        $('.btn-file span').html('Seleccionar');
+    });
+</script>
 </body>
 </html>

@@ -17,6 +17,7 @@ class ProveedoresController
         $this->dataProveedor['nombre'] = $_FORM['nombre'] ?? '';
         $this->dataProveedor['ciudad'] = $_FORM['ciudad'] ?? '';
         $this->dataProveedor['estado'] = $_FORM['estado'] ?? 'Activo';
+        $this->dataProveedor['municipiosId'] = $_FORM['municipiosId'] ?? NULL;
     }
 
     public function create($withFiles = null) {

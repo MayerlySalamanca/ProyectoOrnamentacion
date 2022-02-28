@@ -17,10 +17,10 @@ class ComprasController{
         $this->dataCompra['id'] = $_FORM['id'] ?? NULL;
         $this->dataCompra['numero_serie'] = $_FORM['numero_serie'] ?? '';
         $this->dataCompra['empleado_id'] = $_FORM['empleado_id'] ?? 0;
-        $this->dataCompra['provedor_id'] = $_FORM['provedor_id'] ?? 0;
+        $this->dataCompra['proveedor_id'] = $_FORM['proveedor_id'] ?? 0;
         $this->dataCompra['fecha_compra'] = !empty($_FORM['fecha_compra']) ? Carbon::parse($_FORM['fecha_compra']) : new Carbon();
         $this->dataCompra['monto'] = $_FORM['monto'] ?? 0;
-        $this->dataCompra['estado'] = $_FORM['estado'] ?? 'Proceso';
+        $this->dataCompra['estado'] = $_FORM['estado'] ?? 'En progreso';
     }
 
     public function create() {
@@ -29,7 +29,7 @@ class ComprasController{
             if ($Compra->insert()) {
                 unset($_SESSION['frmCompras']);
                 $Compra->Connect();
-                $id = $Compra->getLastId('id','compras');
+                $id = $Compra->getLastId('compras');
                 $Compra->Disconnect();
                 header("Location: ../../views/modules/compras/create.php?id=" . $id . "");
             }
@@ -84,7 +84,7 @@ class ComprasController{
     static public function cancel(){
         try {
             $ObjVenta = Compras::searchForId($_GET['Id']);
-            $ObjVenta->setEstado("Anulada");
+            $ObjVenta->setEstado("Cancelada");
             if($ObjVenta->update()){
                 header("Location: ../../views/modules/compras/index.php");
             }else{
@@ -110,7 +110,7 @@ class ComprasController{
 
         $arrCompras = array();
         if($params['where'] != ""){
-            $base = "SELECT * FROM ornamentacion.compras WHERE ";
+            $base = "SELECT * FROM compras WHERE ";
             $arrCompras = Compras::search($base.$params['where']);
         }else{
             $arrCompras = Compras::getAll();
