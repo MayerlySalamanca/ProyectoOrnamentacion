@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
-require("../../../app/Controllers/VentasController.php");
+require("../../../app/Controllers/FacturasController.php");
 
-use App\Controllers\VentasController;
-use App\Models\Ventas;
+use App\Controllers\FacturasController;
+use App\Models\Factura;
 use App\Models\GeneralFunctions;
 
-$nameModel = "Venta";
+$nameModel = "Factura";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
@@ -56,14 +56,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataVentas = VentasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataVentas Ventas */
+                                $DataVentas = FacturasController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataVentas Factura */
                                 if (!empty($DataVentas)) {
                                     ?>
                                     <div class="card-header">
                                         <h3 class="card-title"><i class="fas fa-shopping-cart"></i> &nbsp; Ver
-                                            Información de <?= $DataVentas->getNumeroSerie() ?>
-                                            -<?= $DataVentas->getId() ?></h3>
+                                            Información de <?= $DataVentas->getNumeroFactura() ?>
+                                            -<?= $DataVentas->getIdFactura() ?></h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                                     data-source="show.php" data-source-selector="#card-refresh-content"
@@ -83,17 +83,17 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
                                             <strong><i class="fas fa-sort-numeric-down mr-1"></i> Numero</strong>
                                         <p class="text-muted">
-                                            <?= $DataVentas->getNumeroSerie() . "-" . $DataVentas->getId(); ?>
+                                            <?= $DataVentas->getNumeroFactura() . "-" . $DataVentas->getIdFactura(); ?>
                                         </p>
                                         <hr>
                                         <strong><i class="fas fa-user-ninja mr-1"></i> Cliente</strong>
-                                        <p class="text-muted"><?= $DataVentas->getCliente()->getNombres() . " " . $DataVentas->getCliente()->getApellidos() ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getCliente()->getNombres()  ?></p>
                                         <hr>
                                         <strong><i class="far fa-user mr-1"></i> Empleado</strong>
-                                        <p class="text-muted"><?= $DataVentas->getEmpleado()->getNombres() . " " . $DataVentas->getEmpleado()->getApellidos() ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getEmpleado()->getNombres()  ?></p>
                                         <hr>
                                         <strong><i class="far fa-calendar mr-1"></i> Fecha Venta</strong>
-                                        <p class="text-muted"><?= $DataVentas->getFechaVenta(); ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getFecha(); ?></p>
                                         <hr>
                                         <strong><i class="fas fa-money-bill mr-1"></i> Monto</strong>
                                         <p class="text-muted"><?= GeneralFunctions::formatCurrency($DataVentas->getMonto()); ?></p>

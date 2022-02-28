@@ -22,6 +22,7 @@ class MateriasController
         $this->dataMateria['idMateria'] = $_FORM['idMateria'] ?? NULL;
         $this->dataMateria['nombre'] = $_FORM['nombre'] ?? NULL;
         $this->dataMateria['tipo'] = $_FORM['tipo'] ?? 'Perfiles';
+        $this->dataMateria['valor_venta'] = $_FORM['valor_venta'] ?? Null;
         $this->dataMateria['stock'] = $_FORM['stock'] ?? Null;
         $this->dataMateria['estado'] = $_FORM['estado'] ?? 'Inactivo';
     }
@@ -123,8 +124,8 @@ class MateriasController
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "materiaPrima_Id";
-        $params['name'] = $params['name'] ?? "materiaPrima_Id";
+        $params['id'] = $params['id'] ?? "idMateria";
+        $params['name'] = $params['name'] ?? "idMateria";
         $params['defaultValue'] = $params['defaultValue'] ?? "";
         $params['class'] = $params['class'] ?? "form-control";
         $params['where'] = $params['where'] ?? "";
@@ -133,7 +134,7 @@ class MateriasController
 
         $arrMateria = array();
         if ($params['where'] != "") {
-            $base = "SELECT * FROM ornamentacion.MateriaPrima WHERE";
+            $base = "SELECT * FROM ornamentacion.MateriaPrima WHERE ";
             $arrMateria = MateriaPrima::search($base . $params['where']);
         } else {
             $arrMateria = MateriaPrima::getAll();

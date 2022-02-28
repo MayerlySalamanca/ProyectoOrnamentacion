@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Enums\Estado;
 use App\Enums\Tipo;
-use JetBrains\PhpStorm\Internal\TentativeType;
+use App\Interfaces\Model;
 
 
-class Producto extends AbstractDBConnection implements \App\Interfaces\Model
+class Producto extends AbstractDBConnection implements Model
 {
      private ?int  $IdProducto;
      private Tipo $tipo;
@@ -270,14 +270,12 @@ class Producto extends AbstractDBConnection implements \App\Interfaces\Model
     public function jsonSerialize(): array
     {
         return [
-            ':idProducto' =>    $this->getIdProducto(),
-            ':tipo' =>   $this->getTipo(),
-            ':nombre' =>   $this->getNombre(),
-            ':Stock' =>   $this->getStock(),
-            ':valor' =>   $this->getValor(),
-            ':estado' =>   $this->getEstado(),
 
-
+            'tipo' => $this->getTipo(),
+            'nombre' => $this->getNombre(),
+            'Stock' => $this->getStock(),
+            'valor' => $this->getValor(),
+            'estado' => $this->getEstado(),
         ];
     }
 }

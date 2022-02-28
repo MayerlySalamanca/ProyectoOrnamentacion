@@ -37,11 +37,12 @@ class Factura extends AbstractDBConnection implements Model
         parent::__construct();
         $this->setIdFactura($venta['idFactura'] ?? NULL);
         $this->setNumeroFactura($venta['numeroFactura'] ?? '');
-        $this->setUsuarioCliente($venta['nombreCliente'] ?? 0);
         $this->setUsuarioVendedor($venta['usuarioVendedor'] ?? 0);
+        $this->setUsuarioCliente($venta['usuarioCliente'] ?? 0);
         $this->setFecha(!empty($venta['fecha']) ? Carbon::parse($venta['fecha']) : new Carbon());
         $this->setEstado($venta['estado'] ?? EstadoFactura::PROCESO );
         $this->setMonto();
+
 
     }
 
@@ -126,8 +127,10 @@ class Factura extends AbstractDBConnection implements Model
                 }
             }
         }
+
         $this->monto = $total;
     }
+
     /**
      * @return Estado
      */
@@ -235,11 +238,11 @@ class Factura extends AbstractDBConnection implements Model
         $arrData = [
             ':idFactura' =>    $this->getIdFactura(),
             ':numeroFactura' =>   $this->getNumeroFactura(),
-            ':usuarioCliente' =>   $this->getUsuarioCliente(),
             ':usuarioVendedor' =>   $this->getUsuarioVendedor(),
+            ':usuarioCliente' =>   $this->getUsuarioCliente(),
             ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ':monto' =>   $this->getMonto(),
-            ':estado' =>   $this->getEstado()
+            ':estado' =>   $this->getEstado(),
 
         ];
         $this->Connect();
@@ -342,7 +345,7 @@ class Factura extends AbstractDBConnection implements Model
     public static function facturaRegistrada($numeroSerie): bool
     {
         $numeroSerie = trim(strtolower($numeroSerie));
-        $result = Pedidos::search("SELECT idFactura FROM ornamentacion.factura where numeroFactura = '" . $numeroSerie. "'");
+        $result = Factura::search("SELECT idFactura FROM ornamentacion.factura where numeroFactura = '" . $numeroSerie. "'");
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
@@ -355,7 +358,7 @@ class Factura extends AbstractDBConnection implements Model
      */
     public function __toString() : string
     {
-        return "Numero Serie: $this->numeroFactura, Cliente: ".$this->getCliente()->nombresCompletos().", Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha->toDateTimeString(), Valor: $this->valor, Estado: $this->estado";
+        return "Numero Serie: $this->numeroFactura, Cliente: ".$this->getCliente()->nombresCompletos().", Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha->toDateTimeString(), monto: $this->monto, Estado: $this->estado";
     }
 
     /**
@@ -368,12 +371,12 @@ class Factura extends AbstractDBConnection implements Model
     public function jsonSerialize() : array
     {
         return [
-            ':idFactura' =>    $this->getIdFactura(),
+
             ':numeroFactura' =>   $this->getNumeroFactura(),
             ':empleado' =>   $this->getEmpleado()->jsonSerialize(),
             ':cliente' =>   $this->getCliente()->jsonSerialize(),
             ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':Monto' =>   $this->getValor(),
+            ':monto' =>   $this->getMonto(),
             ':estado' =>   $this->getEstado(),
         ];
     }

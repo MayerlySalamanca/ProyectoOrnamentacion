@@ -1,13 +1,13 @@
 <?php
-require_once("../../../app/Controllers/VentasController.php");
+require_once("../../../app/Controllers/FacturasController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\VentasController;
+use App\Controllers\FacturasController;
 use App\Models\GeneralFunctions;
-use App\Models\Ventas;
+use App\Models\Factura;
 
-$nameModel = "Venta";
+$nameModel = "Factura";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 
@@ -101,30 +101,30 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </thead>
                                             <tbody>
                                             <?php
-                                            $arrVentas = VentasController::getAll();
-                                            /* @var $arrVentas Ventas[] */
+                                            $arrVentas = FacturasController::getAll();
+                                            /* @var $arrVentas Factura[] */
                                             foreach ($arrVentas as $venta) {
                                                 ?>
                                                 <tr>
-                                                    <td><?= $venta->getId(); ?></td>
-                                                    <td><?= $venta->getNumeroSerie(); ?></td>
-                                                    <td><?= $venta->getCliente()->getNombres(); ?> <?= $venta->getCliente()->getApellidos(); ?></td>
-                                                    <td><?= $venta->getEmpleado()->getNombres(); ?> <?= $venta->getEmpleado()->getApellidos(); ?></td>
-                                                    <td><?= $venta->getFechaVenta(); ?></td>
+                                                    <td><?= $venta->getIdFactura(); ?></td>
+                                                    <td><?= $venta->getNumeroFactura(); ?></td>
+                                                    <td><?= $venta->getCliente()->getNombres(); ?> </td>
+                                                    <td><?= $venta->getEmpleado()->getNombres(); ?></td>
+                                                    <td><?= $venta->getFecha(); ?></td>
                                                     <td><?= GeneralFunctions::formatCurrency($venta->getMonto()); ?></td>
                                                     <td><?= $venta->getEstado(); ?></td>
                                                     <td>
-                                                        <a href="show.php?id=<?php echo $venta->getId(); ?>"
+                                                        <a href="show.php?id=<?php echo $venta->getIdFactura(); ?>"
                                                            type="button" data-toggle="tooltip" title="Ver"
                                                            class="btn docs-tooltip btn-warning btn-xs"><i
                                                                     class="fa fa-eye"></i></a>
-                                                        <?php if ($venta->getEstado() == "En progreso") { ?>
-                                                            <a href="create.php?id=<?php echo $venta->getId(); ?>"
+                                                        <?php if ($venta->getEstado() == "Proceso") { ?>
+                                                            <a href="create.php?id=<?php echo $venta->getIdFactura(); ?>"
                                                                type="button" data-toggle="tooltip" title="Retomar"
                                                                class="btn docs-tooltip btn-success btn-xs"><i
                                                                         class="fa fa-undo-alt"></i></a>
                                                             <a type="button"
-                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=cancel&Id=<?= $venta->getId(); ?>"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=cancel&Id=<?= $venta->getIdFactura(); ?>"
                                                                data-toggle="tooltip" title="Cancelar"
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>

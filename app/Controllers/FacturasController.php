@@ -32,7 +32,7 @@ class FacturasController{
             if ($Venta->insert()) {
                 unset($_SESSION['frmVentas']);
                 $Venta->Connect();
-                $id = $Venta->getLastId('facturacion');
+                $id = $Venta->getLastId('idFactura','factura');
                 $Venta->Disconnect();
                 header("Location: ../../views/modules/facturacion/create.php?id=" . $id . "");
             }

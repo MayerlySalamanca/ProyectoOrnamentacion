@@ -18,6 +18,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
     private String $nombre;
     private TipoMateria $tipo;
     private int $stock;
+    private int $valor_venta;
     private Estado $estado;
 
     public function __construct(array $materia = [])
@@ -26,6 +27,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
         $this->setIdMateria($materia['idMateria'] ?? null);
         $this->setNombre($materia['nombre'] ?? '');
         $this->setTipo($materia['tipo'] ?? TipoMateria::PERFILES);
+        $this->setValorVenta($materia['valor_venta'] ?? 0);
         $this->setStock($materia['stock'] ?? 0);
         $this->setEstado($materia['estado'] ?? Estado::INACTIVO);
 
@@ -37,6 +39,23 @@ class MateriaPrima extends AbstractDBConnection implements Model
             $this->Disconnect();
         }
     }
+
+    /**
+     * @return int
+     */
+    public function getValorVenta(): int
+    {
+        return $this->valor_venta;
+    }
+
+    /**
+     * @param int $valor_venta
+     */
+    public function setValorVenta(int $valor_venta): void
+    {
+        $this->valor_venta = $valor_venta;
+    }
+
 
     /**
      * @return int|null
@@ -135,6 +154,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
             ':idMateria' =>    $this->getIdMateria(),
             ':nombre' =>    $this->getNombre(),
             ':tipo' =>   $this->getTipo(),
+            ':valor_venta' =>  $this->getValorVenta(),
             ':stock' =>  $this->getStock(),
             ':estado' =>   $this->getEstado()
         ];
@@ -147,7 +167,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
     function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.materiaprima VALUES (
-            :idMateria,:nombre,:tipo,
+            :idMateria,:nombre,:tipo,:valor_venta,
             :stock,:estado
         )";
         return $this->save($query);
@@ -157,7 +177,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
     {
         $query = "UPDATE ornamentacion.materiaprima SET 
             nombre = :nombre , tipo = :tipo,
-            stock= :stock ,estado = :estado
+            stock= :stock ,valor_venta= :valor_venta,estado = :estado
             WHERE  idMateria = :idMateria";
         return $this->save($query);
     }
@@ -256,6 +276,7 @@ class MateriaPrima extends AbstractDBConnection implements Model
             'idMateria' => $this->getIdMateria(),
             'nombre' => $this->getNombre(),
             'tipo' => $this->getTipo(),
+            'valor_venta' => $this->getValorVenta(),
             'stock' => $this->getStock(),
             'estado' => $this->getEstado(),
         ];

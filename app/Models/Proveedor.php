@@ -188,13 +188,13 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         return null;
     }
 
-    static function searchForId(int $id): ?Proveedor
+    static function searchForId(int $idProveedor): ?Proveedor
     {
         try {
-            if ($id > 0) {
+            if ($idProveedor > 0) {
                 $tmpProveedor = new Proveedor();
                 $tmpProveedor->Connect();
-                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.proveedor WHERE idProveedor =?", array($id));
+                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.proveedor WHERE idProveedor =?", array($idProveedor));
                 $tmpProveedor->Disconnect();
                 return ($getrow) ? new Proveedor($getrow) : null;
             } else {
@@ -232,9 +232,8 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     public function jsonSerialize(): array
     {
         return [
-            ':idProveedor' =>    $this->getIdProveedor(),
             ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombre(),
+            ':nombre' =>   $this->getNombre()->jsonSerialize(),
             ':ciudad' =>   $this->getCiudad(),
             ':estado' =>   $this->getEstado(),
 

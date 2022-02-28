@@ -92,6 +92,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <th>#</th>
                                                 <th>Nombres</th>
                                                 <th>tipo</th>
+                                                <th>Valor</th>
                                                 <th>stock</th>
                                                 <th>estado</th>
                                                 <th>Acciones</th>
@@ -107,6 +108,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?= $materias->getIdMateria(); ?></td>
                                                     <td><?= $materias->getNombre(); ?></td>
                                                     <td><?= $materias->getTipo(); ?></td>
+                                                    <td><?= $materias->getValorVenta(); ?></td>
                                                     <td><?= $materias->getStock(); ?></td>
                                                     <td><?= $materias->getEstado(); ?></td>
                                                     <td>
@@ -139,8 +141,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nombres</th>
-                                                <th>Descripción</th>
-                                                <th>Estado</th>
+                                                <th>tipo</th>
+                                                <th>Valor</th>
+                                                <th>stock</th>
+                                                <th>estado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                             </tfoot>

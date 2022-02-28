@@ -108,7 +108,7 @@ class ProveedoresController
         }
     }
 
-    static public function selectCategoria(array $params = []) {
+    static public function selectProveedor(array $params = []) {
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;

@@ -89,6 +89,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <p class="text-muted"><?= $DataMateria->getTipo() ?></p>
                                                 <hr>
                                                 <hr>
+                                                <strong><i class="fas fa-align-justify mr-1"></i>Valor</strong>
+                                                <p class="text-muted"><?= $DataMateria->getValorVenta() ?></p>
+                                                <hr>
+                                                <hr>
                                                 <strong><i class="fas fa-align-justify mr-1"></i>Stock</strong>
                                                 <p class="text-muted"><?= $DataMateria->getStock() ?></p>
                                                 <hr>

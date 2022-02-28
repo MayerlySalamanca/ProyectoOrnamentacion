@@ -125,6 +125,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <label for="valor_venta" class="col-sm-2 col-form-label">Valor</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="number" class="form-control" id="valor_venta"
+                                                           name="valor_venta" value="<?= $DataMaterias->getValorVenta(); ?>"
+                                                           placeholder="Ingrese ">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label for="stock" class="col-sm-2 col-form-label">stock</label>
                                                 <div class="col-sm-10">
                                                     <input required type="number" class="form-control" id="stock"

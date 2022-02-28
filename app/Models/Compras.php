@@ -2,26 +2,28 @@
 
 namespace App\Models;
 
+use App\Enums\EstadoFactura;
 use App\Interfaces\Model;
+use App\Models\Usuario;
+use App\Models\Proveedor;
 use Carbon\Carbon;
 use Exception;
 use JsonSerializable;
 
-class Pedidos extends AbstractDBConnection implements Model
+class Compras extends AbstractDBConnection implements Model
 {
     private ?int $id;
     private string $numero_serie;
     private int $empleado_id;
-    private int $proveedor_id;
+    private int $provedor_id;
     private Carbon $fecha_compra;
     private float $monto;
-    private string $estado;
-    private Carbon $created_at;
-    private ?Carbon $updated_at;
+    private EstadoFactura $estado;
+
 
     /* Relaciones */
-    private ?Usuarios $empleado;
-    private ?Usuarios $proveedor;
+    private ?Usuario $empleado;
+    private ?Proveedor $proveedor;
     private ?array $detalleCompra;
 
 
@@ -34,12 +36,10 @@ class Pedidos extends AbstractDBConnection implements Model
         parent::__construct();
         $this->setId($venta['id'] ?? NULL);
         $this->setNumeroSerie($venta['numero_serie'] ?? NULL);
-        $this->setProveedorId($venta['proveedor_id'] ?? 0);
         $this->setEmpleadoId($venta['empleado_id'] ?? 0);
+        $this->setProvedorId($venta['provedor_id'] ?? 0);
         $this->setFechaCompra(!empty($venta['fecha_compra']) ? Carbon::parse($venta['fecha_compra']) : new Carbon());
-        $this->setEstado($venta['estado'] ?? 'En progreso');
-        $this->setCreatedAt(!empty($venta['created_at']) ? Carbon::parse($venta['created_at']) : new Carbon());
-        $this->setUpdatedAt(!empty($venta['updated_at']) ? Carbon::parse($venta['updated_at']) : new Carbon());
+        $this->setEstado($venta['estado'] ?? "Proceso");
         $this->setMonto();
     }
 
@@ -84,7 +84,7 @@ class Pedidos extends AbstractDBConnection implements Model
     {
         if(empty($numero_serie)){
             $this->Connect();
-            $this->numero_serie = 'FC-'.($this->countRowsTable('facturacion')+1).'-'.date('Y-m-d');
+            $this->numero_serie = 'FC-'.($this->countRowsTable('compras')+1).'-'.date('Y-m-d');
             $this->Disconnect();
         }else{
             $this->numero_serie = $numero_serie;
@@ -94,17 +94,17 @@ class Pedidos extends AbstractDBConnection implements Model
     /**
      * @return int
      */
-    public function getProveedorId() : int
+    public function getProvedorId() : int
     {
-        return $this->proveedor_id;
+        return $this->provedor_id;
     }
 
     /**
      * @param int $proveedor_id
      */
-    public function setProveedorId(int $proveedor_id): void
+    public function setProvedorId(int $proveedor_id): void
     {
-        $this->proveedor_id = $proveedor_id;
+        $this->provedor_id = $proveedor_id;
     }
 
     /**
@@ -166,62 +166,36 @@ class Pedidos extends AbstractDBConnection implements Model
     }
 
     /**
-     * @return mixed|string
+     * @return Estado
      */
-    public function getEstado() : string
+    public function getEstado(): string
     {
-        return $this->estado;
+        return ucwords($this->estado->toString());
     }
 
     /**
-     * @param mixed|string $estado
+     * @param string|EstadoFactura|null $estado
      */
-    public function setEstado(string $estado): void
+    public function setEstado(null|string|EstadoFactura $estado): void
     {
-        $this->estado = $estado;
+        if(is_string($estado)){
+            $this->estado = EstadoFactura::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
     }
 
-    /**
-     * @return Carbon
-     */
-    public function getCreatedAt(): Carbon
-    {
-        return $this->created_at->locale('es');
-    }
 
-    /**
-     * @param Carbon $created_at
-     */
-    public function setCreatedAt(Carbon $created_at): void
-    {
-        $this->created_at = $created_at;
-    }
-
-    /**
-     * @return Carbon
-     */
-    public function getUpdatedAt(): Carbon
-    {
-        return $this->updated_at->locale('es');
-    }
-
-    /**
-     * @param Carbon $updated_at
-     */
-    public function setUpdatedAt(Carbon $updated_at): void
-    {
-        $this->updated_at = $updated_at;
-    }
 
     /* Relaciones */
     /**
      * Retorna el objeto usuario del empleado correspondiente a la venta
-     * @return Usuarios|null
+     * @return Usuario|null
      */
-    public function getEmpleado(): ?Usuarios
+    public function getEmpleado(): ?Usuario
     {
         if(!empty($this->empleado_id)){
-            $this->empleado = Usuarios::searchForId($this->empleado_id) ?? new Usuarios();
+            $this->empleado = Usuario::searchForId($this->empleado_id) ?? new Usuario();
             return $this->empleado;
         }
         return NULL;
@@ -229,12 +203,12 @@ class Pedidos extends AbstractDBConnection implements Model
 
     /**
      * Retorna el objeto usuario del cliente correspondiente a la venta
-     * @return Usuarios|null
+     * @return Usuario|null
      */
-    public function getProveedor(): ?Usuarios
+    public function getProveedor(): ?Proveedor
     {
-        if(!empty($this->proveedor_id)){
-            $this->proveedor = Usuarios::searchForId($this->proveedor_id) ?? new Usuarios();
+        if(!empty($this->provedor_id)){
+            $this->proveedor = Proveedor::searchForId($this->provedor_id) ?? new Proveedor();
             return $this->proveedor;
         }
         return NULL;
@@ -247,7 +221,7 @@ class Pedidos extends AbstractDBConnection implements Model
     public function getDetalleCompra(): ?array
     {
 
-        $this->detalleCompra = DetalleCompras::search('SELECT * FROM weber.detalle_compras where compra_id = '.$this->id);
+        $this->detalleCompra = DetalleCompras::search('SELECT * FROM ornamentacion.detalle_compra where compra_id = '.$this->id);
         return $this->detalleCompra;
     }
 
@@ -260,13 +234,12 @@ class Pedidos extends AbstractDBConnection implements Model
         $arrData = [
             ':id' =>    $this->getId(),
             ':numero_serie' =>   $this->getNumeroSerie(),
-            ':proveedor_id' =>   $this->getProveedorId(),
+            ':provedor_id' =>   $this->getProvedorId(),
             ':empleado_id' =>   $this->getEmpleadoId(),
             ':fecha_compra' =>  $this->getFechaCompra()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ':monto' =>   $this->getMonto(),
             ':estado' =>   $this->getEstado(),
-            ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':updated_at' =>  $this->getUpdatedAt()->toDateTimeString()
+
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -279,7 +252,7 @@ class Pedidos extends AbstractDBConnection implements Model
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.compras VALUES (:id,:numero_serie,:empleado_id,:proveedor_id,:fecha_compra,:monto,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.compras VALUES (:id,:numero_serie,:empleado_id,:provedor_id,:fecha_compra,:monto,:estado)";
         return $this->save($query);
     }
 
@@ -288,11 +261,11 @@ class Pedidos extends AbstractDBConnection implements Model
      */
     public function update() : ?bool
     {
-        $query = "UPDATE weber.compras SET 
+        $query = "UPDATE ornamentacion.compras SET 
             numero_serie = :numero_serie, empleado_id = :empleado_id, 
-            proveedor_id = :proveedor_id, fecha_compra = :fecha_compra,
-            monto = :monto, estado = :estado,
-            created_at = :created_at, updated_at = :updated_at WHERE id = :id";
+            provedor_id = :provedor_id, fecha_compra = :fecha_compra,
+            monto = :monto, estado = :estado
+           WHERE id = :id";
         return $this->save($query);
     }
 
@@ -301,7 +274,7 @@ class Pedidos extends AbstractDBConnection implements Model
      */
     public function deleted() : bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        $this->setEstado("Proceso"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
@@ -313,13 +286,13 @@ class Pedidos extends AbstractDBConnection implements Model
     {
         try {
             $arrCompras = array();
-            $tmp = new Pedidos();
+            $tmp = new Compras();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Compra = new Pedidos($valor);
+                $Compra = new Compras($valor);
                 array_push($arrCompras, $Compra);
                 unset($Compra);
             }
@@ -332,18 +305,18 @@ class Pedidos extends AbstractDBConnection implements Model
 
     /**
      * @param $id
-     * @return Factura
+     * @return Ventas
      * @throws Exception
      */
-    public static function searchForId($id) : ?Pedidos
+    public static function searchForId($id) : ?Compras
     {
         try {
             if ($id > 0) {
-                $Compra = new Pedidos();
+                $Compra = new Compras();
                 $Compra->Connect();
-                $getrow = $Compra->getRow("SELECT * FROM weber.compras WHERE id =?", array($id));
+                $getrow = $Compra->getRow("SELECT * FROM ornamentacion.compras WHERE id =?", array($id));
                 $Compra->Disconnect();
-                return ($getrow) ? new Pedidos($getrow) : null;
+                return ($getrow) ? new Compras($getrow) : null;
             }else{
                 throw new Exception('Id de compra Invalido');
             }
@@ -359,7 +332,7 @@ class Pedidos extends AbstractDBConnection implements Model
      */
     public static function getAll() : array
     {
-        return Pedidos::search("SELECT * FROM weber.compras");
+        return Compras::search("SELECT * FROM ornamentacion.compras");
     }
 
     /**
@@ -370,7 +343,7 @@ class Pedidos extends AbstractDBConnection implements Model
     public static function facturaRegistrada($numeroSerie): bool
     {
         $numeroSerie = trim(strtolower($numeroSerie));
-        $result = Pedidos::search("SELECT id FROM weber.compras where numero_serie = '" . $numeroSerie. "'");
+        $result = Compras::search("SELECT id FROM ornamentacion.compras where numero_serie = '" . $numeroSerie. "'");
         if ( !empty($result) && count ($result) > 0 ) {
             return true;
         } else {
@@ -403,8 +376,7 @@ class Pedidos extends AbstractDBConnection implements Model
             'fecha_compra' => $this->getFechaCompra()->toDateTimeString(),
             'monto' => $this->getMonto(),
             'estado' => $this->getEstado(),
-            'created_at' => $this->getCreatedAt()->toDateTimeString(),
-            'updated_at' => $this->getUpdatedAt()->toDateTimeString(),
+
         ];
     }
 }

@@ -93,6 +93,13 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="valor_venta" class="col-sm-2 col-form-label">Valor</label>
+                                        <div class="col-sm-10">
+                                            <input required type="number" class="form-control" id="valor_venta" name="valor_venta"
+                                                   placeholder="Ingrese" value="<?= $frmSession['valor_venta'] ?? '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                         <div class="col-sm-10">
                                             <input required type="number" class="form-control" id="stock" name="stock"

@@ -27,11 +27,11 @@ class DetalleVentas extends AbstractDBConnection implements Model
     public function __construct(array $detalle_venta = [])
     {
         parent::__construct();
-        $this->setId($detalle_venta['idOrdenCompra'] ?? NULL);
+        $this->setIdOrdenCompra($detalle_venta['idOrdenCompra'] ?? NULL);
         $this->setVentasId($detalle_venta['ventas_id'] ?? 0);
         $this->setProductoIdProducto($detalle_venta['Producto_IdProducto'] ?? 0);
         $this->setCantidad($detalle_venta['cantidad'] ?? 0);
-        $this->setPrecio($detalle_venta['precio'] ?? 0.0);
+        $this->setPrecio($detalle_venta['precio'] ?? 0);
 
     }
 
@@ -121,14 +121,14 @@ class DetalleVentas extends AbstractDBConnection implements Model
     /**
      * @param float|mixed $precio_venta
      */
-    public function setPrecio(float $precio): void
+    public function setPrecio(int $precio): void
     {
         $this->precio = $precio;
     }
 
     public function getTotalProducto() : float
     {
-        return $this->getPrecio() * $this->getCantidad();
+        return $this->getPrecio();
     }
 
     /**
@@ -184,7 +184,7 @@ class DetalleVentas extends AbstractDBConnection implements Model
                 ':ventas_id' =>   $this->getVentasId(),
                 ':Producto_IdProducto' =>  $this->getProductoIdProducto(),
                 ':cantidad' =>   $this->getCantidad(),
-                ':precio_venta' =>   $this->getPrecio(),
+                ':precio' =>   $this->getPrecio(),
 
             ];
         }
@@ -312,10 +312,10 @@ class DetalleVentas extends AbstractDBConnection implements Model
     public function jsonSerialize() : array
     {
         return [
-            'venta_id' => $this->getVenta()->jsonSerialize(),
-            'Producto_IdProducto' => $this->getProductoIdProducto()->jsonSerialize(),
+            'venta' => $this->getVenta()->jsonSerialize(),
+            'producto' => $this->getProducto()->jsonSerialize(),
             'cantidad' => $this->getCantidad(),
-            'precio' => $this->getPrecioVenta(),
+            'precio' => $this->getPrecio(),
 
         ];
     }

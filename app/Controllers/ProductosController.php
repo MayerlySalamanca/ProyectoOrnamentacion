@@ -3,13 +3,9 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php');
-
-use App\Enums\Estado;
-use App\Enums\Tipo;
-use App\Enums\TipoMateria;
 use App\Models\GeneralFunctions;
 use App\Models\Producto;
-
+use Carbon\Carbon;
 
 class ProductosController{
 
@@ -19,23 +15,23 @@ class ProductosController{
     {
         $this->dataProducto = array();
         $this->dataProducto['idProducto'] = $_FORM['idProducto'] ?? NULL;
-        $this->dataProducto['tipo'] = $_FORM['tipo'] ?? Tipo::PRODUCTO;
-        $this->dataProducto['nombre'] = $_FORM['nombre'] ?? NULL;
+        $this->dataProducto['tipo'] = $_FORM['tipo'] ?? 'Fabricacion';
+        $this->dataProducto['nombre'] = $_FORM['nombre'] ?? '';
         $this->dataProducto['stock'] = $_FORM['stock'] ?? 0;
         $this->dataProducto['valor'] = $_FORM['valor'] ?? 0;
-        $this->dataProducto['estado'] = $_FORM['estado'] ?? Estado::INACTIVO;
+        $this->dataProducto['estado'] = $_FORM['estado'] ?? 'Activo';
     }
 
-    public function create($withFiles = null) {
+    public function create() {
         try {
             if (!empty($this->dataProducto['nombre']) && !Producto::productoRegistrado($this->dataProducto['nombre'])) {
-                $Producto = new Producto($this->dataProducto);
+                $Producto = new Producto ($this->dataProducto);
                 if ($Producto->insert()) {
-                    unset($_SESSION['frmCategorias']);
-                    header("Location: ../../views/modules/productos/index.php?respuesta=success&mensaje=Producto Registrada");
+                    unset($_SESSION['frmProductos']);
+                    header("Location: ../../views/modules/productos/index.php?respuesta=success&mensaje=Producto Registrado!");
                 }
             } else {
-                header("Location: ../../views/modules/productos/create.php?respuesta=error&mensaje=Producto ya registrada");
+                header("Location: ../../views/modules/productos/create.php?respuesta=error&mensaje=Producto ya registrado");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -56,9 +52,7 @@ class ProductosController{
         }
     }
 
-    static public function searchForID(array $data)
-    {
-
+    static public function searchForID (array $data){
         try {
             $result = Producto::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
@@ -86,9 +80,9 @@ class ProductosController{
         return null;
     }
 
-    static public function activate (int $Id){
+    static public function activate (int $id){
         try {
-            $ObjProducto = Producto::searchForId($Id);
+            $ObjProducto = Producto::searchForId($id);
             $ObjProducto->setEstado("Activo");
             if($ObjProducto->update()){
                 header("Location: ../../views/modules/productos/index.php");
@@ -100,9 +94,9 @@ class ProductosController{
         }
     }
 
-    static public function inactivate (int $idProducto){
+    static public function inactivate (int $id){
         try {
-            $ObjProducto = Producto::searchForId($idProducto);
+            $ObjProducto = Producto::searchForId($id);
             $ObjProducto->setEstado("Inactivo");
             if($ObjProducto->update()){
                 header("Location: ../../views/modules/productos/index.php");
@@ -118,8 +112,8 @@ class ProductosController{
 
         $params['isMultiple'] = $params['isMultiple'] ?? false;
         $params['isRequired'] = $params['isRequired'] ?? true;
-        $params['id'] = $params['id'] ?? "producto_Id";
-        $params['name'] = $params['name'] ?? "producto_Id";
+        $params['id'] = $params['id'] ?? "Producto_IdProducto";
+        $params['name'] = $params['name'] ?? "Producto_IdProducto";
         $params['defaultValue'] = $params['defaultValue'] ?? "";
         $params['class'] = $params['class'] ?? "form-control";
         $params['where'] = $params['where'] ?? "";
@@ -128,7 +122,7 @@ class ProductosController{
 
         $arrProducto = array();
         if($params['where'] != ""){
-            $base = "SELECT * FROM ornamentacion.producto WHERE";
+            $base = "SELECT * FROM ornamentacion.producto WHERE ";
             $arrProducto = Producto::search($base.$params['where']);
         }else{
             $arrProducto = Producto::getAll();

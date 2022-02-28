@@ -18,7 +18,7 @@ class DetalleVentasController
         $this->dataDetalleVenta['ventas_id'] = $_FORM['ventas_id'] ?? '';
         $this->dataDetalleVenta['Producto_IdProducto'] = $_FORM['Producto_IdProducto'] ?? '';
         $this->dataDetalleVenta['cantidad'] = $_FORM['cantidad'] ?? '';
-        $this->dataDetalleVenta['precio'] = $_FORM['precio'] ?? '';
+        $this->dataDetalleVenta['precio'] = $_FORM['precio'] ?? 0.0;
     }
 
     public function create()

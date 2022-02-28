@@ -2,24 +2,25 @@
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\ProductosController;
+use App\Controllers\MateriasController;
+use App\Controllers\ProveedoresController;
 use App\Controllers\UsuariosController;
-use App\Controllers\FacturasController;
-use App\Models\DetalleVentas;
+use App\Controllers\ComprasController;
+use App\Models\DetalleCompras;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Factura";
+$nameModel = "Compra";
 $nameForm = 'frmCreate'.$nameModel;
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION[$nameForm] ?? NULL;
 ?>
 
 <?php
-$dataVenta = null;
+$dataCompra = null;
 if (!empty($_GET['id'])) {
-    $dataVenta = FacturasController::searchForID(["id" => $_GET['id']]);
-    if ($dataVenta->getEstado() != "Proceso"){
+    $dataCompra = ComprasController::searchForID(["id" => $_GET['id']]);
+    if ($dataCompra->getEstado() != "Proceso"){
         header('Location: index.php?respuesta=warning&mensaje=La venta ya ha finalizado');
     }
 }
@@ -89,31 +90,15 @@ if (!empty($_GET['id'])) {
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
-                                    <div class="form-group row">
-                                        <label for="cliente_id" class="col-sm-4 col-form-label">Cliente</label>
-                                        <div class="col-sm-8">
-                                            <?= UsuariosController::selectUsuario(
-                                                array (
-                                                    'id' => 'usuarioCliente',
-                                                    'name' => 'usuarioCliente',
-                                                    'defaultValue' => (!empty($dataVenta)) ? $dataVenta->getCliente()->getIdUsuario() : '',
-                                                    'class' => 'form-control select2bs4 select2-info',
-                                                    'where' => "roll = 'Cliente' and estado = 'Activo'"
-                                                )
-                                            )
-                                            ?>
-                                            <span class="text-info"><a href="../usuarios/create.php">Crear Cliente</a></span>
-                                        </div>
-                                    </div>
 
                                     <div class="form-group row">
                                         <label for="empleado_id" class="col-sm-4 col-form-label">Empleado</label>
                                         <div class="col-sm-8">
                                             <?= UsuariosController::selectUsuario(
                                                 array (
-                                                    'id' => 'usuarioVendedor',
-                                                    'name' => 'usuarioVendedor',
-                                                    'defaultValue' => (!empty($dataVenta)) ? $dataVenta->getEmpleado()->getIdUsuario() : '',
+                                                    'id' => 'empleado_id',
+                                                    'name' => 'empleado_id',
+                                                    'defaultValue' => (!empty($dataCompra)) ? $dataCompra->getEmpleado()->getIdUsuario() : '',
                                                     'class' => 'form-control select2bs4 select2-info',
                                                     'where' => "roll = 'vendedor' and estado = 'Activo'"
                                                 )
@@ -121,27 +106,45 @@ if (!empty($_GET['id'])) {
                                             ?>
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <label for="provedor_id" class="col-sm-4 col-form-label">Proveedor</label>
+                                        <div class="col-sm-8">
+                                            <?= ProveedoresController::selectProveedor(
+                                                array (
+                                                    'id' => 'provedor_id',
+                                                    'name' => 'provedor_id',
+                                                    'defaultValue' => (!empty($dataCompra)) ? $dataCompra->getProveedor()->getIdProveedor() : '',
+                                                    'class' => 'form-control select2bs4 select2-info',
+                                                    'where' => "estado = 'Activo'"
+                                                )
+                                            )
+                                            ?>
+                                            <span class="text-info"><a href="../proveedores/create.php">Crear Proveedor</a></span>
+                                        </div>
+                                    </div>
+
                                     <?php
-                                    if (!empty($dataVenta)) {
+                                    if (!empty($dataCompra)) {
                                         ?>
                                         <div class="form-group row">
-                                            <label for="numeroFactura" class="col-sm-4 col-form-label">Codigo
-                                                Factura</label>
+                                            <label for="numero_serie" class="col-sm-4 col-form-label">Codigo
+                                                Compra</label>
                                             <div class="col-sm-8">
-                                                <?= $dataVenta->getNumeroFactura() ?>
+                                                <?= $dataCompra->getNumeroSerie() ?>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="numeroFactura" class="col-sm-4 col-form-label">Fecha
-                                                Venta</label>
+                                            <label for="numero_serie" class="col-sm-4 col-form-label">Fecha
+                                                Compra</label>
                                             <div class="col-sm-8">
-                                                <?= $dataVenta->getFecha() ?>
+                                                <?= $dataCompra->getFechaCompra() ?>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="numeroFactura" class="col-sm-4 col-form-label">Monto</label>
+                                            <label for="numero_serie" class="col-sm-4 col-form-label">Monto</label>
                                             <div class="col-sm-8">
-                                                <?= GeneralFunctions::formatCurrency($dataVenta->getMonto()) ?>
+                                                <?= GeneralFunctions::formatCurrency($dataCompra->getMonto()) ?>
                                             </div>
                                         </div>
                                     <?php } ?>
@@ -156,7 +159,7 @@ if (!empty($_GET['id'])) {
                     <div class="col-md-8">
                         <div class="card card-lightblue">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fas fa-parachute-box"></i> &nbsp; Detalle Venta</h3>
+                                <h3 class="card-title"><i class="fas fa-parachute-box"></i> &nbsp; Detalle Compra</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh"
                                             data-source="create.php" data-source-selector="#card-refresh-content"
@@ -190,26 +193,28 @@ if (!empty($_GET['id'])) {
                                                 <th>#</th>
                                                 <th>Producto</th>
                                                 <th>Cantidad</th>
+                                                <th>Precio</th>
                                                 <th>Total</th>
                                                 <th>Act</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <?php
-                                            if (!empty($dataVenta) and !empty($dataVenta->getIdFactura())) {
-                                                $arrDetalleVentas = DetalleVentas::search("SELECT * FROM ornamentacion.detalle_ventas WHERE ventas_id = ".$dataVenta->getIdFactura());
-                                                if(count($arrDetalleVentas) > 0) {
-                                                    /* @var $arrDetalleVentas DetalleVentas[] */
-                                                    foreach ($arrDetalleVentas as $detalleVenta) {
+                                            if (!empty($dataCompra) and !empty($dataCompra->getId())) {
+                                                $arrDetalleCompras = DetalleCompras::search("SELECT * FROM ornamentacion.detalle_compra WHERE compra_id = ".$dataCompra->getId());
+                                                if(count($arrDetalleCompras) > 0) {
+                                                    /* @var $arrDetalleCompras DetalleCompras[] */
+                                                    foreach ($arrDetalleCompras as $detalleCompra) {
                                                         ?>
                                                         <tr>
-                                                            <td><?= $detalleVenta->getIdOrdenCompra(); ?></td>
-                                                            <td><?= $detalleVenta->getProducto()->getNombre(); ?></td>
-                                                            <td><?= $detalleVenta->getCantidad(); ?></td>
-                                                            <td><?= GeneralFunctions::formatCurrency($detalleVenta->getTotalProducto()); ?></td>
+                                                            <td><?= $detalleCompra->getId(); ?></td>
+                                                            <td><?= $detalleCompra->getMateria()->getNombre(); ?></td>
+                                                            <td><?= $detalleCompra->getCantidad(); ?></td>
+                                                            <td><?= GeneralFunctions::formatCurrency($detalleCompra->getPrecioVenta()); ?></td>
+                                                            <td><?= GeneralFunctions::formatCurrency($detalleCompra->getTotalProducto()); ?></td>
                                                             <td>
                                                                 <a type="button"
-                                                                   href="../../../app/Controllers/MainController.php?controller=DetalleVentas&action=deleted&id=<?= $detalleVenta->getIdOrdenCompra(); ?>"
+                                                                   href="../../../app/Controllers/MainController.php?controller=DetalleCompras&action=deleted&id=<?= $detalleCompra->getId(); ?>"
                                                                    data-toggle="tooltip" title="Eliminar"
                                                                    class="btn docs-tooltip btn-danger btn-xs"><i
                                                                             class="fa fa-times-circle"></i></a>
@@ -225,6 +230,7 @@ if (!empty($_GET['id'])) {
                                                 <th>#</th>
                                                 <th>Producto</th>
                                                 <th>Cantidad</th>
+                                                <th>Precio</th>
                                                 <th>Total</th>
                                                 <th>Act</th>
                                             </tr>
@@ -254,17 +260,17 @@ if (!empty($_GET['id'])) {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form action="../../../app/Controllers/MainController.php?controller=DetalleVentas&action=create" method="post">
+                    <form action="../../../app/Controllers/MainController.php?controller=DetalleCompras&action=create" method="post">
                         <div class="modal-body">
-                            <input id="ventas_id" name="ventas_id" value="<?= !empty($dataVenta) ? $dataVenta->getIdFactura() : ''; ?>" hidden
+                            <input id="compra_id" name="compra_id" value="<?= !empty($dataCompra) ? $dataCompra->getId() : ''; ?>" hidden
                                    required="required" type="text">
                             <div class="form-group row">
-                                <label for="idProducto" class="col-sm-4 col-form-label">Producto</label>
+                                <label for="idMateria" class="col-sm-4 col-form-label">Materia</label>
                                 <div class="col-sm-8">
-                                    <?= ProductosController::selectProducto(
+                                    <?= MateriasController::selectMateria(
                                         array (
-                                            'id' => 'Producto_IdProducto',
-                                            'name' => 'Producto_IdProducto',
+                                            'id' => 'idMateria',
+                                            'name' => 'idMateria',
                                             'defaultValue' => '',
                                             'class' => 'form-control select2bs4 select2-info',
                                             'where' => "estado = 'Activo' and stock > 0"
@@ -272,7 +278,7 @@ if (!empty($_GET['id'])) {
                                     )
                                     ?>
                                     <div id="divResultProducto">
-                                        <span class="text-muted">Precio Base: </span> <span id="spPrecio"></span>,
+                                        <span class="text-muted">Precio: </span> <span id="spPrecio"></span>,
                                         <span class="text-muted">Stock: </span> <span id="spStock"></span>.
                                     </div>
                                 </div>
@@ -285,9 +291,9 @@ if (!empty($_GET['id'])) {
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="valor" class="col-sm-4 col-form-label">Precio Unitario</label>
+                                <label for="valor_venta" class="col-sm-4 col-form-label">Precio Unitario</label>
                                 <div class="col-sm-8">
-                                    <input required readonly type="number" min="1" class="form-control" id="valor" name="valor"
+                                    <input required readonly type="number" min="1" class="form-control" id="valor_venta" name="valor_venta"
                                            placeholder="0.0">
                                 </div>
                             </div>
@@ -324,50 +330,50 @@ if (!empty($_GET['id'])) {
 
         $("#divResultProducto").hide();
 
-        $('#Producto_IdProducto').on('select2:select', function (e) {
+        $('#materia_id').on('select2:select', function (e) {
             var dataSelect = e.params.data;
-            var dataProducto = null;
+            var dataMateria = null;
             if(dataSelect.id !== ""){
-                $.post("../../../app/Controllers/MainController.php?controller=Productos&action=searchForID",
+                $.post("../../../app/Controllers/MainController.php?controller=Materias&action=searchForID",
                     {
                         id: dataSelect.id,
                         request: 'ajax'
                     }, "json"
                 )
-                .done(function( resultProducto ) {
-                    dataProducto = resultProducto;
-                })
-                .fail(function(err) {
-                    console.log( "Error al realizar la consulta"+err );
-                })
-                .always(function() {
-                    updateDataProducto(dataProducto);
-                });
+                    .done(function( resultProducto ) {
+                        dataMateria = resultProducto;
+                    })
+                    .fail(function(err) {
+                        console.log( "Error al realizar la consulta"+err );
+                    })
+                    .always(function() {
+                        updateDataProducto(dataMateria);
+                    });
             }else{
-                updateDataProducto(dataProducto);
+                updateDataProducto(dataMateria);
             }
         });
 
-        function updateDataProducto(dataProducto){
-            if(dataProducto !== null){
+        function updateDataProducto(dataMateria){
+            if(dataMateria !== null){
                 $("#divResultProducto").slideDown();
-                $("#spPrecio").html("$"+dataProducto.valor);
-                $("#spStock").html(dataProducto.Stock+" Unidad(es)");
-                $("#cantidad").attr("max",dataProducto.cantidad);
-                $("#valor").val(dataProducto.valor);
+                $("#spPrecio").html("$"+dataMateria.valor_venta);
+                $("#spStock").html(dataMateria.stock+" Unidad(es)");
+                $("#cantidad").attr("max",dataMateria.cantidad);
+                $("#valor_venta").val(dataMateria.valor_venta);
 
             }else{
                 $("#divResultProducto").slideUp();
                 $("#spPrecio").html("");
                 $("#spStock").html("");
                 $("#cantidad").removeAttr("max").val('0');
-                $("#valor").val('0.0');
-                $("#precio").val('0.0');
+                $("#valor_venta").val('0.0');
+                $("#precio_venta").val('0.0');
             }
         }
 
         $( "#cantidad" ).on( "change keyup focusout", function() {
-            $("#precio").val($( "#cantidad" ).val() *  $("#valor").val());
+            $("#precio_venta").val($( "#cantidad" ).val() *  $("#valor_venta").val());
         });
 
     });
