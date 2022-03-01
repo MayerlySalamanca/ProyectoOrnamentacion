@@ -56,7 +56,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataVentas = FacturasController::searchForID(["id" => $_GET["id"]]);
+                                $DataVentas = FacturasController::searchForID(["idFactura" => $_GET["id"]]);
                                 /* @var $DataVentas Factura */
                                 if (!empty($DataVentas)) {
                                     ?>

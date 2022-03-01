@@ -12,23 +12,27 @@
     <!-- Sidebar -->
 <div class="sidebar">
 
-        <!--<div class="user-panel mt-3 d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        <div class="user-panel mt-3 d-flex">
             <div class="image align-middle">
-                <img src="<?= $baseURL ?>/views/public/img/AdminLTELogo.png" class="img-circle elevation-2" alt="usuario">
+                <img src="<?= $baseURL ?>/views/public/img/user.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="d-flex flex-column">
+
                 <div class="info">
-                    <a href="<?= "$baseURL/views/modules/usuarios/show.php?id=" .$_SESSION['UserInSession']['idUsuario']?>" >
+                    <a href="<?= "$baseURL/views/modules/usuarios/show.php?id=" .$_SESSION['UserInSession']['idUsuario']?>" class="d-block">
                         <?= $_SESSION['UserInSession']['nombre'] ?>
                     </a>
                 </div>
                 <div class="info">
-                    <a href="#" >
+                    <a href="#" class="d-block">
                         <?= $_SESSION['UserInSession']['roll'] ?>
                     </a>
                 </div>
             </div>
-        </div>-->
+        </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">

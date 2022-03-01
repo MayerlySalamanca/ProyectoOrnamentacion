@@ -2,11 +2,12 @@
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
 
-use App\Controllers\MateriasController;
+use App\Controllers\ProductosController;
 use App\Controllers\ProveedoresController;
 use App\Controllers\UsuariosController;
 use App\Controllers\ComprasController;
-use App\Models\DetalleCompras;
+
+use App\Models\Fabricacion;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
@@ -100,7 +101,7 @@ if (!empty($_GET['id'])) {
                                                     'name' => 'empleado_id',
                                                     'defaultValue' => (!empty($dataCompra)) ? $dataCompra->getEmpleado()->getIdUsuario() : '',
                                                     'class' => 'form-control select2bs4 select2-info',
-                                                    'where' => "roll = 'vendedor' and estado = 'Activo'"
+                                                    'where' => "roll = 'Vendedor' and estado = 'Activo'"
                                                 )
                                             )
                                             ?>
@@ -116,11 +117,11 @@ if (!empty($_GET['id'])) {
                                                     'name' => 'provedor_id',
                                                     'defaultValue' => (!empty($dataCompra)) ? $dataCompra->getProveedor()->getIdProveedor() : '',
                                                     'class' => 'form-control select2bs4 select2-info',
-                                                    'where' => "estado = 'Activo'"
+                                                    'where' =>" estado = 'Activo'"
                                                 )
                                             )
                                             ?>
-                                            <span class="text-info"><a href="../proveedores/create.php">Crear Proveedor</a></span>
+                                            <span class="text-info"><a href="../usuarios/create.php">Crear Proveedor</a></span>
                                         </div>
                                     </div>
 
@@ -201,16 +202,15 @@ if (!empty($_GET['id'])) {
                                             <tbody>
                                             <?php
                                             if (!empty($dataCompra) and !empty($dataCompra->getId())) {
-                                                $arrDetalleCompras = DetalleCompras::search("SELECT * FROM ornamentacion.detalle_compra WHERE compra_id = ".$dataCompra->getId());
+                                                $arrDetalleCompras = Fabricacion::search("SELECT * FROM ornamentacion.fabricacion WHERE compra_id = ".$dataCompra->getId());
                                                 if(count($arrDetalleCompras) > 0) {
-                                                    /* @var $arrDetalleCompras DetalleCompras[] */
+                                                    /* @var $arrDetalleCompras Fabricacion[] */
                                                     foreach ($arrDetalleCompras as $detalleCompra) {
                                                         ?>
                                                         <tr>
                                                             <td><?= $detalleCompra->getId(); ?></td>
-                                                            <td><?= $detalleCompra->getMateria()->getNombre(); ?></td>
+                                                            <td><?= $detalleCompra->getProducto()->getNombre(); ?></td>
                                                             <td><?= $detalleCompra->getCantidad(); ?></td>
-                                                            <td><?= GeneralFunctions::formatCurrency($detalleCompra->getPrecioVenta()); ?></td>
                                                             <td><?= GeneralFunctions::formatCurrency($detalleCompra->getTotalProducto()); ?></td>
                                                             <td>
                                                                 <a type="button"
@@ -265,12 +265,12 @@ if (!empty($_GET['id'])) {
                             <input id="compra_id" name="compra_id" value="<?= !empty($dataCompra) ? $dataCompra->getId() : ''; ?>" hidden
                                    required="required" type="text">
                             <div class="form-group row">
-                                <label for="idMateria" class="col-sm-4 col-form-label">Materia</label>
+                                <label for="idProducto" class="col-sm-4 col-form-label">Producto</label>
                                 <div class="col-sm-8">
-                                    <?= MateriasController::selectMateria(
+                                    <?= ProductosController::selectProducto(
                                         array (
-                                            'id' => 'idMateria',
-                                            'name' => 'idMateria',
+                                            'id' => 'Producto_IdProducto',
+                                            'name' => 'Producto_IdProducto',
                                             'defaultValue' => '',
                                             'class' => 'form-control select2bs4 select2-info',
                                             'where' => "estado = 'Activo' and stock > 0"
@@ -278,7 +278,7 @@ if (!empty($_GET['id'])) {
                                     )
                                     ?>
                                     <div id="divResultProducto">
-                                        <span class="text-muted">Precio: </span> <span id="spPrecio"></span>,
+                                        <span class="text-muted">Precio Base: </span> <span id="spPrecio"></span>,
                                         <span class="text-muted">Stock: </span> <span id="spStock"></span>.
                                     </div>
                                 </div>
@@ -291,9 +291,9 @@ if (!empty($_GET['id'])) {
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="valor_venta" class="col-sm-4 col-form-label">Precio Unitario</label>
+                                <label for="valor" class="col-sm-4 col-form-label">Precio Unitario</label>
                                 <div class="col-sm-8">
-                                    <input required readonly type="number" min="1" class="form-control" id="valor_venta" name="valor_venta"
+                                    <input required readonly type="number" min="1" class="form-control" id="valor" name="valor"
                                            placeholder="0.0">
                                 </div>
                             </div>
@@ -330,50 +330,50 @@ if (!empty($_GET['id'])) {
 
         $("#divResultProducto").hide();
 
-        $('#materia_id').on('select2:select', function (e) {
+        $('#Producto_IdProducto').on('select2:select', function (e) {
             var dataSelect = e.params.data;
-            var dataMateria = null;
+            var dataProducto = null;
             if(dataSelect.id !== ""){
-                $.post("../../../app/Controllers/MainController.php?controller=Materias&action=searchForID",
+                $.post("../../../app/Controllers/MainController.php?controller=Productos&action=searchForID",
                     {
                         id: dataSelect.id,
                         request: 'ajax'
                     }, "json"
                 )
                     .done(function( resultProducto ) {
-                        dataMateria = resultProducto;
+                        dataProducto = resultProducto;
                     })
                     .fail(function(err) {
                         console.log( "Error al realizar la consulta"+err );
                     })
                     .always(function() {
-                        updateDataProducto(dataMateria);
+                        updateDataProducto(dataProducto);
                     });
             }else{
-                updateDataProducto(dataMateria);
+                updateDataProducto(dataProducto);
             }
         });
 
-        function updateDataProducto(dataMateria){
-            if(dataMateria !== null){
+        function updateDataProducto(dataProducto){
+            if(dataProducto !== null){
                 $("#divResultProducto").slideDown();
-                $("#spPrecio").html("$"+dataMateria.valor_venta);
-                $("#spStock").html(dataMateria.stock+" Unidad(es)");
-                $("#cantidad").attr("max",dataMateria.cantidad);
-                $("#valor_venta").val(dataMateria.valor_venta);
+                $("#spPrecio").html("$"+dataProducto.valor);
+                $("#spStock").html(dataProducto.Stock+" Unidad(es)");
+                $("#cantidad").attr("max",dataProducto.cantidad);
+                $("#valor").val(dataProducto.valor);
 
             }else{
                 $("#divResultProducto").slideUp();
                 $("#spPrecio").html("");
                 $("#spStock").html("");
                 $("#cantidad").removeAttr("max").val('0');
-                $("#valor_venta").val('0.0');
-                $("#precio_venta").val('0.0');
+                $("#valor").val('0.0');
+                $("#precio").val('0.0');
             }
         }
 
         $( "#cantidad" ).on( "change keyup focusout", function() {
-            $("#precio_venta").val($( "#cantidad" ).val() *  $("#valor_venta").val());
+            $("#precio").val($( "#cantidad" ).val() *  $("#valor").val());
         });
 
     });

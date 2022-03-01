@@ -19,7 +19,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     public function __construct(array $proveedor = [])
     {
         parent::__construct();
-        $this->setIdProveedor( $proveedor['IdProveedor'] ?? null) ;
+        $this->setIdProveedor( $proveedor['idProveedor'] ?? null) ;
         $this->setDocumento($proveedor['documento'] ?? 0);
         $this->setNombre($proveedor['nombre'] ?? '') ;
         $this->setCiudad($proveedor['ciudad']?? '') ;
@@ -154,7 +154,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 
     {
         $arrData = [
-            ':IdProveedor' =>    $this->getIdProveedor(),
+            ':idProveedor' =>    $this->getIdProveedor(),
             ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombre(),
             ':estado' =>   $this->getEstado(),

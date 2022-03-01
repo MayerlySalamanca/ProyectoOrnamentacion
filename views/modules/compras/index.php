@@ -109,7 +109,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <tr>
                                                     <td><?= $compra->getId(); ?></td>
                                                     <td><?= $compra->getNumeroSerie(); ?></td>
-                                                    <td><?= $compra->getEmpleado()->getNombres(); ?> </td>
+                                                    <td><?= $compra->getEmpleado()->getNombres(); ?></td>
                                                     <td><?= $compra->getProveedor()->getNombre(); ?> </td>
                                                     <td><?= $compra->getFechaCompra(); ?></td>
                                                     <td><?= GeneralFunctions::formatCurrency($compra->getMonto()); ?></td>
@@ -130,7 +130,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>
                                                         <?php } ?>
-
+                                                    </td>
                                                 </tr>
                                             <?php } ?>
 

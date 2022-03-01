@@ -198,6 +198,7 @@ class DetalleVentas extends AbstractDBConnection implements Model
     function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.detalle_ventas VALUES (:idOrdenCompra,:ventas_id,:Producto_IdProducto,:cantidad,:precio)";
+
         if($this->save($query)){
             return $this->getProducto()->susaddStock($this->getCantidad());
         }

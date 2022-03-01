@@ -1,13 +1,13 @@
 <?php
 require("../../partials/routes.php");
 require_once("../../partials/check_login.php");
-require("../../../app/Controllers/VentasController.php");
+require("../../../app/Controllers/ComprasController.php");
 
-use App\Controllers\VentasController;
-use App\Models\Ventas;
+use App\Controllers\ComprasController;
+use App\Models\Compras;
 use App\Models\GeneralFunctions;
 
-$nameModel = "Venta";
+$nameModel = "Compra";
 $pluralModel = $nameModel.'s';
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 ?>
@@ -56,8 +56,8 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <!-- Horizontal Form -->
                         <div class="card card-green">
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) {
-                                $DataVentas = VentasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataVentas Ventas */
+                                $DataVentas = ComprasController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $DataVentas Compras */
                                 if (!empty($DataVentas)) {
                                     ?>
                                     <div class="card-header">
@@ -87,13 +87,13 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         </p>
                                         <hr>
                                         <strong><i class="fas fa-user-ninja mr-1"></i> Cliente</strong>
-                                        <p class="text-muted"><?= $DataVentas->getCliente()->getNombres() . " " . $DataVentas->getCliente()->getApellidos() ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getEmpleado()->getNombres()  ?></p>
                                         <hr>
                                         <strong><i class="far fa-user mr-1"></i> Empleado</strong>
-                                        <p class="text-muted"><?= $DataVentas->getEmpleado()->getNombres() . " " . $DataVentas->getEmpleado()->getApellidos() ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getProveedor()->getNombre()  ?></p>
                                         <hr>
                                         <strong><i class="far fa-calendar mr-1"></i> Fecha Venta</strong>
-                                        <p class="text-muted"><?= $DataVentas->getFechaVenta(); ?></p>
+                                        <p class="text-muted"><?= $DataVentas->getFechaCompra(); ?></p>
                                         <hr>
                                         <strong><i class="fas fa-money-bill mr-1"></i> Monto</strong>
                                         <p class="text-muted"><?= GeneralFunctions::formatCurrency($DataVentas->getMonto()); ?></p>

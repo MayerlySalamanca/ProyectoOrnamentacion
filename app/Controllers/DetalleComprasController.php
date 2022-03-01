@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php');
 use App\Models\GeneralFunctions;
-use App\Models\DetalleCompras;
+use App\Models\Fabricacion;
 use Carbon\Carbon;
 
 class DetalleComprasController
@@ -15,8 +15,8 @@ class DetalleComprasController
     {
         $this->dataDetalleCompra = array();
         $this->dataDetalleCompra['id'] = $_FORM['id'] ?? NULL;
-        $this->dataDetalleCompra['producto_id'] = $_FORM['producto_id'] ?? '';
         $this->dataDetalleCompra['compra_id'] = $_FORM['compra_id'] ?? '';
+        $this->dataDetalleCompra['producto_id'] = $_FORM['producto_id'] ?? '';
         $this->dataDetalleCompra['cantidad'] = $_FORM['cantidad'] ?? '';
         $this->dataDetalleCompra['precio_venta'] = $_FORM['precio_venta'] ?? '';
     }
@@ -25,10 +25,10 @@ class DetalleComprasController
     {
         try {
             if (!empty($this->dataDetalleCompra['compra_id']) and !empty($this->dataDetalleCompra['producto_id'])) {
-                if(DetalleCompras::productoEnFactura($this->dataDetalleCompra['compra_id'], $this->dataDetalleCompra['producto_id'])){
+                if(Fabricacion::productoEnFactura($this->dataDetalleCompra['compra_id'], $this->dataDetalleCompra['producto_id'])){
                     $this->edit();
                 }else{
-                    $DetalleCompra = new DetalleCompras($this->dataDetalleCompra);
+                    $DetalleCompra = new Fabricacion($this->dataDetalleCompra);
                     if ($DetalleCompra->insert()) {
                         unset($_SESSION['frmDetalleCompras']);
                         header("Location: ../../views/modules/compras/create.php?id=".$this->dataDetalleCompra['compra_id']."&respuesta=success&mensaje=Producto Agregado");
@@ -45,8 +45,8 @@ class DetalleComprasController
     public function edit()
     {
         try {
-            $arrDetalleCompra = DetalleCompras::search("SELECT * FROM detalle_compras WHERE compra_id = ".$this->dataDetalleCompra['compra_id']." and producto_id = ".$this->dataDetalleCompra['producto_id']);
-            /* @var $arrDetalleCompra DetalleCompras[] */
+            $arrDetalleCompra = Fabricacion::search("SELECT * FROM ornamentacion.fabricacion WHERE compra_id = ".$this->dataDetalleCompra['compra_id']." and producto_id = ".$this->dataDetalleCompra['producto_id']);
+            /* @var $arrDetalleCompra Fabricacion[] */
             $DetalleCompra = $arrDetalleCompra[0];
             $OldCantidad = $DetalleCompra->getCantidad();
             $DetalleCompra->setCantidad($OldCantidad + $this->dataDetalleCompra['cantidad']);
@@ -62,7 +62,7 @@ class DetalleComprasController
 
     public function deleted (int $id){
         try {
-            $ObjDetalleCompra = DetalleCompras::searchForId($id);
+            $ObjDetalleCompra = Fabricacion::searchForId($id);
             $objProducto = $ObjDetalleCompra->getProducto();
             if($ObjDetalleCompra->deleted()){
                 $objProducto->substractStock($ObjDetalleCompra->getCantidad());
@@ -78,7 +78,7 @@ class DetalleComprasController
     static public function searchForID(array $data)
     {
         try {
-            $result = DetalleCompras::searchForId($data['id']);
+            $result = Fabricacion::searchForId($data['id']);
             if (!empty($data['request']) and $data['request'] === 'ajax' and !empty($result)) {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result->jsonSerialize());
@@ -93,7 +93,7 @@ class DetalleComprasController
     static public function getAll()
     {
         try {
-            $result = DetalleCompras::getAll();
+            $result = Fabricacion::getAll();
             if (!empty($data['request']) and $data['request'] === 'ajax') {
                 header('Content-type: application/json; charset=utf-8');
                 $result = json_encode($result);

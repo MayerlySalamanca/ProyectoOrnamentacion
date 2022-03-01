@@ -6,6 +6,7 @@ require (__DIR__.'/../../vendor/autoload.php');
 use App\Models\GeneralFunctions;
 use App\Models\Compras;
 use Carbon\Carbon;
+use function PHPUnit\Framework\returnArgument;
 
 class ComprasController{
 
@@ -13,23 +14,25 @@ class ComprasController{
 
     public function __construct(array $_FORM)
     {
+
         $this->dataCompra = array();
         $this->dataCompra['id'] = $_FORM['id'] ?? NULL;
         $this->dataCompra['numero_serie'] = $_FORM['numero_serie'] ?? '';
         $this->dataCompra['empleado_id'] = $_FORM['empleado_id'] ?? 0;
-        $this->dataCompra['proveedor_id'] = $_FORM['proveedor_id'] ?? 0;
+        $this->dataCompra['provedor_id'] = $_FORM['provedor_id'] ?? 0;
         $this->dataCompra['fecha_compra'] = !empty($_FORM['fecha_compra']) ? Carbon::parse($_FORM['fecha_compra']) : new Carbon();
         $this->dataCompra['monto'] = $_FORM['monto'] ?? 0;
-        $this->dataCompra['estado'] = $_FORM['estado'] ?? 'En progreso';
+        $this->dataCompra['estado'] = $_FORM['estado'] ?? 'Proceso';
     }
 
     public function create() {
         try {
+
             $Compra = new Compras($this->dataCompra);
             if ($Compra->insert()) {
                 unset($_SESSION['frmCompras']);
                 $Compra->Connect();
-                $id = $Compra->getLastId('compras');
+                $id = $Compra->getLastId('id','comprasmateria');
                 $Compra->Disconnect();
                 header("Location: ../../views/modules/compras/create.php?id=" . $id . "");
             }
@@ -110,7 +113,7 @@ class ComprasController{
 
         $arrCompras = array();
         if($params['where'] != ""){
-            $base = "SELECT * FROM compras WHERE ";
+            $base = "SELECT * FROM ornamentacion.fabricacion WHERE ";
             $arrCompras = Compras::search($base.$params['where']);
         }else{
             $arrCompras = Compras::getAll();

@@ -42,8 +42,6 @@ class Factura extends AbstractDBConnection implements Model
         $this->setFecha(!empty($venta['fecha']) ? Carbon::parse($venta['fecha']) : new Carbon());
         $this->setEstado($venta['estado'] ?? EstadoFactura::PROCESO );
         $this->setMonto();
-
-
     }
 
     /**
@@ -225,7 +223,7 @@ class Factura extends AbstractDBConnection implements Model
     public function getDetalleVentas(): ?array
     {
 
-        $this->detalleVentas = DetalleCompras::search('SELECT * FROM ornamentacion.detalle_ventas where ventas_id = '.$this->idFactura);
+        $this->detalleVentas = DetalleVentas::search('SELECT * FROM ornamentacion.detalle_ventas where ventas_id = '.$this->idFactura);
         return $this->detalleVentas;
     }
 
@@ -372,12 +370,12 @@ class Factura extends AbstractDBConnection implements Model
     {
         return [
 
-            ':numeroFactura' =>   $this->getNumeroFactura(),
-            ':empleado' =>   $this->getEmpleado()->jsonSerialize(),
-            ':cliente' =>   $this->getCliente()->jsonSerialize(),
-            ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
-            ':monto' =>   $this->getMonto(),
-            ':estado' =>   $this->getEstado(),
+            'numeroFactura' =>   $this->getNumeroFactura(),
+            'empleado' =>   $this->getEmpleado()->jsonSerialize(),
+            'cliente' =>   $this->getCliente()->jsonSerialize(),
+            'fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'monto' =>   $this->getMonto(),
+            'estado' =>   $this->getEstado(),
         ];
     }
 }

@@ -18,7 +18,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <?php
 $dataVenta = null;
 if (!empty($_GET['id'])) {
-    $dataVenta = FacturasController::searchForID(["id" => $_GET['id']]);
+    $dataVenta = FacturasController::searchForID(["idFactura" => $_GET['id']]);
     if ($dataVenta->getEstado() != "Proceso"){
         header('Location: index.php?respuesta=warning&mensaje=La venta ya ha finalizado');
     }
