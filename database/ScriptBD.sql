@@ -158,7 +158,7 @@ ENGINE = InnoDB;
 -- Table `ornamentacion`.`ComprasMateria`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ornamentacion`.`ComprasMateria` (
-  `id` TINYINT(3) ZEROFILL UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id` TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   `numero_serie` VARCHAR(45) NOT NULL,
   `empleado_id` BIGINT(10) UNSIGNED NOT NULL,
   `provedor_id` BIGINT(10) UNSIGNED NOT NULL,
@@ -185,7 +185,7 @@ ENGINE = InnoDB;
 -- Table `ornamentacion`.`fabricacion`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ornamentacion`.`fabricacion` (
-  `id` BIGINT(10) UNSIGNED NOT NULL,
+  `id` BIGINT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `materia_id` INT UNSIGNED NOT NULL,
   `compra_id` TINYINT(3) ZEROFILL UNSIGNED NOT NULL,
   `producto_id` INT UNSIGNED NOT NULL,

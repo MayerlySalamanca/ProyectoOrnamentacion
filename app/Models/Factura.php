@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\Estado;
 use App\Enums\EstadoFactura;
 use App\Models\Usuario;
 use App\Interfaces\Model;
@@ -130,7 +129,7 @@ class Factura extends AbstractDBConnection implements Model
     }
 
     /**
-     * @return Estado
+     * @return EstadoFactura
      */
     public function getEstado(): string
     {

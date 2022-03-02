@@ -65,7 +65,7 @@ class DetalleComprasController
             $ObjDetalleCompra = Fabricacion::searchForId($id);
             $objProducto = $ObjDetalleCompra->getProducto();
             if($ObjDetalleCompra->deleted()){
-                $objProducto->substractStock($ObjDetalleCompra->getCantidad());
+                $objProducto->susaddStock($ObjDetalleCompra->getCantidad());
                 header("Location: ../../views/modules/compras/create.php?id=".$ObjDetalleCompra->getCompraId()."&respuesta=success&mensaje=Producto Eliminado");
             }else{
                 header("Location: ../../views/modules/compras/create.php?id=".$ObjDetalleCompra->getCompraId()."&respuesta=error&mensaje=Error al eliminar");

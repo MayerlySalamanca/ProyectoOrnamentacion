@@ -269,8 +269,8 @@ if (!empty($_GET['id'])) {
                                 <div class="col-sm-8">
                                     <?= ProductosController::selectProducto(
                                         array (
-                                            'id' => 'Producto_IdProducto',
-                                            'name' => 'Producto_IdProducto',
+                                            'id' => 'producto_id',
+                                            'name' => 'producto_id',
                                             'defaultValue' => '',
                                             'class' => 'form-control select2bs4 select2-info',
                                             'where' => "estado = 'Activo' and stock > 0"
@@ -300,7 +300,7 @@ if (!empty($_GET['id'])) {
                             <div class="form-group row">
                                 <label for="precio" class="col-sm-4 col-form-label">Total Producto</label>
                                 <div class="col-sm-8">
-                                    <input required readonly type="number" min="1" class="form-control" id="precio" name="precio"
+                                    <input required readonly type="number" min="1" class="form-control" id="precio_venta" name="precio_venta"
                                            placeholder="0.0">
                                 </div>
                             </div>
@@ -330,7 +330,7 @@ if (!empty($_GET['id'])) {
 
         $("#divResultProducto").hide();
 
-        $('#Producto_IdProducto').on('select2:select', function (e) {
+        $('#producto_id').on('select2:select', function (e) {
             var dataSelect = e.params.data;
             var dataProducto = null;
             if(dataSelect.id !== ""){
@@ -368,12 +368,12 @@ if (!empty($_GET['id'])) {
                 $("#spStock").html("");
                 $("#cantidad").removeAttr("max").val('0');
                 $("#valor").val('0.0');
-                $("#precio").val('0.0');
+                $("#precio_venta").val('0.0');
             }
         }
 
         $( "#cantidad" ).on( "change keyup focusout", function() {
-            $("#precio").val($( "#cantidad" ).val() *  $("#valor").val());
+            $("#precio_venta").val($( "#cantidad" ).val() *  $("#valor").val());
         });
 
     });

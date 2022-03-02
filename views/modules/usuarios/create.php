@@ -70,6 +70,9 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
+                            <?php
+                            if($_SESSION['UserInSession']['roll'] != 'Vendedor' and $_SESSION['UserInSession']['roll'] != 'Cliente'){
+                            ?>
                             <div class="card-body">
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
@@ -165,6 +168,18 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
                                 </form>
                             </div>
+                            <?php
+
+                            }else{
+                            ?>
+                            <div class='alert alert-danger alert-dismissible'>
+                                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                <h5><i class='icon fas fa-$icon'></i>ALGO</h5>
+                                <p>Mensahje</p>
+                            </div>
+                            <?php
+                            }
+                            ?>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->

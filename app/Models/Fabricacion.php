@@ -129,21 +129,6 @@ class Fabricacion extends AbstractDBConnection implements Model
         return $this->getPrecioVenta() ;
     }
 
-    /**
-     * @return Carbon
-     */
-    public function getCreatedAt(): Carbon
-    {
-        return $this->created_at;
-    }
-
-    /**
-     * @param Carbon $created_at
-     */
-    public function setCreatedAt(Carbon $created_at): void
-    {
-        $this->created_at = $created_at;
-    }
 
     /* Relaciones */
     /**
@@ -183,7 +168,6 @@ class Fabricacion extends AbstractDBConnection implements Model
                 ':producto_id' =>  $this->getProductoId(),
                 ':cantidad' =>   $this->getCantidad(),
                 ':precio_venta' =>   $this->getPrecioVenta(),
-                ':created_at' =>  $this->getCreatedAt()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
             ];
         }
 

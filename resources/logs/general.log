@@ -118,3 +118,87 @@
 
 )
   
+[2022-03-01T23:45:59.494694+00:00] General.ERROR: Exception  
+[2022-03-01T23:45:59.507660+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-01T23:45:59.507908+00:00] General.ERROR: Line: 122  
+[2022-03-01T23:45:59.508214+00:00] General.ERROR: Mensaje: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'id' cannot be null  
+[2022-03-01T23:45:59.508785+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Fabricacion.php
+            [line] => 175
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.fabricacion VALUES (:id,:compra_id,:producto_id,:cantidad,:precio_venta)
+                    [1] => Array
+                        (
+                            [:id] => 
+                            [:compra_id] => 20
+                            [:producto_id] => 1
+                            [:cantidad] => 5
+                            [:precio_venta] => 60000
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Fabricacion.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Fabricacion
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.fabricacion VALUES (:id,:compra_id,:producto_id,:cantidad,:precio_venta)
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\DetalleComprasController.php
+            [line] => 32
+            [function] => insert
+            [class] => App\Models\Fabricacion
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\DetalleComprasController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

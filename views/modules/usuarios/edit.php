@@ -73,6 +73,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </div>
                             </div>
                             <!-- /.card-header -->
+
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php

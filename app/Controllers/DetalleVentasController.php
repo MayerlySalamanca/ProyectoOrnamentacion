@@ -66,9 +66,9 @@ class DetalleVentasController
             $objProducto = $ObjDetalleVenta->getProducto();
             if($ObjDetalleVenta->deleted()){
                 $objProducto->addStock($ObjDetalleVenta->getCantidad());
-                header("Location: ../../views/modules/facturacion/create.php?id=".$ObjDetalleVenta->getIdOrdenCompra()."&respuesta=success&mensaje=Producto Eliminado");
+                header("Location: ../../views/modules/facturacion/create.php?id=".$ObjDetalleVenta->getVentasId()."&respuesta=success&mensaje=Producto Eliminado");
             }else{
-                header("Location: ../../views/modules/facturacion/create.php?id=".$ObjDetalleVenta->getIdOrdenCompra()."&respuesta=error&mensaje=Error al eliminar");
+                header("Location: ../../views/modules/facturacion/create.php?id=".$ObjDetalleVenta->getVentasId()."&respuesta=error&mensaje=Error al eliminar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
