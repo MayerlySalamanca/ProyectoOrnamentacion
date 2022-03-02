@@ -91,11 +91,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <?= $DataProveedor->getNombre() ?>
                                                 </p>
                                                 <hr>
-                                                <strong><i class="fas fa-align-justify mr-1"></i> Ciudad</strong>
-                                                <p class="text-muted"><?= $DataProveedor->getCiudad() ?></p>
-                                                <hr>
                                                 <strong><i class="far fa-file-alt mr-1"></i> Estado</strong>
                                                 <p class="text-muted"><?= $DataProveedor->getEstado() ?></p>
+                                                <hr>
+                                                <strong><i class="far fa-file-alt mr-1"></i> Lugar de Nacimiento</strong>
+                                                <p class="text-muted"><?= $DataProveedor->getMunicipio()->getDepartamento()->getNombre() . ' ' . $DataProveedor->getMunicipio()->getNombre() ?></p>
                                                 </p>
                                             </div>
                                         </div>

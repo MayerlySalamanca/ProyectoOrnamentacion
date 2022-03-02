@@ -202,3 +202,3632 @@
 
 )
   
+[2022-03-02T15:57:54.053933+00:00] General.ERROR: Exception  
+[2022-03-02T15:57:54.059565+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T15:57:54.059780+00:00] General.ERROR: Line: 122  
+[2022-03-02T15:57:54.059903+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T15:57:54.060055+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T15:58:00.159420+00:00] General.ERROR: Exception  
+[2022-03-02T15:58:00.160692+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T15:58:00.160859+00:00] General.ERROR: Line: 122  
+[2022-03-02T15:58:00.160989+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T15:58:00.161137+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose Fernando
+                            [:estado] => Inactivo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 3
+                )
+
+        )
+
+)
+  
+[2022-03-02T15:58:21.232858+00:00] General.ERROR: Exception  
+[2022-03-02T15:58:21.233922+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T15:58:21.234231+00:00] General.ERROR: Line: 122  
+[2022-03-02T15:58:21.234427+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T15:58:21.234585+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose Fernando
+                            [:estado] => Inactivo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 3
+                )
+
+        )
+
+)
+  
+[2022-03-02T15:59:32.347953+00:00] General.ERROR: Exception  
+[2022-03-02T15:59:32.349249+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T15:59:32.350121+00:00] General.ERROR: Line: 122  
+[2022-03-02T15:59:32.350356+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T15:59:32.350550+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:20:46.579239+00:00] General.ERROR: Exception  
+[2022-03-02T17:20:46.585232+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:20:46.585501+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:20:46.585737+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:20:46.586453+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:22:53.424678+00:00] General.ERROR: Exception  
+[2022-03-02T17:22:53.426151+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:22:53.426476+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:22:53.426698+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:22:53.426903+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:22:57.050276+00:00] General.ERROR: Exception  
+[2022-03-02T17:22:57.050914+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:22:57.051051+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:22:57.051164+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:22:57.051303+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:23:08.769999+00:00] General.ERROR: Exception  
+[2022-03-02T17:23:08.770655+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:23:08.770785+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:23:08.770904+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:23:08.771034+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:23:11.270456+00:00] General.ERROR: Exception  
+[2022-03-02T17:23:11.271111+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:23:11.271249+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:23:11.271362+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:23:11.271498+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose Fernando
+                            [:estado] => Inactivo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 3
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:23:15.297083+00:00] General.ERROR: Exception  
+[2022-03-02T17:23:15.297735+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:23:15.297870+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:23:15.297983+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:23:15.298119+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:25:07.375836+00:00] General.ERROR: Exception  
+[2022-03-02T17:25:07.376669+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:25:07.376808+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:25:07.376937+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:25:07.377082+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:25:37.303666+00:00] General.ERROR: Exception  
+[2022-03-02T17:25:37.304504+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:25:37.304641+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:25:37.304753+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:25:37.304890+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:25:39.885851+00:00] General.ERROR: Exception  
+[2022-03-02T17:25:39.886603+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:25:39.886751+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:25:39.886865+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:25:39.887000+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:26:03.789450+00:00] General.ERROR: Exception  
+[2022-03-02T17:26:03.790089+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:26:03.790231+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:26:03.790353+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:26:03.790482+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:27:00.284137+00:00] General.ERROR: Exception  
+[2022-03-02T17:27:00.284872+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:27:00.285031+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:27:00.285144+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:27:00.285282+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:27:02.278142+00:00] General.ERROR: Exception  
+[2022-03-02T17:27:02.278785+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:27:02.278915+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:27:02.279036+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:27:02.279173+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:27:21.994589+00:00] General.ERROR: Exception  
+[2022-03-02T17:27:21.995523+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:27:21.995674+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:27:21.995799+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:27:21.995946+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:27:54.674549+00:00] General.ERROR: Exception  
+[2022-03-02T17:27:54.676095+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:27:54.676475+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:27:54.677042+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:27:54.677262+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:27:58.875448+00:00] General.ERROR: Exception  
+[2022-03-02T17:27:58.876082+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:27:58.876221+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:27:58.876343+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:27:58.876472+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:28:00.769275+00:00] General.ERROR: Exception  
+[2022-03-02T17:28:00.770376+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:28:00.770535+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:28:00.770647+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:28:00.770890+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:28:01.556526+00:00] General.ERROR: Exception  
+[2022-03-02T17:28:01.557132+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:28:01.557258+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:28:01.557379+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:28:01.557515+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:29:29.641498+00:00] General.ERROR: Exception  
+[2022-03-02T17:29:29.642192+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:29:29.642335+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:29:29.642446+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:29:29.642583+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:29:32.019457+00:00] General.ERROR: Exception  
+[2022-03-02T17:29:32.020560+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:29:32.020816+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:29:32.021028+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:29:32.021295+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose Fernando
+                            [:estado] => Inactivo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 3
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:44:53.398613+00:00] General.ERROR: Exception  
+[2022-03-02T17:44:53.399518+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:44:53.399665+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:44:53.399786+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:44:53.399925+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:44:58.895681+00:00] General.ERROR: Exception  
+[2022-03-02T17:44:58.896539+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:44:58.896679+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:44:58.896801+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:44:58.896929+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose Fernando
+                            [:estado] => Inactivo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 3
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:49:34.304451+00:00] General.ERROR: Exception  
+[2022-03-02T17:49:34.305328+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:49:34.305467+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:49:34.305595+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:49:34.305741+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 74541
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Activo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 43
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:49:47.537807+00:00] General.ERROR: Exception  
+[2022-03-02T17:49:47.538617+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:49:47.538755+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:49:47.538875+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:49:47.539002+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Activo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 43
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:52:49.282660+00:00] General.ERROR: Exception  
+[2022-03-02T17:52:49.284499+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:52:49.284843+00:00] General.ERROR: Line: 96  
+[2022-03-02T17:52:49.285003+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'idDepartamentos' in 'where clause'  
+[2022-03-02T17:52:49.285208+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE idDepartamentos = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE idDepartamentos = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\proveedores\edit.php
+            [line] => 140
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => municipiosId
+                            [name] => municipiosId
+                            [defaultValue] => 15001
+                            [class] => form-control select2bs4 select2-info
+                            [where] => idDepartamentos = 15 and estado = 'Activo'
+                            [isMultiple] => 
+                            [isRequired] => 1
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                            [request] => html
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:53:05.072578+00:00] General.ERROR: Exception  
+[2022-03-02T17:53:05.075464+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:53:05.075747+00:00] General.ERROR: Line: 96  
+[2022-03-02T17:53:05.076038+00:00] General.ERROR: Mensaje: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'municipiosId' in 'where clause'  
+[2022-03-02T17:53:05.076345+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 96
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                        )
+
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Municipio.php
+            [line] => 132
+            [function] => getRows
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE municipiosId = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MunicipiosController.php
+            [line] => 59
+            [function] => search
+            [class] => App\Models\Municipio
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => SELECT * FROM ornamentacion.municipios WHERE municipiosId = 15 and estado = 'Activo'
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\views\modules\proveedores\edit.php
+            [line] => 140
+            [function] => selectMunicipios
+            [class] => App\Controllers\MunicipiosController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => Array
+                        (
+                            [id] => municipiosId
+                            [name] => municipiosId
+                            [defaultValue] => 15001
+                            [class] => form-control select2bs4 select2-info
+                            [where] => municipiosId = 15 and estado = 'Activo'
+                            [isMultiple] => 
+                            [isRequired] => 1
+                            [arrExcluir] => Array
+                                (
+                                )
+
+                            [request] => html
+                        )
+
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:56:45.573842+00:00] General.ERROR: Exception  
+[2022-03-02T17:56:45.574707+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:56:45.574839+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:56:45.574959+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:56:45.575223+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T17:59:15.509935+00:00] General.ERROR: Exception  
+[2022-03-02T17:59:15.510630+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T17:59:15.510771+00:00] General.ERROR: Line: 122  
+[2022-03-02T17:59:15.510883+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T17:59:15.511014+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:44:56.755223+00:00] General.ERROR: Exception  
+[2022-03-02T19:44:56.759040+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:44:56.759215+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:44:56.759320+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:44:56.759951+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 103
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:50:20.469467+00:00] General.ERROR: Exception  
+[2022-03-02T19:50:20.470794+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:50:20.470915+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:50:20.470998+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:50:20.471094+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Activo
+                            [:municipiosId] => 13006
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 43
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:50:52.364193+00:00] General.ERROR: Exception  
+[2022-03-02T19:50:52.364622+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:50:52.364717+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:50:52.364800+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:50:52.364893+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 164
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 123456
+                            [:nombre] => Jose
+                            [:estado] => Activo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 183
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 43
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:55:37.693906+00:00] General.ERROR: Exception  
+[2022-03-02T19:55:37.695655+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:55:37.696965+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:55:37.697072+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:55:37.697186+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 123456
+                            [:nombre] => Jose
+                            [:estado] => Activo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 42
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:55:43.743495+00:00] General.ERROR: Exception  
+[2022-03-02T19:55:43.744513+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:55:43.744690+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:55:43.744834+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:55:43.744988+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 2
+                            [:documento] => 7454
+                            [:nombre] => Dilan Galeano
+                            [:estado] => Inactivo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 102
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 24
+            [function] => inactivate
+            [class] => App\Controllers\ProveedoresController
+            [type] => ::
+            [args] => Array
+                (
+                    [0] => 2
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:55:52.326973+00:00] General.ERROR: Exception  
+[2022-03-02T19:55:52.327862+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:55:52.327971+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:55:52.328064+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:55:52.328186+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 7454
+                            [:nombre] => Dilan 
+                            [:estado] => Activo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 42
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:57:58.874506+00:00] General.ERROR: Exception  
+[2022-03-02T19:57:58.875054+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:57:58.875149+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:57:58.875232+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:57:58.875326+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 1457841
+                            [:nombre] =>  Pedro
+                            [:estado] => Activo
+                            [:municipiosId] => 15759
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 157
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 26
+            [function] => insert
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T19:59:36.889054+00:00] General.ERROR: Exception  
+[2022-03-02T19:59:36.890264+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T19:59:36.890381+00:00] General.ERROR: Line: 122  
+[2022-03-02T19:59:36.890466+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T19:59:36.890560+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 7454
+                            [:nombre] => Dilan Gale
+                            [:estado] => Activo
+                            [:municipiosId] => 15001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 42
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T20:01:30.365568+00:00] General.ERROR: Exception  
+[2022-03-02T20:01:30.366266+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T20:01:30.366370+00:00] General.ERROR: Line: 122  
+[2022-03-02T20:01:30.366454+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T20:01:30.366548+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                    [1] => Array
+                        (
+                            [:idProveedor] => 3
+                            [:documento] => 123456
+                            [:nombre] => Jose 
+                            [:estado] => Activo
+                            [:municipiosId] => 8001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 165
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => UPDATE ornamentacion.proveedor SET 
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 42
+            [function] => update
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => edit
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  
+[2022-03-02T20:02:03.096697+00:00] General.ERROR: Exception  
+[2022-03-02T20:02:03.097353+00:00] General.ERROR: Archivo: C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php  
+[2022-03-02T20:02:03.097470+00:00] General.ERROR: Line: 122  
+[2022-03-02T20:02:03.097555+00:00] General.ERROR: Mensaje: SQLSTATE[HY093]: Invalid parameter number: parameter was not defined  
+[2022-03-02T20:02:03.097648+00:00] General.ERROR: Array
+(
+    [0] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\AbstractDBConnection.php
+            [line] => 122
+            [function] => execute
+            [class] => PDOStatement
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [1] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 146
+            [function] => insertRow
+            [class] => App\Models\AbstractDBConnection
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                    [1] => Array
+                        (
+                            [:idProveedor] => 
+                            [:documento] => 1564165
+                            [:nombre] => NJKJKK
+                            [:estado] => Activo
+                            [:municipiosId] => 11001
+                        )
+
+                )
+
+        )
+
+    [2] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Models\Proveedor.php
+            [line] => 157
+            [function] => save
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                    [0] => INSERT INTO ornamentacion.proveedor VALUES (
+            :IdProveedor,:documento,:nombre,
+            :estado,:municipiosId
+        )
+                )
+
+        )
+
+    [3] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\ProveedoresController.php
+            [line] => 26
+            [function] => insert
+            [class] => App\Models\Proveedor
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [file] => C:\laragon\www\ProyectoOrnamentacion\app\Controllers\MainController.php
+            [line] => 32
+            [function] => create
+            [class] => App\Controllers\ProveedoresController
+            [type] => ->
+            [args] => Array
+                (
+                )
+
+        )
+
+)
+  

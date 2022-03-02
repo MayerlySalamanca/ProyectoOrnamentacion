@@ -2,9 +2,9 @@
 
 namespace App\Models;
 use App\Enums\Estado;
-use JetBrains\PhpStorm\Internal\TentativeType;
+use App\Interfaces\Model;
 
-class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
+class Proveedor extends AbstractDBConnection implements Model
 {
     private ?int  $IdProveedor;
     private int $documento;
@@ -22,7 +22,6 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         $this->setIdProveedor( $proveedor['idProveedor'] ?? null) ;
         $this->setDocumento($proveedor['documento'] ?? 0);
         $this->setNombre($proveedor['nombre'] ?? '') ;
-        $this->setCiudad($proveedor['ciudad']?? '') ;
         $this->setEstado($proveedor['estado'] ?? Estado::INACTIVO);
         $this->setMunicipiosId($proveedor['municipiosId']??null);
     }
@@ -83,23 +82,6 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         $this->nombre = $nombre;
     }
 
-    /**
-     * @return string
-     */
-    public function getCiudad(): string
-    {
-        return $this->ciudad;
-    }
-
-    /**
-     * @param string $ciudad
-     */
-    public function setCiudad(string $ciudad): void
-    {
-        $this->ciudad = $ciudad;
-    }
-
-
 
     /**
      * @return Estado
@@ -110,7 +92,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
     /**
-     * @param EstadoCategorias|null $estado
+     * @param string|Estado|null $estado
      */
     public function setEstado(null|string|Estado $estado): void
     {
@@ -169,7 +151,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.proveedor VALUES (
-            :IdProveedor,:documento,:nombre,
+            :idProveedor,:documento,:nombre,
             :estado,:municipiosId
         )";
         return $this->save($query);
@@ -179,7 +161,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     {
         $query = "UPDATE ornamentacion.proveedor SET 
             nombre = :nombre,documento = :documento,
-            estado = :estado, municipiosId = :municipiosId    WHERE IdProveedor = :IdProveedor";
+            estado = :estado, municipiosId = :municipiosId    WHERE idProveedor = :idProveedor";
         return $this->save($query);
     }
 
@@ -246,7 +228,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         }
     }
 
-    static function getAll(): ?array
+    public static function getAll(): ?array
     {
         return Proveedor::search("SELECT * FROM ornamentacion.proveedor");
     }
@@ -257,11 +239,10 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     public function jsonSerialize(): array
     {
         return [
-            ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombre(),
-            ':ciudad' =>   $this->getCiudad(),
-            ':estado' =>   $this->getEstado(),
-            ':municipis' => $this->getMunicipio()->getNombre(),
+            'documento' =>   $this->getDocumento(),
+            'nombre' =>   $this->getNombre(),
+            'estado' =>   $this->getEstado(),
+            'municipios' => $this->getMunicipio()->getNombre(),
         ];
     }
 

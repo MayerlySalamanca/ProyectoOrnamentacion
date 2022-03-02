@@ -12,10 +12,9 @@ class ProveedoresController
     public function __construct(array $_FORM)
     {
         $this->dataProveedor = array();
-        $this->dataProveedor['IdProveedor'] = $_FORM['IdProveedor'] ?? NULL;
+        $this->dataProveedor['idProveedor'] = $_FORM['idProveedor'] ?? NULL;
         $this->dataProveedor['documento'] = $_FORM['documento'] ?? NULL;
         $this->dataProveedor['nombre'] = $_FORM['nombre'] ?? '';
-        $this->dataProveedor['ciudad'] = $_FORM['ciudad'] ?? '';
         $this->dataProveedor['estado'] = $_FORM['estado'] ?? 'Activo';
         $this->dataProveedor['municipiosId'] = $_FORM['municipiosId'] ?? NULL;
     }
@@ -43,7 +42,7 @@ class ProveedoresController
             if($proveedores->update()){
                 unset($_SESSION['frmProveedores']);
             }
-            header("Location: ../../views/modules/proveedores/show.php?id=" . $proveedores->getIdProveedor() . "&respuesta=success&mensaje=Categoria Actualizado");
+            header("Location: ../../views/modules/proveedores/show.php?id=" . $proveedores->getIdProveedor() . "&respuesta=success&mensaje=Proveedor Actualizado");
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
@@ -81,13 +80,14 @@ class ProveedoresController
 
     static public function activate(int $id)
     {
+
         try {
-            $objProveedores = Proveedor::searchForId($id);
-            $objProveedores->setEstado("Activo");
-            if ($objProveedores->update()) {
-                header("Location: ../../views/modules/proveedores/index.php?respuesta=success&mensaje=Registro actualizado");
+            $ObjUsuario = Proveedor::searchForId($id);
+            $ObjUsuario->setEstado("Activo");
+            if ($ObjUsuario->update()) {
+                header("Location: ../../views/modules/usuarios/index.php");
             } else {
-                header("Location: ../../views/modules/proveedores/index.php?respuesta=error&mensaje=Error al guardar");
+                header("Location: ../../views/modules/usuarios/index.php?respuesta=error&mensaje=Error al guardar");
             }
         } catch (\Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
@@ -97,10 +97,10 @@ class ProveedoresController
     static public function inactivate(int $id)
     {
         try {
-            $ObjProveedores = Proveedor::searchForId($id);
-            $ObjProveedores->setEstado("Inactivo");
-            if ($ObjProveedores->update()) {
-                header("Location: ../../views/modules/proveedores/index.php?respuesta=success&mensaje=Registro actualizado");
+            $ObjUsuario = Proveedor::searchForId($id);
+            $ObjUsuario->setEstado("Inactivo");
+            if ($ObjUsuario->update()) {
+                header("Location: ../../views/modules/proveedores/index.php");
             } else {
                 header("Location: ../../views/modules/proveedores/index.php?respuesta=error&mensaje=Error al guardar");
             }

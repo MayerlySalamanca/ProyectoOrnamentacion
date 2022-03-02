@@ -108,28 +108,29 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         <label for="roll" class="col-sm-2 col-form-label">Rol</label>
                                         <div class="col-sm-10">
                                             <select required id="roll" name="roll" class="custom-select">
+                                                <option selected>Seleccionar</option>
                                                 <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "administrador") ? "selected" : ""; ?> value="administrador">Administrador</option>
                                                 <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "vendedor") ? "selected" : ""; ?> value="vendedor">Vendedor</option>
                                                 <option <?= ( !empty($frmSession['roll']) && $frmSession['roll'] == "cliente") ? "selected" : ""; ?> value="cliente">cliente</option>
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="form-group row">
-                                        <label for="usuario" class="col-sm-2 col-form-label">Usuarios</label>
-                                        <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="usuario" name="usuario"
-                                                   placeholder="Ingrese" value="<?= $frmSession['usuario'] ?? '' ?>">
+                                    <div id="div-hide">
+                                        <div class="form-group row">
+                                            <label for="usuario" class="col-sm-2 col-form-label">Usuarios</label>
+                                            <div class="col-sm-10">
+                                                <input required type="text" class="form-control" id="usuario" name="usuario"
+                                                       placeholder="Ingrese" value="<?= $frmSession['usuario'] ?? '' ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
+                                            <div class="col-sm-10">
+                                                <input required type="text" class="form-control" id="contrasena" name="contrasena"
+                                                       placeholder="Ingrese" value="<?= $frmSession['contrasena'] ?? '' ?>">
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
-                                        <div class="col-sm-10">
-                                            <input required type="text" class="form-control" id="contrasena" name="contrasena"
-                                                   placeholder="Ingrese" value="<?= $frmSession['contrasena'] ?? '' ?>">
-                                        </div>
-                                    </div>
-
                                     <div class="form-group row">
                                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                         <div class="col-sm-10">
@@ -198,10 +199,18 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <?php require('../../partials/scripts.php'); ?>
 <script>
     $(function() {
+        $('#roll').on('change', function() {
+            if(this.value == 'cliente'){
+                $('#div-hide').hide();
+            }else{
+                $('#div-hide').show();
+            }
+        });
         $('#documento').val(' ');
         $('#nombre').val(' ');
         $('#telefono').val(' ');
         $('#direccion').val(' ');
+        $('#roll').val('Seleccionar');
         $('#usuario').val(' ');
         $('#contrasena').val(' ');
         $('#idDepartamentos').on('change', function() {

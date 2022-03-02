@@ -111,7 +111,7 @@ class Producto extends AbstractDBConnection implements Model
      */
     public function getNombre(): string
     {
-        return $this->nombre;
+        return ucwords($this->nombre);
     }
 
     /**
@@ -119,7 +119,7 @@ class Producto extends AbstractDBConnection implements Model
      */
     public function setNombre(string $nombre): void
     {
-        $this->nombre = $nombre;
+        $this->nombre = trim(mb_strtolower($nombre, 'UTF-8'));
     }
 
 

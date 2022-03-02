@@ -17,7 +17,7 @@
     <!-- Bootstrap Image Upload -->
     <link href="<?= $baseURL ?>/node_modules/bootstrap-imageupload/dist/css/bootstrap-imageupload.min.css" rel="stylesheet">
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="<?= $baseURL ?>/views/public/img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= $baseURL ?>/views/public/img/descarga.png">
     <!-- Social Buttons Bootstrap -->
     <link href="<?= $baseURL ?>/node_modules/bootstrap-social/bootstrap-social.css" rel="stylesheet" >
 <!-- Custom CSS User -->

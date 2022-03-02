@@ -1,7 +1,7 @@
 <?php
-require_once("../../../app/Controllers/ProveedoresController.php");
 require_once("../../partials/routes.php");
 require_once("../../partials/check_login.php");
+require_once("../../../app/Controllers/ProveedoresController.php");
 
 use App\Controllers\ProveedoresController;
 use App\Models\GeneralFunctions;
@@ -107,8 +107,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     <td><?= $proveedor->getDocumento(); ?></td>
                                                     <td><?= $proveedor->getNombre(); ?></td>
                                                     <td><?= $proveedor->getEstado(); ?></td>
-                                                    <td><?= $proveedor->getMunicipio()->getDepartamento()->getNombre() . ' ' . $proveedor->getMunicipio()->getNombre() ?></td>
-
+                                                    <td><?= $proveedor->getMunicipio()->getDepartamento()->getNombre() . ' ' . $proveedor->getMunicipio()->getNombre() ; ?></td>
                                                     <td>
                                                         <a href="edit.php?id=<?= $proveedor->getIdProveedor(); ?>"
                                                            type="button" data-toggle="tooltip" title="Actualizar"
@@ -133,7 +132,6 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                     </td>
                                                 </tr>
                                             <?php } ?>
-
                                             </tbody>
                                             <tfoot>
                                             <tr>

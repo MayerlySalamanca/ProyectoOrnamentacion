@@ -126,33 +126,36 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <label for="roll" class="col-sm-2 col-form-label">Rol</label>
                                                 <div class="col-sm-10">
                                                     <select id="roll" name="roll" class="custom-select">
-                                                        <option <?= ($DataUsuario->getRoll() == "administrador") ? "selected" : ""; ?>
+                                                        <option <?= ($DataUsuario->getRoll() == 'administrador') ? "selected" : ' '; ?>
                                                                 value="administrador">Administrador
                                                         </option>
-                                                        <option <?= ($DataUsuario->getEstado() == "vendedor") ? "selected" : ""; ?>
+                                                        <option <?= ($DataUsuario->getRoll() == 'vendedor') ?  "selected" : ' ' ;?>
                                                                 value="vendedor">Vendedor
                                                         </option>
-
+                                                        <option <?= ($DataUsuario->getRoll() == 'cliente') ?  "selected" : ' ' ;?>
+                                                                value="cliente">Cliente
+                                                        </option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="usuario"
-                                                           name="usuario" value="<?= $DataUsuario->getUsuario(); ?>"
-                                                           placeholder="Ingrese el Usuario">
+                                            <div id="div-hide">
+                                                <div class="form-group row">
+                                                    <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
+                                                    <div class="col-sm-10">
+                                                        <input required type="text" class="form-control" id="usuario"
+                                                               name="usuario" value="<?= $DataUsuario->getUsuario(); ?>"
+                                                               placeholder="Ingrese el Usuario">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
+                                                    <div class="col-sm-10">
+                                                        <input required type="text" class="form-control" id="contrasena"
+                                                               name="contrasena"
+                                                               placeholder="Ingrese su Contraseña">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
-                                                <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="contrasena"
-                                                           name="contrasena" value="<?= $DataUsuario->getContrasena(); ?>"
-                                                           placeholder="Ingrese el Usuario">
-                                                </div>
-                                            </div>
-
                                             <div class="form-group row">
                                                 <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                                                 <div class="col-sm-10">
@@ -194,7 +197,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
                                             <hr>
-                                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
+                                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="button" class="btn btn-info">Enviar</button>
                                             <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
                                         </form>
                                     </div>
@@ -228,6 +231,21 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
 <?php require('../../partials/scripts.php'); ?>
 <script>
     $(function() {
+        $('#frmName').on('click', function() {
+            $('#frmEditUsuario').trigger('submit');
+        });
+
+        $('#roll').on('change', function() {
+            if(this.value == 'cliente'){
+                $('#contrasena').val( ' ' );
+                $('#div-hide').hide();
+            }else{
+                $('#div-hide').show();
+            }
+        });
+
+
+
         $('#idDepartamentos').on('change', function() {
             $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
                 isMultiple: false,

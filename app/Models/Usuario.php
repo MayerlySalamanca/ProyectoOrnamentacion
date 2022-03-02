@@ -24,7 +24,7 @@ class Usuario extends AbstractDBConnection implements Model
     private String $telefono;
     private string $direccion;
     private Roll $roll;
-    private string $usuario;
+    private ?string $usuario;
     private ?string $contrasena;
     private Estado $estado;
     private ?int $municipiosId;
@@ -51,8 +51,8 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
         $this->setRoll($usuario['roll'] ?? Roll::ADMINISTRADOR);
-        $this->setUsuario($usuario['usuario'] ?? '');
-        $this->setContrasena($usuario['contrasena'] ?? '');
+        $this->setUsuario($usuario['usuario'] ?? NULL);
+        $this->setContrasena($usuario['contrasena'] ?? NULL);
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
         $this->setMunicipiosId($usuario['municipiosId']??null);
     }
@@ -67,7 +67,7 @@ class Usuario extends AbstractDBConnection implements Model
     /**
      * @return string
      */
-    public function getUsuario(): string
+    public function getUsuario(): ?string
     {
         return ucwords($this->usuario);
     }
@@ -75,10 +75,13 @@ class Usuario extends AbstractDBConnection implements Model
     /**
      * @param string $usuario
      */
-    public function setUsuario(string $usuario): void
+    public function setUsuario(?string $usuario): void
     {
-        $this->usuario = trim(mb_strtolower($usuario, 'UTF-8'));
-
+        if($usuario == null){
+            $this->usuario = $usuario;
+        }else{
+            $this->usuario = strtolower($usuario);
+        }
     }
 
 
@@ -255,8 +258,9 @@ class Usuario extends AbstractDBConnection implements Model
      */
     protected function save(string $query): ?bool
     {
-        $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
-
+        if($this->contrasena != ' ' ){
+            $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
+        }
         $arrData = [
             ':idUsuario' => $this->getIdUsuario(),
             ':documento' => $this->getDocumento(),

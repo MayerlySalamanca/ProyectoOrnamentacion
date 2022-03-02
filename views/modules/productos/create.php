@@ -91,7 +91,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     <div class="form-group row">
                                     <label for="stock" class="col-sm-2 col-form-label">Stock</label>
                                     <div class="col-sm-10">
-                                        <input required type="number" class="form-control" id="stock" name="stock"
+                                        <input required type="number" min="1" max="100" class="form-control" id="stock" name="stock"
                                                placeholder="Ingrese la cantidad" value="<?= $frmSession['stock'] ?? '' ?>">
                                     </div>
                                     </div>

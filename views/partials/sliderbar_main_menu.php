@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary bg-navy elevation-4">
     <!-- Brand Logo -->
     <a href="../../index3.html" class="brand-link">
         <img src="<?= $baseURL ?>/views/public/img/descarga.png"
@@ -10,10 +10,10 @@
     </a>
 
     <!-- Sidebar -->
-<div class="sidebar">
+<div class="sidebar sidebar-dark-primary bg-navy ">
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar  sidebar-dark-primary bg-navy" >
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 d-flex">
             <div class="image align-middle">
