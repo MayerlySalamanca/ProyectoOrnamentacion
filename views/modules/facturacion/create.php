@@ -145,9 +145,22 @@ if (!empty($_GET['id'])) {
                                             </div>
                                         </div>
                                     <?php } ?>
-                                    <hr>
-                                    <button type="submit" class="btn btn-info">Enviar</button>
-                                    <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
+                                    <?php
+                                    $dataVenta = null;
+                                    if (!empty($_GET['id'])) {
+                                        $dataVenta = FacturasController::searchForID(["idFactura" => $_GET['id']]);
+                                        if ($dataVenta->getEstado() == "Proceso"){
+                                            ?>
+                                            <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=finalize&Id=<?= $_GET['id']?>" role="button" type="submit" class="btn btn-primary">Finalizar</a>
+                                            <?php
+                                        }
+                                    }else{
+                                        ?>
+                                        <button type="submit" class="btn btn-info">Enviar</button>
+                                        <?php
+                                    }
+                                    ?>
+                                    <a href="../facturacion" role="button" class="btn btn-danger">Regresar</a>
                                 </form>
                             </div>
                         </div>

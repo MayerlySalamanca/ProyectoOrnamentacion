@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 require (__DIR__.'/../../vendor/autoload.php');
+
+use App\Models\Fabricacion;
 use App\Models\GeneralFunctions;
 use App\Models\Compras;
 use Carbon\Carbon;
@@ -84,20 +86,7 @@ class ComprasController{
         return null;
     }
 
-    static public function cancel(){
-        try {
-            $ObjVenta = Compras::searchForId($_GET['Id']);
-            $ObjVenta->setEstado("Cancelada");
-            if($ObjVenta->update()){
-                header("Location: ../../views/modules/compras/index.php");
-            }else{
-                header("Location: ../../views/modules/compras/index.php?respuesta=error&mensaje=Error al guardar");
-            }
-        } catch (\Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
-            header("Location: ../../views/modules/compras/index.php?respuesta=error");
-        }
-    }
+
 
     static public function selectCompras (array $params = [] ){
 
@@ -140,6 +129,48 @@ class ComprasController{
             }
         }
         return false;
+    }
+
+    static public function cancel(){
+        try {
+            $ObjVenta = Compras::searchForId($_GET['Id']);
+            $ObjVenta->setEstado("Anulada");
+            $ObjVenta->setMonto();
+            if($ObjVenta->update()){
+                $ObjDetalle = Fabricacion::search("SELECT * FROM ornamentacion.fabricacion WHERE compra_id = " . $_GET['Id']);
+                /* @var $ObjDetalle Fabricacion[] */
+                foreach ($ObjDetalle as $Detalle){
+                    $ObjDetalleVenta = Fabricacion::searchForId($Detalle->getId());
+                    $objProducto = $ObjDetalleVenta->getProducto();
+                    if($Detalle->deleted()) {
+                        $objProducto->susaddStock($ObjDetalleVenta->getCantidad());
+                        header("Location: ../../views/modules/compras/index.php?respuesta=success&mensaje=Factura Cancelada Correctamente");
+                    }else{
+                        header("Location: ../../views/modules/compras/index.php?respuesta=error&mensaje=Error al Cancelar");
+                    }
+                }
+            }else{
+                header("Location: ../../views/modules/compras/create.php?id=".$ObjVenta->getId()."&respuesta=error&mensaje=Error al cancelar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+            header("Location: ../../views/modules/facturacion?respuesta=error");
+        }
+    }
+
+    static public function finalize(){
+        try {
+            $ObjVenta = Compras::searchForId($_GET['Id']);
+            $ObjVenta->setEstado("Finalizada");
+            if($ObjVenta->update()){
+                header("Location: ../../views/modules/compras/index.php?respuesta=success&mensaje=Factura Finalizada Correctamente");
+            }else{
+                header("Location: ../../views/modules/compras/index.php?respuesta=error&mensaje=Error al Finalizar");
+            }
+        } catch (\Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+            header("Location: ../../views/modules/compras/index.php?respuesta=error");
+        }
     }
 
 }

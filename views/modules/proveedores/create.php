@@ -75,17 +75,17 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="documento" class="col-sm-2 col-form-label">Docuemnto</label>
+                                        <label for="documento" class="col-sm-2 col-form-label"> No° Docuemento</label>
                                         <div class="col-sm-10">
                                             <input required type="number" class="form-control" id="documento" name="documento"
                                                    placeholder="Ingrese el numero de documento" value="<?= $frmSession['documento'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label"> Nombres</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese los nombres" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                                   placeholder="Ingrese el Nombre del proveedor" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -144,8 +144,8 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <?php require('../../partials/scripts.php'); ?>
 <script>
     $(function() {
-        $('#documento').val(' ');
-        $('#nombre').val(' ');
+        $('#documento').val('');
+        $('#nombre').val('');
         $('#estado').val('Activo');
 
         $('#idDepartamentos').on('change', function() {

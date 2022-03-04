@@ -128,6 +128,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                data-toggle="tooltip" title="Cancelar"
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>
+                                                            <a type="button"
+                                                               href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=finalize&Id=<?= $venta->getIdFactura(); ?>"
+                                                               data-toggle="tooltip" title="Finalizar"
+                                                               class="btn docs-tooltip btn-success btn-xs"><i
+                                                                        class="fa fa-shopping-cart"></i></a>
                                                         <?php } ?>
                                                     </td>
                                                 </tr>

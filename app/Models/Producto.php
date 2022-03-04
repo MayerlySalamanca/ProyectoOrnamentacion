@@ -119,7 +119,7 @@ class Producto extends AbstractDBConnection implements Model
      */
     public function setNombre(string $nombre): void
     {
-        $this->nombre = trim(mb_strtolower($nombre, 'UTF-8'));
+        $this->nombre = trim(mb_strtolower($nombre));
     }
 
 
@@ -225,13 +225,11 @@ class Producto extends AbstractDBConnection implements Model
     }
 
     /**
-     * @param $documento
-     * @return bool
-     * @throws Exception
+     * @param $nombre
      */
     public static function productoRegistrado($nombre): bool
     {
-        $result =  Producto::search("SELECT * FROM ornamentacion.producto where nombre = '" . $nombre."' ");
+        $result = Producto::search("SELECT * FROM ornamentacion.producto where nombre = " . "'$nombre'" );
         if (!empty($result) && count($result)>0) {
             return true;
         } else {

@@ -77,31 +77,31 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
                                     <div class="form-group row">
-                                        <label for="documento" class="col-sm-2 col-form-label">Documento</label>
+                                        <label for="documento" class="col-sm-2 col-form-label">No° Documento</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="documento" name="documento"
-                                                   placeholder="Ingrese" value="<?= $frmSession['documento'] ?? '' ?>">
+                                            <input required type="number" min="1" ="10" class="form-control" id="documento" name="documento"
+                                                   placeholder="Ingrese el número de Documento" value="<?= $frmSession['documento'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                                   placeholder="Ingrese los nombres completos" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
+                                        <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="telefono" name="telefono"
-                                                   placeholder="Ingrese" value="<?= $frmSession['telefono'] ?? '' ?>">
+                                                   placeholder="Ingrese número del telefono" value="<?= $frmSession['telefono'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="direccion" name="direccion"
-                                                   placeholder="Ingrese" value="<?= $frmSession['direccion'] ?? '' ?>">
+                                                   placeholder="Ingrese la dirección de residencia" value="<?= $frmSession['direccion'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -119,15 +119,15 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         <div class="form-group row">
                                             <label for="usuario" class="col-sm-2 col-form-label">Usuarios</label>
                                             <div class="col-sm-10">
-                                                <input required type="text" class="form-control" id="usuario" name="usuario"
-                                                       placeholder="Ingrese" value="<?= $frmSession['usuario'] ?? '' ?>">
+                                                <input required type="text" maxlength="50" class="form-control" id="usuario" name="usuario"
+                                                       placeholder="Ingrese el user" value="<?= $frmSession['usuario'] ?? '' ?>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="contrasena" class="col-sm-2 col-form-label">Contraseña</label>
                                             <div class="col-sm-10">
                                                 <input required type="text" class="form-control" id="contrasena" name="contrasena"
-                                                       placeholder="Ingrese" value="<?= $frmSession['contrasena'] ?? '' ?>">
+                                                       placeholder="Ingrese la contraseña" value="<?= $frmSession['contrasena'] ?? '' ?>">
                                             </div>
                                         </div>
                                     </div>
@@ -206,13 +206,13 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                 $('#div-hide').show();
             }
         });
-        $('#documento').val(' ');
-        $('#nombre').val(' ');
-        $('#telefono').val(' ');
-        $('#direccion').val(' ');
+        $('#documento').val('');
+        $('#nombre').val('');
+        $('#telefono').val('');
+        $('#direccion').val('');
         $('#roll').val('Seleccionar');
-        $('#usuario').val(' ');
-        $('#contrasena').val(' ');
+        $('#usuario').val('');
+        $('#contrasena').val('');
         $('#idDepartamentos').on('change', function() {
             $.post("../../../app/Controllers/MainController.php?controller=Municipios&action=selectMunicipios", {
                 isMultiple: false,

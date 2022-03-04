@@ -82,10 +82,10 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre del Producto</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
-                                                   placeholder="Ingrese" value="<?= $frmSession['nombre'] ?? '' ?>">
+                                                   placeholder="Ingrese el nombre" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -99,8 +99,8 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     <div class="form-group row">
                                         <label for="valor" class="col-sm-2 col-form-label">Precio</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="valor" name="valor"
-                                                   placeholder="Ingrese el precio" value="<?= $frmSession['valor'] ?? '' ?>">
+                                            <input required type="number" min="1" max="100000000" class="form-control" id="valor" name="valor"
+                                                   placeholder="Ingrese el precio $" value="<?= $frmSession['valor'] ?? '' ?>">
                                         </div>
                                     </div>
 
@@ -137,9 +137,9 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <script>
     $(function() {
         $('#tipo').val('Fabricacion');
-        $('#nombre').val(' ');
-        $('#stock').val(' ');
-        $('#valor').val(' ');
+        $('#nombre').val('');
+        $('#stock').val('');
+        $('#valor').val('');
 
 
     });
