@@ -1,52 +1,107 @@
 <?php
+
 namespace App\Models;
-class Fabricacion
+
+use App\Interfaces\Model;
+use App\Models\Producto;
+use App\Models\Compras;
+use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
+
+class Fabricacion extends AbstractDBConnection implements Model
 {
-private ? int $idFabricacion;
-private int $cantidad;
-private int $MateriaPrima;
-private int $Usuario_IdUsuario;
+    private ?int $id;
+    private int $producto_id;
+    private int $compra_id;
+    private int $cantidad;
+    private float $precio_venta;
+
+
+    /* Relaciones */
+    private ?Producto $producto;
+    private ?Compras $compra;
 
     /**
-     * @param int|null $idFabricacion
-     * @param int $cantidad
-     * @param int $MateriaPrima
-     * @param int $Usuario_IdUsuario
+     * Detalle Compra constructor. Recibe un array asociativo
+     * @param array $detalle_compra
      */
-    public function __construct(?int $idFabricacion, int $cantidad, int $MateriaPrima, int $Usuario_IdUsuario)
+    public function __construct(array $detalle_compra = [])
     {
-        $this->idFabricacion = $idFabricacion;
-        $this->cantidad = $cantidad;
-        $this->MateriaPrima = $MateriaPrima;
-        $this->Usuario_IdUsuario = $Usuario_IdUsuario;
+        parent::__construct();
+        $this->setId($detalle_compra['id'] ?? NULL);
+        $this->setCompraId($detalle_compra['compra_id'] ?? 0);
+        $this->setProductoId($detalle_compra['producto_id'] ?? 0);
+        $this->setCantidad($detalle_compra['cantidad'] ?? 0);
+        $this->setPrecioVenta($detalle_compra['precio_venta'] ?? 0.0);
+    }
+
+    /**
+     *
+     */
+    function __destruct()
+    {
+        $this->Disconnect();
     }
 
     /**
      * @return int|null
      */
-    public function getIdFabricacion(): ?int
+    public function getId(): ?int
     {
-        return $this->idFabricacion;
+        return $this->id;
     }
 
     /**
-     * @param int|null $idFabricacion
+     * @param int|null $id
      */
-    public function setIdFabricacion(?int $idFabricacion): void
+    public function setId(?int $id): void
     {
-        $this->idFabricacion = $idFabricacion;
+        $this->id = $id;
     }
 
     /**
      * @return int
      */
-    public function getCantidad(): int
+    public function getProductoId(): int
+    {
+        return $this->producto_id;
+    }
+
+    /**
+     * @param int $producto_id
+     */
+    public function setProductoId(int $producto_id): void
+    {
+        $this->producto_id = $producto_id;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getCompraId() : int
+    {
+        return $this->compra_id;
+    }
+
+    /**
+     * @param int|mixed $compra_id
+     */
+    public function setCompraId(int $compra_id): void
+    {
+        $this->compra_id = $compra_id;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getCantidad() : int
     {
         return $this->cantidad;
     }
 
     /**
-     * @param int $cantidad
+     * @param int|mixed $cantidad
      */
     public function setCantidad(int $cantidad): void
     {
@@ -54,52 +109,67 @@ private int $Usuario_IdUsuario;
     }
 
     /**
-     * @return int
+     * @return float|mixed
      */
-    public function getMateriaPrima(): int
+    public function getPrecioVenta() : float
     {
-        return $this->MateriaPrima;
+        return $this->precio_venta;
     }
 
     /**
-     * @param int $MateriaPrima
+     * @param float|mixed $precio_venta
      */
-    public function setMateriaPrima(int $MateriaPrima): void
+    public function setPrecioVenta(float $precio_venta): void
     {
-        $this->MateriaPrima = $MateriaPrima;
+        $this->precio_venta = $precio_venta;
+    }
+
+    public function getTotalProducto() : float
+    {
+        return $this->getPrecioVenta() ;
+    }
+
+
+    /* Relaciones */
+    /**
+     * Retorna el objeto venta correspondiente al detalle venta
+     * @return Compras|null
+     */
+    public function getCompra(): ?Compras
+    {
+        if(!empty($this->compra_id)){
+            $this->compra = Compras::searchForId($this->compra_id) ?? new Compras();
+            return $this->compra;
+        }
+        return NULL;
     }
 
     /**
-     * @return int
+     * Retorna el objeto producto correspondiente al detalle venta
+     * @return Productos|null
      */
-    public function getUsuarioIdUsuario(): int
+    public function getProducto(): ?Producto
     {
-        return $this->Usuario_IdUsuario;
+        if(!empty($this->producto_id)){
+            $this->producto = Producto::searchForId($this->producto_id) ?? new Producto();
+            return $this->producto;
+        }
+        return NULL;
     }
 
-    /**
-     * @param int $Usuario_IdUsuario
-     */
-    public function setUsuarioIdUsuario(int $Usuario_IdUsuario): void
+    protected function save(string $query, string $type = 'insert'): ?bool
     {
-        $this->Usuario_IdUsuario = $Usuario_IdUsuario;
-    }
-    /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
-     */
-    protected function save(string $query): ?bool
-
-    {
-        $arrData = [
-            ':idFabricacion' =>    $this->getidFabricacion(),
-            ':cantidad' =>   $this->getcantidad(),
-            ':MateriaPrima' =>   $this->getMateriaPrima(),
-            ':Usuario_IdUsuario' =>   $this->getUsuario_IdUsuario(),
-
-
-        ];
+        if($type == 'deleted'){
+            $arrData = [ ':id' =>   $this->getId() ];
+        }else{
+            $arrData = [
+                ':id' =>   $this->getId(),
+                ':compra_id' =>   $this->getCompraId(),
+                ':producto_id' =>  $this->getProductoId(),
+                ':cantidad' =>   $this->getCantidad(),
+                ':precio_venta' =>   $this->getPrecioVenta(),
+            ];
+        }
 
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -107,62 +177,129 @@ private int $Usuario_IdUsuario;
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
-    function insert(): ?bool
+    function insert() : ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:idFabricacion,:cantidad,:MateriaPrima,:Usuario_IdUsuario)";
+        $query = "INSERT INTO ornamentacion.fabricacion VALUES (:id,:compra_id,:producto_id,:cantidad,:precio_venta)";
+        if($this->save($query)){
+            return $this->getProducto()->addStock($this->getCantidad());
+        }
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function update() : bool
+    {
+        $query = "UPDATE ornamentacion.fabricacion SET 
+            compra_id = :compra_id,producto_id = :producto_id,  cantidad = :cantidad, 
+            precio_venta = :precio_venta  WHERE id = :id";
         return $this->save($query);
     }
 
     /**
-     * @return bool|null
+     * @return mixed
      */
-    public function update(): ?bool
+    public function deleted() : bool
     {
-        $query = "UPDATE proyecto.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
-        return $this->save($query);
-    }
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
-    {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
-        return $this->update();                    //Guarda los cambios..
+        $query = "DELETE FROM ornamentacion.fabricacion WHERE id = :id";
+        return $this->save($query, 'deleted');
     }
 
     /**
      * @param $query
-     * @return Categorias|array
-     * @throws Exception
+     * @return mixed
      */
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrDetalleCompra = array();
+            $tmp = new Fabricacion();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $DetalleCompra = new Fabricacion($valor);
+                array_push($arrDetalleCompra, $DetalleCompra);
+                unset($DetalleCompra);
             }
-            return $arrCategorias;
+            return $arrDetalleCompra;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        return null;
+        return NULL;
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public static function searchForId($id) : ?Fabricacion
+    {
+        try {
+            if ($id > 0) {
+                $DetalleCompra = new Fabricacion();
+                $DetalleCompra->Connect();
+                $getrow = $DetalleCompra->getRow("SELECT * FROM ornamentacion.fabricacion WHERE id = ?", array($id));
+                $DetalleCompra->Disconnect();
+                return ($getrow) ? new Fabricacion($getrow) : null;
+            }else{
+                throw new Exception('Id de detalle compra Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
 
+    /**
+     * @return mixed
+     */
+    public static function getAll() : array
+    {
+        return Fabricacion::search("SELECT * FROM ornamentacion.fabricacion");
+    }
+
+    /**
+     * @param $compra_id
+     * @param $producto_id
+     * @return bool
+     */
+
+    public static function productoEnFactura($compra_id,$producto_id): bool
+    {
+        $result = Fabricacion::search("SELECT id FROM ornamentacion.fabricacion where compra_id = '" . $compra_id. "' and producto_id = '" . $producto_id. "'");
+        if (count($result) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "Venta: ".$this->compra->getNumeroSerie().", Producto: ".$this->producto->getNombre().", Cantidad: $this->cantidad, Precio Venta: $this->precio_venta";
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize() : array
+    {
+        return [
+            'producto_id' => $this->getProducto()->jsonSerialize(),
+            'compra_id' => $this->getCompra()->jsonSerialize(),
+            'cantidad' => $this->getCantidad(),
+            'precio_venta' => $this->getPrecioVenta(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
+        ];
+    }
 }

@@ -160,12 +160,12 @@ abstract class AbstractDBConnection {
      * @return int|null
      * @throws Exception
      */
-    public function getLastId(string $table = null) : ?int {
+    public function getLastId(string $id=null, string $table = null) : ?int {
         try{
             if(!empty($table)){
                 if($this->countRowsTable($table) > 0){
-                    $result = $this->getRow("SELECT id FROM ".$table." ORDER BY id DESC LIMIT 1", []);
-                    return $result['id'];
+                    $result = $this->getRow('SELECT ' .$id.'  FROM '.$table.' ORDER BY '.$id.' DESC LIMIT 1', []);
+                    return $result["$id"];
                 }
                 return 0;
             }else{
