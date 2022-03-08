@@ -13,6 +13,7 @@ class FacturaTest extends TestCase
         $factura = new Factura(
             [   'IdFactura' => null,
                 'numeroFactura' => 12,
+                'nombreCliente' =>'di',
                 'cantidad' => 2,
                 'fecha' => 2022-03-12,
                 'estado' => EstadoFactura::PROCESO,

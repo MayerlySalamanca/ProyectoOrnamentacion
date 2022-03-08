@@ -2,29 +2,28 @@
 
 namespace App\Models;
 use App\Enums\Estado;
-use JetBrains\PhpStorm\Internal\TentativeType;
+use App\Interfaces\Model;
 
-class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
+class Proveedor extends AbstractDBConnection implements Model
 {
     private ?int  $IdProveedor;
     private int $documento;
     private string $nombre;
-    private string $ciudad;
     private Estado $estado;
+    private ? int $municipiosId;
 //Realacion
-    private ?array $pedidosProveedor;
-
+    private ? Municipio $municipios;
     /**
      * @param array $proveedor
      */
     public function __construct(array $proveedor = [])
     {
         parent::__construct();
-        $this->setIdProveedor( $proveedor['IdProveedor'] ?? null) ;
+        $this->setIdProveedor( $proveedor['idProveedor'] ?? null) ;
         $this->setDocumento($proveedor['documento'] ?? 0);
         $this->setNombre($proveedor['nombre'] ?? '') ;
-        $this->setCiudad($proveedor['ciudad']?? '') ;
         $this->setEstado($proveedor['estado'] ?? Estado::INACTIVO);
+        $this->setMunicipiosId($proveedor['municipiosId']??null);
     }
     public function __destruct()
     {
@@ -83,23 +82,6 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         $this->nombre = $nombre;
     }
 
-    /**
-     * @return string
-     */
-    public function getCiudad(): string
-    {
-        return $this->ciudad;
-    }
-
-    /**
-     * @param string $ciudad
-     */
-    public function setCiudad(string $ciudad): void
-    {
-        $this->ciudad = $ciudad;
-    }
-
-
 
     /**
      * @return Estado
@@ -110,7 +92,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
     /**
-     * @param EstadoCategorias|null $estado
+     * @param string|Estado|null $estado
      */
     public function setEstado(null|string|Estado $estado): void
     {
@@ -122,17 +104,43 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
 
+    /**
+     * @return int|null
+     */
+    public function getMunicipiosId(): ?int
+    {
+        return $this->municipiosId;
+    }
+
+    /**
+     * @param int|null $municipiosId
+     */
+    public function setMunicipiosId(?int $municipiosId): void
+    {
+        $this->municipiosId = $municipiosId;
+    }
+
+    /**
+     * @return Municipio|null
+     */
+    public function getMunicipio(): ?Municipio
+    {
+        if(!empty($this->municipiosId)){
+            $this->municipios = Municipio::searchForId( $this->municipiosId) ?? new Municipio();
+            return $this->municipios;
+        }
+        return null;
+    }
 
     protected function save(string $query): ?bool
 
     {
         $arrData = [
-            ':IdProveedor' =>    $this->getIdProveedor(),
+            ':idProveedor' =>    $this->getIdProveedor(),
             ':documento' =>   $this->getDocumento(),
             ':nombre' =>   $this->getNombre(),
-            ':ciudad' =>   $this->getCiudad(),
             ':estado' =>   $this->getEstado(),
-
+            ':municipiosId' =>$this->getMunicipiosId(),
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -143,8 +151,8 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.proveedor VALUES (
-            :IdProveedor,:documento,:nombre,
-            :ciudad,:estado
+            :idProveedor,:documento,:nombre,
+            :estado,:municipiosId
         )";
         return $this->save($query);
     }
@@ -152,10 +160,9 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     function update(): ?bool
     {
         $query = "UPDATE ornamentacion.proveedor SET 
-            nombre = :nombre,
-            documento = :documento, ciudad= :ciudad, estado = :estado WHERE IdProveedor = :IdProveedor";
+            nombre = :nombre,documento = :documento,
+            estado = :estado, municipiosId = :municipiosId    WHERE idProveedor = :idProveedor";
         return $this->save($query);
-
     }
 
     function deleted(): ?bool
@@ -175,7 +182,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
 
             if (!empty($getrows)) {
                 foreach ($getrows as $valor) {
-                    $Proveedor = new Usuario($valor);
+                    $Proveedor = new Proveedor($valor);
                     array_push($arrProveedor, $Proveedor);
                     unset($Proveedor);
                 }
@@ -188,15 +195,15 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         return null;
     }
 
-    static function searchForId(int $id): ?Proveedor
+    static function searchForId(int $idProveedor): ?Proveedor
     {
         try {
-            if ($id > 0) {
+            if ($idProveedor > 0) {
                 $tmpProveedor = new Proveedor();
                 $tmpProveedor->Connect();
-                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.usuario WHERE idProveedor =?", array($id));
+                $getrow = $tmpProveedor->getRow("SELECT * FROM ornamentacion.proveedor WHERE idProveedor =?", array($idProveedor));
                 $tmpProveedor->Disconnect();
-                return ($getrow) ? new Usuario($getrow) : null;
+                return ($getrow) ? new Proveedor($getrow) : null;
             } else {
                 throw new Exception('Id de Proveedor Invalido');
             }
@@ -212,7 +219,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
      */
     public static function proveedorRegistrado($documento): bool
     {
-        //$result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = " . $documento);
+
         $result = proveedor::search("SELECT * FROM ornamentacion.proveedor where documento = '" . $documento."' ");
         if (!empty($result) && count($result)>0) {
             return true;
@@ -221,7 +228,7 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
         }
     }
 
-    static function getAll(): ?array
+    public static function getAll(): ?array
     {
         return Proveedor::search("SELECT * FROM ornamentacion.proveedor");
     }
@@ -229,15 +236,14 @@ class Proveedor extends AbstractDBConnection implements \App\Interfaces\Model
     /**
      * @inheritDoc
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): array
     {
         return [
-            ':IdProveedor' =>    $this->getIdProveedor(),
-            ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombre(),
-            ':ciudad' =>   $this->getCiudad(),
-            ':estado' =>   $this->getEstado(),
-
+            'documento' =>   $this->getDocumento(),
+            'nombre' =>   $this->getNombre(),
+            'estado' =>   $this->getEstado(),
+            'municipios' => $this->getMunicipio()->getNombre(),
         ];
     }
+
 }

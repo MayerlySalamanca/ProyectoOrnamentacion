@@ -19,11 +19,11 @@ class PedidosTest extends TestCase
                 'fechaPedido' => 2022-02-22,
                 'fechaEntrega' => 2022-03-12,
                 'estado' => 'Inactivo',
-                'Proveedor_IdProveedor' => Proveedor::proveedorRegistrado(221),
+                'Proveedor_IdProveedor' => 1,
             ]
         );
 
-        $Pedidos->insert();
+        $Pedidos->ins.ert();
         $this->assertSame(true, $Pedidos->pedidoRegistrado(1));
     }
 }

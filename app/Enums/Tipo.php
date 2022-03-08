@@ -3,15 +3,17 @@ namespace App\Enums;
 
 enum Tipo: string
 {
+    case FABRICACION = 'Fabricacion';
+    case INSTALACION= "Instalacion";
     case PRODUCTO = 'Producto';
-    case SERVICIO= "Servicio";
 
 
     public function toString(): string
     {
         return match ($this) {
-            self::PRODUCTO => 'Producto',
-            self::SERVICIO=> "Servicio",
+            self::FABRICACION => 'Fabricacion',
+            self::INSTALACION=> "Instalacion",
+            self::PRODUCTO=> "Producto",
 
         };
     }
