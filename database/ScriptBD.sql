@@ -1,0 +1,1518 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 02-03-2022 a las 20:32:59
+-- Versión del servidor: 5.7.33
+-- Versión de PHP: 8.1.2
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `ornamentacion`
+--
+CREATE DATABASE IF NOT EXISTS `ornamentacion` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `ornamentacion`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comprasmateria`
+--
+
+CREATE TABLE `comprasmateria` (
+                                  `id` tinyint(3) UNSIGNED ZEROFILL NOT NULL,
+                                  `numero_serie` varchar(45) NOT NULL,
+                                  `empleado_id` bigint(10) UNSIGNED NOT NULL,
+                                  `provedor_id` bigint(10) UNSIGNED NOT NULL,
+                                  `fecha_compra` date NOT NULL,
+                                  `monto` float NOT NULL,
+                                  `estado` enum('Proceso','Finalizada','Anulada') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `departamentos`
+--
+
+CREATE TABLE `departamentos` (
+                                 `idDepartamentos` int(10) UNSIGNED NOT NULL,
+                                 `nombre` varchar(90) NOT NULL,
+                                 `region` enum('Caribe','Centro Oriente','Centro Sur','Eje Cafetero - Antioquia','Llano','Pacífico') NOT NULL,
+                                 `estado` enum('Activo','Inactivo') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `departamentos`
+--
+
+INSERT INTO `departamentos` (`idDepartamentos`, `nombre`, `region`, `estado`) VALUES
+                                                                                  (5, 'ANTIOQUIA', 'Eje Cafetero - Antioquia', 'Activo'),
+                                                                                  (8, 'ATLÁNTICO', 'Caribe', 'Activo'),
+                                                                                  (11, 'BOGOTÁ. D.C', 'Centro Oriente', 'Activo'),
+                                                                                  (13, 'BOLÍVAR', 'Caribe', 'Activo'),
+                                                                                  (15, 'BOYACÁ', 'Centro Oriente', 'Activo'),
+                                                                                  (17, 'CALDAS', 'Eje Cafetero - Antioquia', 'Activo'),
+                                                                                  (18, 'CAQUETÁ', 'Centro Sur', 'Activo'),
+                                                                                  (19, 'CAUCA', 'Pacífico', 'Activo'),
+                                                                                  (20, 'CESAR', 'Caribe', 'Activo'),
+                                                                                  (23, 'CÓRDOBA', 'Caribe', 'Activo'),
+                                                                                  (25, 'CUNDINAMARCA', 'Centro Oriente', 'Activo'),
+                                                                                  (27, 'CHOCÓ', 'Pacífico', 'Activo'),
+                                                                                  (41, 'HUILA', 'Centro Sur', 'Activo'),
+                                                                                  (44, 'LA GUAJIRA', 'Caribe', 'Activo'),
+                                                                                  (47, 'MAGDALENA', 'Caribe', 'Activo'),
+                                                                                  (50, 'META', 'Llano', 'Activo'),
+                                                                                  (52, 'NARIÑO', 'Pacífico', 'Activo'),
+                                                                                  (54, 'NORTE DE SANTANDER', 'Centro Oriente', 'Activo'),
+                                                                                  (63, 'QUINDIO', 'Eje Cafetero - Antioquia', 'Activo'),
+                                                                                  (66, 'RISARALDA', 'Eje Cafetero - Antioquia', 'Activo'),
+                                                                                  (68, 'SANTANDER', 'Centro Oriente', 'Activo'),
+                                                                                  (70, 'SUCRE', 'Caribe', 'Activo'),
+                                                                                  (73, 'TOLIMA', 'Centro Sur', 'Activo'),
+                                                                                  (76, 'VALLE DEL CAUCA', 'Pacífico', 'Activo'),
+                                                                                  (81, 'ARAUCA', 'Llano', 'Activo'),
+                                                                                  (85, 'CASANARE', 'Llano', 'Activo'),
+                                                                                  (86, 'PUTUMAYO', 'Centro Sur', 'Activo'),
+                                                                                  (88, 'ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA', 'Caribe', 'Activo'),
+                                                                                  (91, 'AMAZONAS', 'Centro Sur', 'Activo'),
+                                                                                  (94, 'GUAINÁ', 'Llano', 'Activo'),
+                                                                                  (95, 'GUAVIARE', 'Llano', 'Activo'),
+                                                                                  (97, 'VAUPÉS', 'Llano', 'Activo'),
+                                                                                  (99, 'VICHADA', 'Llano', 'Activo');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `detalle_ventas`
+--
+
+CREATE TABLE `detalle_ventas` (
+                                  `idOrdenCompra` int(10) UNSIGNED NOT NULL,
+                                  `ventas_id` int(10) UNSIGNED NOT NULL,
+                                  `Producto_IdProducto` int(10) UNSIGNED NOT NULL,
+                                  `cantidad` int(11) NOT NULL,
+                                  `precio` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `fabricacion`
+--
+
+CREATE TABLE `fabricacion` (
+                               `id` bigint(10) UNSIGNED NOT NULL,
+                               `compra_id` tinyint(3) UNSIGNED ZEROFILL NOT NULL,
+                               `producto_id` int(10) UNSIGNED NOT NULL,
+                               `cantidad` int(11) NOT NULL,
+                               `precio_venta` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `factura`
+--
+
+CREATE TABLE `factura` (
+                           `idFactura` int(10) UNSIGNED NOT NULL,
+                           `numeroFactura` varchar(256) NOT NULL,
+                           `usuarioVendedor` bigint(10) UNSIGNED NOT NULL,
+                           `usuarioCliente` bigint(10) UNSIGNED NOT NULL,
+                           `fecha` date NOT NULL,
+                           `monto` float NOT NULL,
+                           `estado` enum('Proceso','Finalizada','Anulada') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `municipios`
+--
+
+CREATE TABLE `municipios` (
+                              `idMunicipio` int(10) UNSIGNED NOT NULL,
+                              `nombre` varchar(45) NOT NULL,
+                              `estado` enum('Activo','Inactivo') NOT NULL,
+                              `departamentosId` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `municipios`
+--
+
+INSERT INTO `municipios` (`idMunicipio`, `nombre`, `estado`, `departamentosId`) VALUES
+                                                                                    (5001, 'Medellín', 'Activo', 5),
+                                                                                    (5002, 'Abejorral', 'Activo', 5),
+                                                                                    (5004, 'Abriaquí', 'Activo', 5),
+                                                                                    (5021, 'Alejandría', 'Activo', 5),
+                                                                                    (5030, 'Amagá', 'Activo', 5),
+                                                                                    (5031, 'Amalfi', 'Activo', 5),
+                                                                                    (5034, 'Andes', 'Activo', 5),
+                                                                                    (5036, 'Angelópolis', 'Activo', 5),
+                                                                                    (5038, 'Angostura', 'Activo', 5),
+                                                                                    (5040, 'Anorí', 'Activo', 5),
+                                                                                    (5042, 'Santafé de Antioquia', 'Activo', 5),
+                                                                                    (5044, 'Anza', 'Activo', 5),
+                                                                                    (5045, 'Apartadó', 'Activo', 5),
+                                                                                    (5051, 'Arboletes', 'Activo', 5),
+                                                                                    (5055, 'Argelia', 'Activo', 5),
+                                                                                    (5059, 'Armenia', 'Activo', 5),
+                                                                                    (5079, 'Barbosa', 'Activo', 5),
+                                                                                    (5086, 'Belmira', 'Activo', 5),
+                                                                                    (5088, 'Bello', 'Activo', 5),
+                                                                                    (5091, 'Betania', 'Activo', 5),
+                                                                                    (5093, 'Betulia', 'Activo', 5),
+                                                                                    (5101, 'Ciudad Bolívar', 'Activo', 5),
+                                                                                    (5107, 'Briceño', 'Activo', 5),
+                                                                                    (5113, 'Buriticá', 'Activo', 5),
+                                                                                    (5120, 'Cáceres', 'Activo', 5),
+                                                                                    (5125, 'Caicedo', 'Activo', 5),
+                                                                                    (5129, 'Caldas', 'Activo', 5),
+                                                                                    (5134, 'Campamento', 'Activo', 5),
+                                                                                    (5138, 'Cañasgordas', 'Activo', 5),
+                                                                                    (5142, 'Caracolí', 'Activo', 5),
+                                                                                    (5145, 'Caramanta', 'Activo', 5),
+                                                                                    (5147, 'Carepa', 'Activo', 5),
+                                                                                    (5148, 'El Carmen de Viboral', 'Activo', 5),
+                                                                                    (5150, 'Carolina', 'Activo', 5),
+                                                                                    (5154, 'Caucasia', 'Activo', 5),
+                                                                                    (5172, 'Chigorodó', 'Activo', 5),
+                                                                                    (5190, 'Cisneros', 'Activo', 5),
+                                                                                    (5197, 'Cocorná', 'Activo', 5),
+                                                                                    (5206, 'Concepción', 'Activo', 5),
+                                                                                    (5209, 'Concordia', 'Activo', 5),
+                                                                                    (5212, 'Copacabana', 'Activo', 5),
+                                                                                    (5234, 'Dabeiba', 'Activo', 5),
+                                                                                    (5237, 'Don Matías', 'Activo', 5),
+                                                                                    (5240, 'Ebéjico', 'Activo', 5),
+                                                                                    (5250, 'El Bagre', 'Activo', 5),
+                                                                                    (5264, 'Entrerrios', 'Activo', 5),
+                                                                                    (5266, 'Envigado', 'Activo', 5),
+                                                                                    (5282, 'Fredonia', 'Activo', 5),
+                                                                                    (5284, 'Frontino', 'Activo', 5),
+                                                                                    (5306, 'Giraldo', 'Activo', 5),
+                                                                                    (5308, 'Girardota', 'Activo', 5),
+                                                                                    (5310, 'Gómez Plata', 'Activo', 5),
+                                                                                    (5313, 'Granada', 'Activo', 5),
+                                                                                    (5315, 'Guadalupe', 'Activo', 5),
+                                                                                    (5318, 'Guarne', 'Activo', 5),
+                                                                                    (5321, 'Guatapé', 'Activo', 5),
+                                                                                    (5347, 'Heliconia', 'Activo', 5),
+                                                                                    (5353, 'Hispania', 'Activo', 5),
+                                                                                    (5360, 'Itagui', 'Activo', 5),
+                                                                                    (5361, 'Ituango', 'Activo', 5),
+                                                                                    (5364, 'Jardín', 'Activo', 5),
+                                                                                    (5368, 'Jericó', 'Activo', 5),
+                                                                                    (5376, 'La Ceja', 'Activo', 5),
+                                                                                    (5380, 'La Estrella', 'Activo', 5),
+                                                                                    (5390, 'La Pintada', 'Activo', 5),
+                                                                                    (5400, 'La Unión', 'Activo', 5),
+                                                                                    (5411, 'Liborina', 'Activo', 5),
+                                                                                    (5425, 'Maceo', 'Activo', 5),
+                                                                                    (5440, 'Marinilla', 'Activo', 5),
+                                                                                    (5467, 'Montebello', 'Activo', 5),
+                                                                                    (5475, 'Murindó', 'Activo', 5),
+                                                                                    (5480, 'Mutatá', 'Activo', 5),
+                                                                                    (5483, 'Nariño', 'Activo', 5),
+                                                                                    (5490, 'Necoclí', 'Activo', 5),
+                                                                                    (5495, 'Nechí', 'Activo', 5),
+                                                                                    (5501, 'Olaya', 'Activo', 5),
+                                                                                    (5541, 'Peñol', 'Activo', 5),
+                                                                                    (5543, 'Peque', 'Activo', 5),
+                                                                                    (5576, 'Pueblorrico', 'Activo', 5),
+                                                                                    (5579, 'Puerto Berrío', 'Activo', 5),
+                                                                                    (5585, 'Puerto Nare', 'Activo', 5),
+                                                                                    (5591, 'Puerto Triunfo', 'Activo', 5),
+                                                                                    (5604, 'Remedios', 'Activo', 5),
+                                                                                    (5607, 'Retiro', 'Activo', 5),
+                                                                                    (5615, 'Rionegro', 'Activo', 5),
+                                                                                    (5628, 'Sabanalarga', 'Activo', 5),
+                                                                                    (5631, 'Sabaneta', 'Activo', 5),
+                                                                                    (5642, 'Salgar', 'Activo', 5),
+                                                                                    (5647, 'San Andrés de Cuerquía', 'Activo', 5),
+                                                                                    (5649, 'San Carlos', 'Activo', 5),
+                                                                                    (5652, 'San Francisco', 'Activo', 5),
+                                                                                    (5656, 'San Jerónimo', 'Activo', 5),
+                                                                                    (5658, 'San José de La Montaña', 'Activo', 5),
+                                                                                    (5659, 'San Juan de Urabá', 'Activo', 5),
+                                                                                    (5660, 'San Luis', 'Activo', 5),
+                                                                                    (5664, 'San Pedro', 'Activo', 5),
+                                                                                    (5665, 'San Pedro de Uraba', 'Activo', 5),
+                                                                                    (5667, 'San Rafael', 'Activo', 5),
+                                                                                    (5670, 'San Roque', 'Activo', 5),
+                                                                                    (5674, 'San Vicente', 'Activo', 5),
+                                                                                    (5679, 'Santa Bárbara', 'Activo', 5),
+                                                                                    (5686, 'Santa Rosa de Osos', 'Activo', 5),
+                                                                                    (5690, 'Santo Domingo', 'Activo', 5),
+                                                                                    (5697, 'El Santuario', 'Activo', 5),
+                                                                                    (5736, 'Segovia', 'Activo', 5),
+                                                                                    (5756, 'Sonsón', 'Activo', 5),
+                                                                                    (5761, 'Sopetrán', 'Activo', 5),
+                                                                                    (5789, 'Támesis', 'Activo', 5),
+                                                                                    (5790, 'Tarazá', 'Activo', 5),
+                                                                                    (5792, 'Tarso', 'Activo', 5),
+                                                                                    (5809, 'Titiribí', 'Activo', 5),
+                                                                                    (5819, 'Toledo', 'Activo', 5),
+                                                                                    (5837, 'Turbo', 'Activo', 5),
+                                                                                    (5842, 'Uramita', 'Activo', 5),
+                                                                                    (5847, 'Urrao', 'Activo', 5),
+                                                                                    (5854, 'Valdivia', 'Activo', 5),
+                                                                                    (5856, 'Valparaíso', 'Activo', 5),
+                                                                                    (5858, 'Vegachí', 'Activo', 5),
+                                                                                    (5861, 'Venecia', 'Activo', 5),
+                                                                                    (5873, 'Vigía del Fuerte', 'Activo', 5),
+                                                                                    (5885, 'Yalí', 'Activo', 5),
+                                                                                    (5887, 'Yarumal', 'Activo', 5),
+                                                                                    (5890, 'Yolombó', 'Activo', 5),
+                                                                                    (5893, 'Yondó', 'Activo', 5),
+                                                                                    (5895, 'Zaragoza', 'Activo', 5),
+                                                                                    (8001, 'Barranquilla', 'Activo', 8),
+                                                                                    (8078, 'Baranoa', 'Activo', 8),
+                                                                                    (8137, 'Campo de La Cruz', 'Activo', 8),
+                                                                                    (8141, 'Candelaria', 'Activo', 8),
+                                                                                    (8296, 'Galapa', 'Activo', 8),
+                                                                                    (8372, 'Juan de Acosta', 'Activo', 8),
+                                                                                    (8421, 'Luruaco', 'Activo', 8),
+                                                                                    (8433, 'Malambo', 'Activo', 8),
+                                                                                    (8436, 'Manatí', 'Activo', 8),
+                                                                                    (8520, 'Palmar de Varela', 'Activo', 8),
+                                                                                    (8549, 'Piojó', 'Activo', 8),
+                                                                                    (8558, 'Polonuevo', 'Activo', 8),
+                                                                                    (8560, 'Ponedera', 'Activo', 8),
+                                                                                    (8573, 'Puerto Colombia', 'Activo', 8),
+                                                                                    (8606, 'Repelón', 'Activo', 8),
+                                                                                    (8634, 'Sabanagrande', 'Activo', 8),
+                                                                                    (8638, 'Sabanalarga', 'Activo', 8),
+                                                                                    (8675, 'Santa Lucía', 'Activo', 8),
+                                                                                    (8685, 'Santo Tomás', 'Activo', 8),
+                                                                                    (8758, 'Soledad', 'Activo', 8),
+                                                                                    (8770, 'Suan', 'Activo', 8),
+                                                                                    (8832, 'Tubará', 'Activo', 8),
+                                                                                    (8849, 'Usiacurí', 'Activo', 8),
+                                                                                    (11001, 'Bogotá D.C', 'Activo', 11),
+                                                                                    (13001, 'Cartagena', 'Activo', 13),
+                                                                                    (13006, 'Achí', 'Activo', 13),
+                                                                                    (13030, 'Altos del Rosario', 'Activo', 13),
+                                                                                    (13042, 'Arenal', 'Activo', 13),
+                                                                                    (13052, 'Arjona', 'Activo', 13),
+                                                                                    (13062, 'Arroyohondo', 'Activo', 13),
+                                                                                    (13074, 'Barranco de Loba', 'Activo', 13),
+                                                                                    (13140, 'Calamar', 'Activo', 13),
+                                                                                    (13160, 'Cantagallo', 'Activo', 13),
+                                                                                    (13188, 'Cicuco', 'Activo', 13),
+                                                                                    (13212, 'Córdoba', 'Activo', 13),
+                                                                                    (13222, 'Clemencia', 'Activo', 13),
+                                                                                    (13244, 'El Carmen de Bolívar', 'Activo', 13),
+                                                                                    (13248, 'El Guamo', 'Activo', 13),
+                                                                                    (13268, 'El Peñón', 'Activo', 13),
+                                                                                    (13300, 'Hatillo de Loba', 'Activo', 13),
+                                                                                    (13430, 'Magangué', 'Activo', 13),
+                                                                                    (13433, 'Mahates', 'Activo', 13),
+                                                                                    (13440, 'Margarita', 'Activo', 13),
+                                                                                    (13442, 'María la Baja', 'Activo', 13),
+                                                                                    (13458, 'Montecristo', 'Activo', 13),
+                                                                                    (13468, 'Mompós', 'Activo', 13),
+                                                                                    (13473, 'Morales', 'Activo', 13),
+                                                                                    (13490, 'Norosí', 'Activo', 13),
+                                                                                    (13549, 'Pinillos', 'Activo', 13),
+                                                                                    (13580, 'Regidor', 'Activo', 13),
+                                                                                    (13600, 'Río Viejo', 'Activo', 13),
+                                                                                    (13620, 'San Cristóbal', 'Activo', 13),
+                                                                                    (13647, 'San Estanislao', 'Activo', 13),
+                                                                                    (13650, 'San Fernando', 'Activo', 13),
+                                                                                    (13654, 'San Jacinto', 'Activo', 13),
+                                                                                    (13655, 'San Jacinto del Cauca', 'Activo', 13),
+                                                                                    (13657, 'San Juan Nepomuceno', 'Activo', 13),
+                                                                                    (13667, 'San Martín de Loba', 'Activo', 13),
+                                                                                    (13670, 'San Pablo de Borbur', 'Activo', 13),
+                                                                                    (13673, 'Santa Catalina', 'Activo', 13),
+                                                                                    (13683, 'Santa Rosa', 'Activo', 13),
+                                                                                    (13688, 'Santa Rosa del Sur', 'Activo', 13),
+                                                                                    (13744, 'Simití', 'Activo', 13),
+                                                                                    (13760, 'Soplaviento', 'Activo', 13),
+                                                                                    (13780, 'Talaigua Nuevo', 'Activo', 13),
+                                                                                    (13810, 'Tiquisio', 'Activo', 13),
+                                                                                    (13836, 'Turbaco', 'Activo', 13),
+                                                                                    (13838, 'Turbaná', 'Activo', 13),
+                                                                                    (13873, 'Villanueva', 'Activo', 13),
+                                                                                    (13894, 'Zambrano', 'Activo', 13),
+                                                                                    (15001, 'Tunja', 'Activo', 15),
+                                                                                    (15022, 'Almeida', 'Activo', 15),
+                                                                                    (15047, 'Aquitania', 'Activo', 15),
+                                                                                    (15051, 'Arcabuco', 'Activo', 15),
+                                                                                    (15087, 'Belén', 'Activo', 15),
+                                                                                    (15090, 'Berbeo', 'Activo', 15),
+                                                                                    (15092, 'Betéitiva', 'Activo', 15),
+                                                                                    (15097, 'Boavita', 'Activo', 15),
+                                                                                    (15104, 'Boyacá', 'Activo', 15),
+                                                                                    (15106, 'Briceño', 'Activo', 15),
+                                                                                    (15109, 'Buena Vista', 'Activo', 15),
+                                                                                    (15114, 'Busbanzá', 'Activo', 15),
+                                                                                    (15131, 'Caldas', 'Activo', 15),
+                                                                                    (15135, 'Campohermoso', 'Activo', 15),
+                                                                                    (15162, 'Cerinza', 'Activo', 15),
+                                                                                    (15172, 'Chinavita', 'Activo', 15),
+                                                                                    (15176, 'Chiquinquirá', 'Activo', 15),
+                                                                                    (15180, 'Chiscas', 'Activo', 15),
+                                                                                    (15183, 'Chita', 'Activo', 15),
+                                                                                    (15185, 'Chitaraque', 'Activo', 15),
+                                                                                    (15187, 'Chivatá', 'Activo', 15),
+                                                                                    (15189, 'Ciénega', 'Activo', 15),
+                                                                                    (15204, 'Cómbita', 'Activo', 15),
+                                                                                    (15212, 'Coper', 'Activo', 15),
+                                                                                    (15215, 'Corrales', 'Activo', 15),
+                                                                                    (15218, 'Covarachía', 'Activo', 15),
+                                                                                    (15223, 'Cubará', 'Activo', 15),
+                                                                                    (15224, 'Cucaita', 'Activo', 15),
+                                                                                    (15226, 'Cuítiva', 'Activo', 15),
+                                                                                    (15232, 'Chíquiza', 'Activo', 15),
+                                                                                    (15236, 'Chivor', 'Activo', 15),
+                                                                                    (15238, 'Duitama', 'Activo', 15),
+                                                                                    (15244, 'El Cocuy', 'Activo', 15),
+                                                                                    (15248, 'El Espino', 'Activo', 15),
+                                                                                    (15272, 'Firavitoba', 'Activo', 15),
+                                                                                    (15276, 'Floresta', 'Activo', 15),
+                                                                                    (15293, 'Gachantivá', 'Activo', 15),
+                                                                                    (15296, 'Gameza', 'Activo', 15),
+                                                                                    (15299, 'Garagoa', 'Activo', 15),
+                                                                                    (15317, 'Guacamayas', 'Activo', 15),
+                                                                                    (15322, 'Guateque', 'Activo', 15),
+                                                                                    (15325, 'Guayatá', 'Activo', 15),
+                                                                                    (15332, 'Güicán', 'Activo', 15),
+                                                                                    (15362, 'Iza', 'Activo', 15),
+                                                                                    (15367, 'Jenesano', 'Activo', 15),
+                                                                                    (15368, 'Jericó', 'Activo', 15),
+                                                                                    (15377, 'Labranzagrande', 'Activo', 15),
+                                                                                    (15380, 'La Capilla', 'Activo', 15),
+                                                                                    (15401, 'La Victoria', 'Activo', 15),
+                                                                                    (15403, 'La Uvita', 'Activo', 15),
+                                                                                    (15407, 'Villa De Leyva', 'Activo', 15),
+                                                                                    (15425, 'Macanal', 'Activo', 15),
+                                                                                    (15442, 'Maripí', 'Activo', 15),
+                                                                                    (15455, 'Miraflores', 'Activo', 15),
+                                                                                    (15464, 'Mongua', 'Activo', 15),
+                                                                                    (15466, 'Monguí', 'Activo', 15),
+                                                                                    (15469, 'Moniquirá', 'Activo', 15),
+                                                                                    (15476, 'Motavita', 'Activo', 15),
+                                                                                    (15480, 'Muzo', 'Activo', 15),
+                                                                                    (15491, 'Nobsa', 'Activo', 15),
+                                                                                    (15494, 'Nuevo Colón', 'Activo', 15),
+                                                                                    (15500, 'Oicatá', 'Activo', 15),
+                                                                                    (15507, 'Otanche', 'Activo', 15),
+                                                                                    (15511, 'Pachavita', 'Activo', 15),
+                                                                                    (15514, 'Páez', 'Activo', 15),
+                                                                                    (15516, 'Paipa', 'Activo', 15),
+                                                                                    (15518, 'Pajarito', 'Activo', 15),
+                                                                                    (15522, 'Panqueba', 'Activo', 15),
+                                                                                    (15531, 'Pauna', 'Activo', 15),
+                                                                                    (15533, 'Paya', 'Activo', 15),
+                                                                                    (15537, 'Paz De Río', 'Activo', 15),
+                                                                                    (15542, 'Pesca', 'Activo', 15),
+                                                                                    (15550, 'Pisba', 'Activo', 15),
+                                                                                    (15572, 'Puerto Boyacá', 'Activo', 15),
+                                                                                    (15580, 'Quípama', 'Activo', 15),
+                                                                                    (15599, 'Ramiriquí', 'Activo', 15),
+                                                                                    (15600, 'Ráquira', 'Activo', 15),
+                                                                                    (15621, 'Rondón', 'Activo', 15),
+                                                                                    (15632, 'Saboyá', 'Activo', 15),
+                                                                                    (15638, 'Sáchica', 'Activo', 15),
+                                                                                    (15646, 'Samacá', 'Activo', 15),
+                                                                                    (15660, 'San Eduardo', 'Activo', 15),
+                                                                                    (15664, 'San José De Pare', 'Activo', 15),
+                                                                                    (15667, 'San Luis De Gaceno', 'Activo', 15),
+                                                                                    (15673, 'San Mateo', 'Activo', 15),
+                                                                                    (15676, 'San Miguel De Sema', 'Activo', 15),
+                                                                                    (15681, 'San Pablo De Borbur', 'Activo', 15),
+                                                                                    (15686, 'Santana', 'Activo', 15),
+                                                                                    (15690, 'Santa María', 'Activo', 15),
+                                                                                    (15693, 'Santa Rosa De Viterbo', 'Activo', 15),
+                                                                                    (15696, 'Santa Sofía', 'Activo', 15),
+                                                                                    (15720, 'Sativanorte', 'Activo', 15),
+                                                                                    (15723, 'Sativasur', 'Activo', 15),
+                                                                                    (15740, 'Siachoque', 'Activo', 15),
+                                                                                    (15753, 'Soatá', 'Activo', 15),
+                                                                                    (15755, 'Socotá', 'Activo', 15),
+                                                                                    (15757, 'Socha', 'Activo', 15),
+                                                                                    (15759, 'Sogamoso', 'Activo', 15),
+                                                                                    (15761, 'Somondoco', 'Activo', 15),
+                                                                                    (15762, 'Sora', 'Activo', 15),
+                                                                                    (15763, 'Sotaquirá', 'Activo', 15),
+                                                                                    (15764, 'Soracá', 'Activo', 15),
+                                                                                    (15774, 'Susacón', 'Activo', 15),
+                                                                                    (15776, 'Sutamarchán', 'Activo', 15),
+                                                                                    (15778, 'Sutatenza', 'Activo', 15),
+                                                                                    (15790, 'Tasco', 'Activo', 15),
+                                                                                    (15798, 'Tenza', 'Activo', 15),
+                                                                                    (15804, 'Tibaná', 'Activo', 15),
+                                                                                    (15806, 'Tibasosa', 'Activo', 15),
+                                                                                    (15808, 'Tinjacá', 'Activo', 15),
+                                                                                    (15810, 'Tipacoque', 'Activo', 15),
+                                                                                    (15814, 'Toca', 'Activo', 15),
+                                                                                    (15816, 'Togüí', 'Activo', 15),
+                                                                                    (15820, 'Tópaga', 'Activo', 15),
+                                                                                    (15822, 'Tota', 'Activo', 15),
+                                                                                    (15832, 'Tununguá', 'Activo', 15),
+                                                                                    (15835, 'Turmequé', 'Activo', 15),
+                                                                                    (15837, 'Tuta', 'Activo', 15),
+                                                                                    (15839, 'Tutazá', 'Activo', 15),
+                                                                                    (15842, 'Umbita', 'Activo', 15),
+                                                                                    (15861, 'Ventaquemada', 'Activo', 15),
+                                                                                    (15879, 'Viracachá', 'Activo', 15),
+                                                                                    (15897, 'Zetaquira', 'Activo', 15),
+                                                                                    (17001, 'Manizales', 'Activo', 17),
+                                                                                    (17013, 'Aguadas', 'Activo', 17),
+                                                                                    (17042, 'Anserma', 'Activo', 17),
+                                                                                    (17050, 'Aranzazu', 'Activo', 17),
+                                                                                    (17088, 'Belalcázar', 'Activo', 17),
+                                                                                    (17174, 'Chinchiná', 'Activo', 17),
+                                                                                    (17272, 'Filadelfia', 'Activo', 17),
+                                                                                    (17380, 'La Dorada', 'Activo', 17),
+                                                                                    (17388, 'La Merced', 'Activo', 17),
+                                                                                    (17433, 'Manzanares', 'Activo', 17),
+                                                                                    (17442, 'Marmato', 'Activo', 17),
+                                                                                    (17444, 'Marquetalia', 'Activo', 17),
+                                                                                    (17446, 'Marulanda', 'Activo', 17),
+                                                                                    (17486, 'Neira', 'Activo', 17),
+                                                                                    (17495, 'Norcasia', 'Activo', 17),
+                                                                                    (17513, 'Pácora', 'Activo', 17),
+                                                                                    (17524, 'Palestina', 'Activo', 17),
+                                                                                    (17541, 'Pensilvania', 'Activo', 17),
+                                                                                    (17614, 'Riosucio', 'Activo', 17),
+                                                                                    (17616, 'Risaralda', 'Activo', 17),
+                                                                                    (17653, 'Salamina', 'Activo', 17),
+                                                                                    (17662, 'Samaná', 'Activo', 17),
+                                                                                    (17665, 'San José', 'Activo', 17),
+                                                                                    (17777, 'Supía', 'Activo', 17),
+                                                                                    (17867, 'Victoria', 'Activo', 17),
+                                                                                    (17873, 'Villamaría', 'Activo', 17),
+                                                                                    (17877, 'Viterbo', 'Activo', 17),
+                                                                                    (18001, 'Florencia', 'Activo', 18),
+                                                                                    (18029, 'Albania', 'Activo', 18),
+                                                                                    (18094, 'Belén de Los Andaquies', 'Activo', 18),
+                                                                                    (18150, 'Cartagena del Chairá', 'Activo', 18),
+                                                                                    (18205, 'Curillo', 'Activo', 18),
+                                                                                    (18247, 'El Doncello', 'Activo', 18),
+                                                                                    (18256, 'El Paujil', 'Activo', 18),
+                                                                                    (18410, 'La Montañita', 'Activo', 18),
+                                                                                    (18460, 'Milán', 'Activo', 18),
+                                                                                    (18479, 'Morelia', 'Activo', 18),
+                                                                                    (18592, 'Puerto Rico', 'Activo', 18),
+                                                                                    (18610, 'San José del Fragua', 'Activo', 18),
+                                                                                    (18753, 'San Vicente del Caguán', 'Activo', 18),
+                                                                                    (18756, 'Solano', 'Activo', 18),
+                                                                                    (18785, 'Solita', 'Activo', 18),
+                                                                                    (18860, 'Valparaíso', 'Activo', 18),
+                                                                                    (19001, 'Popayán', 'Activo', 19),
+                                                                                    (19022, 'Almaguer', 'Activo', 19),
+                                                                                    (19050, 'Argelia', 'Activo', 19),
+                                                                                    (19075, 'Balboa', 'Activo', 19),
+                                                                                    (19100, 'Bolívar', 'Activo', 19),
+                                                                                    (19110, 'Buenos Aires', 'Activo', 19),
+                                                                                    (19130, 'Cajibío', 'Activo', 19),
+                                                                                    (19137, 'Caldono', 'Activo', 19),
+                                                                                    (19142, 'Caloto', 'Activo', 19),
+                                                                                    (19212, 'Corinto', 'Activo', 19),
+                                                                                    (19256, 'El Tambo', 'Activo', 19),
+                                                                                    (19290, 'Florencia', 'Activo', 19),
+                                                                                    (19300, 'Guachené', 'Activo', 19),
+                                                                                    (19318, 'Guapi', 'Activo', 19),
+                                                                                    (19355, 'Inzá', 'Activo', 19),
+                                                                                    (19364, 'Jambaló', 'Activo', 19),
+                                                                                    (19392, 'La Sierra', 'Activo', 19),
+                                                                                    (19397, 'La Vega', 'Activo', 19),
+                                                                                    (19418, 'López de Micay', 'Activo', 19),
+                                                                                    (19450, 'Mercaderes', 'Activo', 19),
+                                                                                    (19455, 'Miranda', 'Activo', 19),
+                                                                                    (19473, 'Morales', 'Activo', 19),
+                                                                                    (19513, 'Padilla', 'Activo', 19),
+                                                                                    (19517, 'Páez', 'Activo', 19),
+                                                                                    (19532, 'Patía', 'Activo', 19),
+                                                                                    (19533, 'Piamonte', 'Activo', 19),
+                                                                                    (19548, 'Piendamó', 'Activo', 19),
+                                                                                    (19573, 'Puerto Tejada', 'Activo', 19),
+                                                                                    (19585, 'Puracé', 'Activo', 19),
+                                                                                    (19622, 'Rosas', 'Activo', 19),
+                                                                                    (19693, 'San Sebastián', 'Activo', 19),
+                                                                                    (19698, 'Santander de Quilichao', 'Activo', 19),
+                                                                                    (19701, 'Santa Rosa', 'Activo', 19),
+                                                                                    (19743, 'Silvia', 'Activo', 19),
+                                                                                    (19760, 'Sotara', 'Activo', 19),
+                                                                                    (19780, 'Suárez', 'Activo', 19),
+                                                                                    (19785, 'Sucre', 'Activo', 19),
+                                                                                    (19807, 'Timbío', 'Activo', 19),
+                                                                                    (19809, 'Timbiquí', 'Activo', 19),
+                                                                                    (19821, 'Toribio', 'Activo', 19),
+                                                                                    (19824, 'Totoró', 'Activo', 19),
+                                                                                    (19845, 'Villa Rica', 'Activo', 19),
+                                                                                    (20001, 'Valledupar', 'Activo', 20),
+                                                                                    (20011, 'Aguachica', 'Activo', 20),
+                                                                                    (20013, 'Agustín Codazzi', 'Activo', 20),
+                                                                                    (20032, 'Astrea', 'Activo', 20),
+                                                                                    (20045, 'Becerril', 'Activo', 20),
+                                                                                    (20060, 'Bosconia', 'Activo', 20),
+                                                                                    (20175, 'Chimichagua', 'Activo', 20),
+                                                                                    (20178, 'Chiriguaná', 'Activo', 20),
+                                                                                    (20228, 'Curumaní', 'Activo', 20),
+                                                                                    (20238, 'El Copey', 'Activo', 20),
+                                                                                    (20250, 'El Paso', 'Activo', 20),
+                                                                                    (20295, 'Gamarra', 'Activo', 20),
+                                                                                    (20310, 'González', 'Activo', 20),
+                                                                                    (20383, 'La Gloria', 'Activo', 20),
+                                                                                    (20400, 'La Jagua de Ibirico', 'Activo', 20),
+                                                                                    (20443, 'Manaure', 'Activo', 20),
+                                                                                    (20517, 'Pailitas', 'Activo', 20),
+                                                                                    (20550, 'Pelaya', 'Activo', 20),
+                                                                                    (20570, 'Pueblo Bello', 'Activo', 20),
+                                                                                    (20614, 'Río de Oro', 'Activo', 20),
+                                                                                    (20621, 'La Paz', 'Activo', 20),
+                                                                                    (20710, 'San Alberto', 'Activo', 20),
+                                                                                    (20750, 'San Diego', 'Activo', 20),
+                                                                                    (20770, 'San Martín', 'Activo', 20),
+                                                                                    (20787, 'Tamalameque', 'Activo', 20),
+                                                                                    (23001, 'Montería', 'Activo', 23),
+                                                                                    (23068, 'Ayapel', 'Activo', 23),
+                                                                                    (23079, 'Buenavista', 'Activo', 23),
+                                                                                    (23090, 'Canalete', 'Activo', 23),
+                                                                                    (23162, 'Cereté', 'Activo', 23),
+                                                                                    (23168, 'Chimá', 'Activo', 23),
+                                                                                    (23182, 'Chinú', 'Activo', 23),
+                                                                                    (23189, 'Ciénaga de Oro', 'Activo', 23),
+                                                                                    (23300, 'Cotorra', 'Activo', 23),
+                                                                                    (23350, 'La Apartada', 'Activo', 23),
+                                                                                    (23417, 'Lorica', 'Activo', 23),
+                                                                                    (23419, 'Los Córdobas', 'Activo', 23),
+                                                                                    (23464, 'Momil', 'Activo', 23),
+                                                                                    (23466, 'Montelíbano', 'Activo', 23),
+                                                                                    (23500, 'Moñitos', 'Activo', 23),
+                                                                                    (23555, 'Planeta Rica', 'Activo', 23),
+                                                                                    (23570, 'Pueblo Nuevo', 'Activo', 23),
+                                                                                    (23574, 'Puerto Escondido', 'Activo', 23),
+                                                                                    (23580, 'Puerto Libertador', 'Activo', 23),
+                                                                                    (23586, 'Purísima', 'Activo', 23),
+                                                                                    (23660, 'Sahagún', 'Activo', 23),
+                                                                                    (23670, 'San Andrés Sotavento', 'Activo', 23),
+                                                                                    (23672, 'San Antero', 'Activo', 23),
+                                                                                    (23675, 'San Bernardo del Viento', 'Activo', 23),
+                                                                                    (23678, 'San Carlos', 'Activo', 23),
+                                                                                    (23682, 'San José de Uré', 'Activo', 23),
+                                                                                    (23686, 'San Pelayo', 'Activo', 23),
+                                                                                    (23807, 'Tierralta', 'Activo', 23),
+                                                                                    (23815, 'Tuchín', 'Activo', 23),
+                                                                                    (23855, 'Valencia', 'Activo', 23),
+                                                                                    (25001, 'Agua de Dios', 'Activo', 25),
+                                                                                    (25019, 'Albán', 'Activo', 25),
+                                                                                    (25035, 'Anapoima', 'Activo', 25),
+                                                                                    (25040, 'Anolaima', 'Activo', 25),
+                                                                                    (25053, 'Arbeláez', 'Activo', 25),
+                                                                                    (25086, 'Beltrán', 'Activo', 25),
+                                                                                    (25095, 'Bituima', 'Activo', 25),
+                                                                                    (25099, 'Bojacá', 'Activo', 25),
+                                                                                    (25120, 'Cabrera', 'Activo', 25),
+                                                                                    (25123, 'Cachipay', 'Activo', 25),
+                                                                                    (25126, 'Cajicá', 'Activo', 25),
+                                                                                    (25148, 'Caparrapí', 'Activo', 25),
+                                                                                    (25151, 'Caqueza', 'Activo', 25),
+                                                                                    (25154, 'Carmen de Carupa', 'Activo', 25),
+                                                                                    (25168, 'Chaguaní', 'Activo', 25),
+                                                                                    (25175, 'Chía', 'Activo', 25),
+                                                                                    (25178, 'Chipaque', 'Activo', 25),
+                                                                                    (25181, 'Choachí', 'Activo', 25),
+                                                                                    (25183, 'Chocontá', 'Activo', 25),
+                                                                                    (25200, 'Cogua', 'Activo', 25),
+                                                                                    (25214, 'Cota', 'Activo', 25),
+                                                                                    (25224, 'Cucunubá', 'Activo', 25),
+                                                                                    (25245, 'El Colegio', 'Activo', 25),
+                                                                                    (25258, 'El Peñón', 'Activo', 25),
+                                                                                    (25260, 'El Rosal', 'Activo', 25),
+                                                                                    (25269, 'Facatativá', 'Activo', 25),
+                                                                                    (25279, 'Fomeque', 'Activo', 25),
+                                                                                    (25281, 'Fosca', 'Activo', 25),
+                                                                                    (25286, 'Funza', 'Activo', 25),
+                                                                                    (25288, 'Fúquene', 'Activo', 25),
+                                                                                    (25290, 'Fusagasugá', 'Activo', 25),
+                                                                                    (25293, 'Gachala', 'Activo', 25),
+                                                                                    (25295, 'Gachancipá', 'Activo', 25),
+                                                                                    (25297, 'Gachetá', 'Activo', 25),
+                                                                                    (25299, 'Gama', 'Activo', 25),
+                                                                                    (25307, 'Girardot', 'Activo', 25),
+                                                                                    (25312, 'Granada', 'Activo', 25),
+                                                                                    (25317, 'Guachetá', 'Activo', 25),
+                                                                                    (25320, 'Guaduas', 'Activo', 25),
+                                                                                    (25322, 'Guasca', 'Activo', 25),
+                                                                                    (25324, 'Guataquí', 'Activo', 25),
+                                                                                    (25326, 'Guatavita', 'Activo', 25),
+                                                                                    (25328, 'Guayabal de Siquima', 'Activo', 25),
+                                                                                    (25335, 'Guayabetal', 'Activo', 25),
+                                                                                    (25339, 'Gutiérrez', 'Activo', 25),
+                                                                                    (25368, 'Jerusalén', 'Activo', 25),
+                                                                                    (25372, 'Junín', 'Activo', 25),
+                                                                                    (25377, 'La Calera', 'Activo', 25),
+                                                                                    (25386, 'La Mesa', 'Activo', 25),
+                                                                                    (25394, 'La Palma', 'Activo', 25),
+                                                                                    (25398, 'La Peña', 'Activo', 25),
+                                                                                    (25402, 'La Vega', 'Activo', 25),
+                                                                                    (25407, 'Lenguazaque', 'Activo', 25),
+                                                                                    (25426, 'Macheta', 'Activo', 25),
+                                                                                    (25430, 'Madrid', 'Activo', 25),
+                                                                                    (25436, 'Manta', 'Activo', 25),
+                                                                                    (25438, 'Medina', 'Activo', 25),
+                                                                                    (25473, 'Mosquera', 'Activo', 25),
+                                                                                    (25483, 'Nariño', 'Activo', 25),
+                                                                                    (25486, 'Nemocón', 'Activo', 25),
+                                                                                    (25488, 'Nilo', 'Activo', 25),
+                                                                                    (25489, 'Nimaima', 'Activo', 25),
+                                                                                    (25491, 'Nocaima', 'Activo', 25),
+                                                                                    (25506, 'Venecia', 'Activo', 25),
+                                                                                    (25513, 'Pacho', 'Activo', 25),
+                                                                                    (25518, 'Paime', 'Activo', 25),
+                                                                                    (25524, 'Pandi', 'Activo', 25),
+                                                                                    (25530, 'Paratebueno', 'Activo', 25),
+                                                                                    (25535, 'Pasca', 'Activo', 25),
+                                                                                    (25572, 'Puerto Salgar', 'Activo', 25),
+                                                                                    (25580, 'Pulí', 'Activo', 25),
+                                                                                    (25592, 'Quebradanegra', 'Activo', 25),
+                                                                                    (25594, 'Quetame', 'Activo', 25),
+                                                                                    (25596, 'Quipile', 'Activo', 25),
+                                                                                    (25599, 'Apulo', 'Activo', 25),
+                                                                                    (25612, 'Ricaurte', 'Activo', 25),
+                                                                                    (25645, 'San Antonio del Tequendama', 'Activo', 25),
+                                                                                    (25649, 'San Bernardo', 'Activo', 25),
+                                                                                    (25653, 'San Cayetano', 'Activo', 25),
+                                                                                    (25658, 'San Francisco', 'Activo', 25),
+                                                                                    (25662, 'San Juan de Río Seco', 'Activo', 25),
+                                                                                    (25718, 'Sasaima', 'Activo', 25),
+                                                                                    (25736, 'Sesquilé', 'Activo', 25),
+                                                                                    (25740, 'Sibaté', 'Activo', 25),
+                                                                                    (25743, 'Silvania', 'Activo', 25),
+                                                                                    (25745, 'Simijaca', 'Activo', 25),
+                                                                                    (25754, 'Soacha', 'Activo', 25),
+                                                                                    (25758, 'Sopó', 'Activo', 25),
+                                                                                    (25769, 'Subachoque', 'Activo', 25),
+                                                                                    (25772, 'Suesca', 'Activo', 25),
+                                                                                    (25777, 'Supatá', 'Activo', 25),
+                                                                                    (25779, 'Susa', 'Activo', 25),
+                                                                                    (25781, 'Sutatausa', 'Activo', 25),
+                                                                                    (25785, 'Tabio', 'Activo', 25),
+                                                                                    (25793, 'Tausa', 'Activo', 25),
+                                                                                    (25797, 'Tena', 'Activo', 25),
+                                                                                    (25799, 'Tenjo', 'Activo', 25),
+                                                                                    (25805, 'Tibacuy', 'Activo', 25),
+                                                                                    (25807, 'Tibirita', 'Activo', 25),
+                                                                                    (25815, 'Tocaima', 'Activo', 25),
+                                                                                    (25817, 'Tocancipá', 'Activo', 25),
+                                                                                    (25823, 'Topaipí', 'Activo', 25),
+                                                                                    (25839, 'Ubalá', 'Activo', 25),
+                                                                                    (25841, 'Ubaque', 'Activo', 25),
+                                                                                    (25843, 'Villa De San Diego De Ubate', 'Activo', 25),
+                                                                                    (25845, 'Une', 'Activo', 25),
+                                                                                    (25851, 'Útica', 'Activo', 25),
+                                                                                    (25862, 'Vergara', 'Activo', 25),
+                                                                                    (25867, 'Vianí', 'Activo', 25),
+                                                                                    (25871, 'Villagómez', 'Activo', 25),
+                                                                                    (25873, 'Villapinzón', 'Activo', 25),
+                                                                                    (25875, 'Villeta', 'Activo', 25),
+                                                                                    (25878, 'Viotá', 'Activo', 25),
+                                                                                    (25885, 'Yacopí', 'Activo', 25),
+                                                                                    (25898, 'Zipacón', 'Activo', 25),
+                                                                                    (25899, 'Zipaquirá', 'Activo', 25),
+                                                                                    (27001, 'Quibdó', 'Activo', 27),
+                                                                                    (27006, 'Acandí', 'Activo', 27),
+                                                                                    (27025, 'Alto Baudo', 'Activo', 27),
+                                                                                    (27050, 'Atrato', 'Activo', 27),
+                                                                                    (27073, 'Bagadó', 'Activo', 27),
+                                                                                    (27075, 'Bahía Solano', 'Activo', 27),
+                                                                                    (27077, 'Bajo Baudó', 'Activo', 27),
+                                                                                    (27086, 'Belén de Bajira', 'Activo', 27),
+                                                                                    (27099, 'Bojaya', 'Activo', 27),
+                                                                                    (27135, 'El Cantón del San Pablo', 'Activo', 27),
+                                                                                    (27150, 'Carmen del Darien', 'Activo', 27),
+                                                                                    (27160, 'Cértegui', 'Activo', 27),
+                                                                                    (27205, 'Condoto', 'Activo', 27),
+                                                                                    (27245, 'El Carmen de Atrato', 'Activo', 27),
+                                                                                    (27250, 'El Litoral del San Juan', 'Activo', 27),
+                                                                                    (27361, 'Istmina', 'Activo', 27),
+                                                                                    (27372, 'Juradó', 'Activo', 27),
+                                                                                    (27413, 'Lloró', 'Activo', 27),
+                                                                                    (27425, 'Medio Atrato', 'Activo', 27),
+                                                                                    (27430, 'Medio Baudó', 'Activo', 27),
+                                                                                    (27450, 'Medio San Juan', 'Activo', 27),
+                                                                                    (27491, 'Nóvita', 'Activo', 27),
+                                                                                    (27495, 'Nuquí', 'Activo', 27),
+                                                                                    (27580, 'Río Iro', 'Activo', 27),
+                                                                                    (27600, 'Río Quito', 'Activo', 27),
+                                                                                    (27615, 'Riosucio', 'Activo', 27),
+                                                                                    (27660, 'San José del Palmar', 'Activo', 27),
+                                                                                    (27745, 'Sipí', 'Activo', 27),
+                                                                                    (27787, 'Tadó', 'Activo', 27),
+                                                                                    (27800, 'Unguía', 'Activo', 27),
+                                                                                    (27810, 'Unión Panamericana', 'Activo', 27),
+                                                                                    (41001, 'Neiva', 'Activo', 41),
+                                                                                    (41006, 'Acevedo', 'Activo', 41),
+                                                                                    (41013, 'Agrado', 'Activo', 41),
+                                                                                    (41016, 'Aipe', 'Activo', 41),
+                                                                                    (41020, 'Algeciras', 'Activo', 41),
+                                                                                    (41026, 'Altamira', 'Activo', 41),
+                                                                                    (41078, 'Baraya', 'Activo', 41),
+                                                                                    (41132, 'Campoalegre', 'Activo', 41),
+                                                                                    (41206, 'Colombia', 'Activo', 41),
+                                                                                    (41244, 'Elías', 'Activo', 41),
+                                                                                    (41298, 'Garzón', 'Activo', 41),
+                                                                                    (41306, 'Gigante', 'Activo', 41),
+                                                                                    (41319, 'Guadalupe', 'Activo', 41),
+                                                                                    (41349, 'Hobo', 'Activo', 41),
+                                                                                    (41357, 'Iquira', 'Activo', 41),
+                                                                                    (41359, 'Isnos', 'Activo', 41),
+                                                                                    (41378, 'La Argentina', 'Activo', 41),
+                                                                                    (41396, 'La Plata', 'Activo', 41),
+                                                                                    (41483, 'Nátaga', 'Activo', 41),
+                                                                                    (41503, 'Oporapa', 'Activo', 41),
+                                                                                    (41518, 'Paicol', 'Activo', 41),
+                                                                                    (41524, 'Palermo', 'Activo', 41),
+                                                                                    (41530, 'Palestina', 'Activo', 41),
+                                                                                    (41548, 'Pital', 'Activo', 41),
+                                                                                    (41551, 'Pitalito', 'Activo', 41),
+                                                                                    (41615, 'Rivera', 'Activo', 41),
+                                                                                    (41660, 'Saladoblanco', 'Activo', 41),
+                                                                                    (41668, 'San Agustín', 'Activo', 41),
+                                                                                    (41676, 'Santa María', 'Activo', 41),
+                                                                                    (41770, 'Suaza', 'Activo', 41),
+                                                                                    (41791, 'Tarqui', 'Activo', 41),
+                                                                                    (41797, 'Tesalia', 'Activo', 41),
+                                                                                    (41799, 'Tello', 'Activo', 41),
+                                                                                    (41801, 'Teruel', 'Activo', 41),
+                                                                                    (41807, 'Timaná', 'Activo', 41),
+                                                                                    (41872, 'Villavieja', 'Activo', 41),
+                                                                                    (41885, 'Yaguará', 'Activo', 41),
+                                                                                    (44001, 'Riohacha', 'Activo', 44),
+                                                                                    (44035, 'Albania', 'Activo', 44),
+                                                                                    (44078, 'Barrancas', 'Activo', 44),
+                                                                                    (44090, 'Dibula', 'Activo', 44),
+                                                                                    (44098, 'Distracción', 'Activo', 44),
+                                                                                    (44110, 'El Molino', 'Activo', 44),
+                                                                                    (44279, 'Fonseca', 'Activo', 44),
+                                                                                    (44378, 'Hatonuevo', 'Activo', 44),
+                                                                                    (44420, 'La Jagua del Pilar', 'Activo', 44),
+                                                                                    (44430, 'Maicao', 'Activo', 44),
+                                                                                    (44560, 'Manaure', 'Activo', 44),
+                                                                                    (44650, 'San Juan del Cesar', 'Activo', 44),
+                                                                                    (44847, 'Uribia', 'Activo', 44),
+                                                                                    (44855, 'Urumita', 'Activo', 44),
+                                                                                    (44874, 'Villanueva', 'Activo', 44),
+                                                                                    (47001, 'Santa Marta', 'Activo', 47),
+                                                                                    (47030, 'Algarrobo', 'Activo', 47),
+                                                                                    (47053, 'Aracataca', 'Activo', 47),
+                                                                                    (47058, 'Ariguaní', 'Activo', 47),
+                                                                                    (47161, 'Cerro San Antonio', 'Activo', 47),
+                                                                                    (47170, 'Chivolo', 'Activo', 47),
+                                                                                    (47189, 'Ciénaga', 'Activo', 47),
+                                                                                    (47205, 'Concordia', 'Activo', 47),
+                                                                                    (47245, 'El Banco', 'Activo', 47),
+                                                                                    (47258, 'El Piñon', 'Activo', 47),
+                                                                                    (47268, 'El Retén', 'Activo', 47),
+                                                                                    (47288, 'Fundación', 'Activo', 47),
+                                                                                    (47318, 'Guamal', 'Activo', 47),
+                                                                                    (47460, 'Nueva Granada', 'Activo', 47),
+                                                                                    (47541, 'Pedraza', 'Activo', 47),
+                                                                                    (47545, 'Pijiño del Carmen', 'Activo', 47),
+                                                                                    (47551, 'Pivijay', 'Activo', 47),
+                                                                                    (47555, 'Plato', 'Activo', 47),
+                                                                                    (47570, 'Pueblo Viejo', 'Activo', 47),
+                                                                                    (47605, 'Remolino', 'Activo', 47),
+                                                                                    (47660, 'Sabanas de San Angel', 'Activo', 47),
+                                                                                    (47675, 'Salamina', 'Activo', 47),
+                                                                                    (47692, 'San Sebastián de Buenavista', 'Activo', 47),
+                                                                                    (47703, 'San Zenón', 'Activo', 47),
+                                                                                    (47707, 'Santa Ana', 'Activo', 47),
+                                                                                    (47720, 'Santa Bárbara de Pinto', 'Activo', 47),
+                                                                                    (47745, 'Sitionuevo', 'Activo', 47),
+                                                                                    (47798, 'Tenerife', 'Activo', 47),
+                                                                                    (47960, 'Zapayán', 'Activo', 47),
+                                                                                    (47980, 'Zona Bananera', 'Activo', 47),
+                                                                                    (50001, 'Villavicencio', 'Activo', 50),
+                                                                                    (50006, 'Acacias', 'Activo', 50),
+                                                                                    (50110, 'Barranca de Upía', 'Activo', 50),
+                                                                                    (50124, 'Cabuyaro', 'Activo', 50),
+                                                                                    (50150, 'Castilla la Nueva', 'Activo', 50),
+                                                                                    (50223, 'Cubarral', 'Activo', 50),
+                                                                                    (50226, 'Cumaral', 'Activo', 50),
+                                                                                    (50245, 'El Calvario', 'Activo', 50),
+                                                                                    (50251, 'El Castillo', 'Activo', 50),
+                                                                                    (50270, 'El Dorado', 'Activo', 50),
+                                                                                    (50287, 'Fuente de Oro', 'Activo', 50),
+                                                                                    (50313, 'Granada', 'Activo', 50),
+                                                                                    (50318, 'Guamal', 'Activo', 50),
+                                                                                    (50325, 'Mapiripán', 'Activo', 50),
+                                                                                    (50330, 'Mesetas', 'Activo', 50),
+                                                                                    (50350, 'La Macarena', 'Activo', 50),
+                                                                                    (50370, 'Uribe', 'Activo', 50),
+                                                                                    (50400, 'Lejanías', 'Activo', 50),
+                                                                                    (50450, 'Puerto Concordia', 'Activo', 50),
+                                                                                    (50568, 'Puerto Gaitán', 'Activo', 50),
+                                                                                    (50573, 'Puerto López', 'Activo', 50),
+                                                                                    (50577, 'Puerto Lleras', 'Activo', 50),
+                                                                                    (50590, 'Puerto Rico', 'Activo', 50),
+                                                                                    (50606, 'Restrepo', 'Activo', 50),
+                                                                                    (50680, 'San Carlos de Guaroa', 'Activo', 50),
+                                                                                    (50683, 'San Juan de Arama', 'Activo', 50),
+                                                                                    (50686, 'San Juanito', 'Activo', 50),
+                                                                                    (50689, 'San Martín', 'Activo', 50),
+                                                                                    (50711, 'Vista Hermosa', 'Activo', 50),
+                                                                                    (52001, 'Pasto', 'Activo', 52),
+                                                                                    (52019, 'Albán', 'Activo', 52),
+                                                                                    (52022, 'Aldana', 'Activo', 52),
+                                                                                    (52036, 'Ancuyá', 'Activo', 52),
+                                                                                    (52051, 'Arboleda', 'Activo', 52),
+                                                                                    (52079, 'Barbacoas', 'Activo', 52),
+                                                                                    (52083, 'Belén', 'Activo', 52),
+                                                                                    (52110, 'Buesaco', 'Activo', 52),
+                                                                                    (52203, 'Colón', 'Activo', 52),
+                                                                                    (52207, 'Consaca', 'Activo', 52),
+                                                                                    (52210, 'Contadero', 'Activo', 52),
+                                                                                    (52215, 'Córdoba', 'Activo', 52),
+                                                                                    (52224, 'Cuaspud', 'Activo', 52),
+                                                                                    (52227, 'Cumbal', 'Activo', 52),
+                                                                                    (52233, 'Cumbitara', 'Activo', 52),
+                                                                                    (52240, 'Chachagüí', 'Activo', 52),
+                                                                                    (52250, 'El Charco', 'Activo', 52),
+                                                                                    (52254, 'El Peñol', 'Activo', 52),
+                                                                                    (52256, 'El Rosario', 'Activo', 52),
+                                                                                    (52258, 'El Tablón de Gómez', 'Activo', 52),
+                                                                                    (52260, 'El Tambo', 'Activo', 52),
+                                                                                    (52287, 'Funes', 'Activo', 52),
+                                                                                    (52317, 'Guachucal', 'Activo', 52),
+                                                                                    (52320, 'Guaitarilla', 'Activo', 52),
+                                                                                    (52323, 'Gualmatán', 'Activo', 52),
+                                                                                    (52352, 'Iles', 'Activo', 52),
+                                                                                    (52354, 'Imués', 'Activo', 52),
+                                                                                    (52356, 'Ipiales', 'Activo', 52),
+                                                                                    (52378, 'La Cruz', 'Activo', 52),
+                                                                                    (52381, 'La Florida', 'Activo', 52),
+                                                                                    (52385, 'La Llanada', 'Activo', 52),
+                                                                                    (52390, 'La Tola', 'Activo', 52),
+                                                                                    (52399, 'La Unión', 'Activo', 52),
+                                                                                    (52405, 'Leiva', 'Activo', 52),
+                                                                                    (52411, 'Linares', 'Activo', 52),
+                                                                                    (52418, 'Los Andes', 'Activo', 52),
+                                                                                    (52427, 'Magüí', 'Activo', 52),
+                                                                                    (52435, 'Mallama', 'Activo', 52),
+                                                                                    (52473, 'Mosquera', 'Activo', 52),
+                                                                                    (52480, 'Nariño', 'Activo', 52),
+                                                                                    (52490, 'Olaya Herrera', 'Activo', 52),
+                                                                                    (52506, 'Ospina', 'Activo', 52),
+                                                                                    (52520, 'Francisco Pizarro', 'Activo', 52),
+                                                                                    (52540, 'Policarpa', 'Activo', 52),
+                                                                                    (52560, 'Potosí', 'Activo', 52),
+                                                                                    (52565, 'Providencia', 'Activo', 52),
+                                                                                    (52573, 'Puerres', 'Activo', 52),
+                                                                                    (52585, 'Pupiales', 'Activo', 52),
+                                                                                    (52612, 'Ricaurte', 'Activo', 52),
+                                                                                    (52621, 'Roberto Payán', 'Activo', 52),
+                                                                                    (52678, 'Samaniego', 'Activo', 52),
+                                                                                    (52683, 'Sandoná', 'Activo', 52),
+                                                                                    (52685, 'San Bernardo', 'Activo', 52),
+                                                                                    (52687, 'San Lorenzo', 'Activo', 52),
+                                                                                    (52693, 'San Pablo', 'Activo', 52),
+                                                                                    (52694, 'San Pedro de Cartago', 'Activo', 52),
+                                                                                    (52696, 'Santa Bárbara', 'Activo', 52),
+                                                                                    (52699, 'Santacruz', 'Activo', 52),
+                                                                                    (52720, 'Sapuyes', 'Activo', 52),
+                                                                                    (52786, 'Taminango', 'Activo', 52),
+                                                                                    (52788, 'Tangua', 'Activo', 52),
+                                                                                    (52835, 'San Andrés de Tumaco', 'Activo', 52),
+                                                                                    (52838, 'Túquerres', 'Activo', 52),
+                                                                                    (52885, 'Yacuanquer', 'Activo', 52),
+                                                                                    (54001, 'Cúcuta', 'Activo', 54),
+                                                                                    (54003, 'Abrego', 'Activo', 54),
+                                                                                    (54051, 'Arboledas', 'Activo', 54),
+                                                                                    (54099, 'Bochalema', 'Activo', 54),
+                                                                                    (54109, 'Bucarasica', 'Activo', 54),
+                                                                                    (54125, 'Cácota', 'Activo', 54),
+                                                                                    (54128, 'Cachirá', 'Activo', 54),
+                                                                                    (54172, 'Chinácota', 'Activo', 54),
+                                                                                    (54174, 'Chitagá', 'Activo', 54),
+                                                                                    (54206, 'Convención', 'Activo', 54),
+                                                                                    (54223, 'Cucutilla', 'Activo', 54),
+                                                                                    (54239, 'Durania', 'Activo', 54),
+                                                                                    (54245, 'El Carmen', 'Activo', 54),
+                                                                                    (54250, 'El Tarra', 'Activo', 54),
+                                                                                    (54261, 'El Zulia', 'Activo', 54),
+                                                                                    (54313, 'Gramalote', 'Activo', 54),
+                                                                                    (54344, 'Hacarí', 'Activo', 54),
+                                                                                    (54347, 'Herrán', 'Activo', 54),
+                                                                                    (54377, 'Labateca', 'Activo', 54),
+                                                                                    (54385, 'La Esperanza', 'Activo', 54),
+                                                                                    (54398, 'La Playa', 'Activo', 54),
+                                                                                    (54405, 'Los Patios', 'Activo', 54),
+                                                                                    (54418, 'Lourdes', 'Activo', 54),
+                                                                                    (54480, 'Mutiscua', 'Activo', 54),
+                                                                                    (54498, 'Ocaña', 'Activo', 54),
+                                                                                    (54518, 'Pamplona', 'Activo', 54),
+                                                                                    (54520, 'Pamplonita', 'Activo', 54),
+                                                                                    (54553, 'Puerto Santander', 'Activo', 54),
+                                                                                    (54599, 'Ragonvalia', 'Activo', 54),
+                                                                                    (54660, 'Salazar', 'Activo', 54),
+                                                                                    (54670, 'San Calixto', 'Activo', 54),
+                                                                                    (54673, 'San Cayetano', 'Activo', 54),
+                                                                                    (54680, 'Santiago', 'Activo', 54),
+                                                                                    (54720, 'Sardinata', 'Activo', 54),
+                                                                                    (54743, 'Silos', 'Activo', 54),
+                                                                                    (54800, 'Teorama', 'Activo', 54),
+                                                                                    (54810, 'Tibú', 'Activo', 54),
+                                                                                    (54820, 'Toledo', 'Activo', 54),
+                                                                                    (54871, 'Villa Caro', 'Activo', 54),
+                                                                                    (54874, 'Villa del Rosario', 'Activo', 54),
+                                                                                    (63001, 'Armenia', 'Activo', 63),
+                                                                                    (63111, 'Buenavista', 'Activo', 63),
+                                                                                    (63130, 'Calarcá', 'Activo', 63),
+                                                                                    (63190, 'Circasia', 'Activo', 63),
+                                                                                    (63212, 'Córdoba', 'Activo', 63),
+                                                                                    (63272, 'Filandia', 'Activo', 63),
+                                                                                    (63302, 'Génova', 'Activo', 63),
+                                                                                    (63401, 'La Tebaida', 'Activo', 63),
+                                                                                    (63470, 'Montenegro', 'Activo', 63),
+                                                                                    (63548, 'Pijao', 'Activo', 63),
+                                                                                    (63594, 'Quimbaya', 'Activo', 63),
+                                                                                    (63690, 'Salento', 'Activo', 63),
+                                                                                    (66001, 'Pereira', 'Activo', 66),
+                                                                                    (66045, 'Apía', 'Activo', 66),
+                                                                                    (66075, 'Balboa', 'Activo', 66),
+                                                                                    (66088, 'Belén de Umbría', 'Activo', 66),
+                                                                                    (66170, 'Dosquebradas', 'Activo', 66),
+                                                                                    (66318, 'Guática', 'Activo', 66),
+                                                                                    (66383, 'La Celia', 'Activo', 66),
+                                                                                    (66400, 'La Virginia', 'Activo', 66),
+                                                                                    (66440, 'Marsella', 'Activo', 66),
+                                                                                    (66456, 'Mistrató', 'Activo', 66),
+                                                                                    (66572, 'Pueblo Rico', 'Activo', 66),
+                                                                                    (66594, 'Quinchía', 'Activo', 66),
+                                                                                    (66682, 'Santa Rosa de Cabal', 'Activo', 66),
+                                                                                    (66687, 'Santuario', 'Activo', 66),
+                                                                                    (68001, 'Bucaramanga', 'Activo', 68),
+                                                                                    (68013, 'Aguada', 'Activo', 68),
+                                                                                    (68020, 'Albania', 'Activo', 68),
+                                                                                    (68051, 'Aratoca', 'Activo', 68),
+                                                                                    (68077, 'Barbosa', 'Activo', 68),
+                                                                                    (68079, 'Barichara', 'Activo', 68),
+                                                                                    (68081, 'Barrancabermeja', 'Activo', 68),
+                                                                                    (68092, 'Betulia', 'Activo', 68),
+                                                                                    (68101, 'Bolívar', 'Activo', 68),
+                                                                                    (68121, 'Cabrera', 'Activo', 68),
+                                                                                    (68132, 'California', 'Activo', 68),
+                                                                                    (68147, 'Capitanejo', 'Activo', 68),
+                                                                                    (68152, 'Carcasí', 'Activo', 68),
+                                                                                    (68160, 'Cepitá', 'Activo', 68),
+                                                                                    (68162, 'Cerrito', 'Activo', 68),
+                                                                                    (68167, 'Charalá', 'Activo', 68),
+                                                                                    (68169, 'Charta', 'Activo', 68),
+                                                                                    (68176, 'Chimá', 'Activo', 68),
+                                                                                    (68179, 'Chipatá', 'Activo', 68),
+                                                                                    (68190, 'Cimitarra', 'Activo', 68),
+                                                                                    (68207, 'Concepción', 'Activo', 68),
+                                                                                    (68209, 'Confines', 'Activo', 68),
+                                                                                    (68211, 'Contratación', 'Activo', 68),
+                                                                                    (68217, 'Coromoro', 'Activo', 68),
+                                                                                    (68229, 'Curití', 'Activo', 68),
+                                                                                    (68235, 'El Carmen de Chucurí', 'Activo', 68),
+                                                                                    (68245, 'El Guacamayo', 'Activo', 68),
+                                                                                    (68250, 'El Peñón', 'Activo', 68),
+                                                                                    (68255, 'El Playón', 'Activo', 68),
+                                                                                    (68264, 'Encino', 'Activo', 68),
+                                                                                    (68266, 'Enciso', 'Activo', 68),
+                                                                                    (68271, 'Florián', 'Activo', 68),
+                                                                                    (68276, 'Floridablanca', 'Activo', 68),
+                                                                                    (68296, 'Galán', 'Activo', 68),
+                                                                                    (68298, 'Gambita', 'Activo', 68),
+                                                                                    (68307, 'Girón', 'Activo', 68),
+                                                                                    (68318, 'Guaca', 'Activo', 68),
+                                                                                    (68320, 'Guadalupe', 'Activo', 68),
+                                                                                    (68322, 'Guapotá', 'Activo', 68),
+                                                                                    (68324, 'Guavatá', 'Activo', 68),
+                                                                                    (68327, 'Güepsa', 'Activo', 68),
+                                                                                    (68344, 'Hato', 'Activo', 68),
+                                                                                    (68368, 'Jesús María', 'Activo', 68),
+                                                                                    (68370, 'Jordán', 'Activo', 68),
+                                                                                    (68377, 'La Belleza', 'Activo', 68),
+                                                                                    (68385, 'Landázuri', 'Activo', 68),
+                                                                                    (68397, 'La Paz', 'Activo', 68),
+                                                                                    (68406, 'Lebríja', 'Activo', 68),
+                                                                                    (68418, 'Los Santos', 'Activo', 68),
+                                                                                    (68425, 'Macaravita', 'Activo', 68),
+                                                                                    (68432, 'Málaga', 'Activo', 68),
+                                                                                    (68444, 'Matanza', 'Activo', 68),
+                                                                                    (68464, 'Mogotes', 'Activo', 68),
+                                                                                    (68468, 'Molagavita', 'Activo', 68),
+                                                                                    (68498, 'Ocamonte', 'Activo', 68),
+                                                                                    (68500, 'Oiba', 'Activo', 68),
+                                                                                    (68502, 'Onzaga', 'Activo', 68),
+                                                                                    (68522, 'Palmar', 'Activo', 68),
+                                                                                    (68524, 'Palmas del Socorro', 'Activo', 68),
+                                                                                    (68533, 'Páramo', 'Activo', 68),
+                                                                                    (68547, 'Piedecuesta', 'Activo', 68),
+                                                                                    (68549, 'Pinchote', 'Activo', 68),
+                                                                                    (68572, 'Puente Nacional', 'Activo', 68),
+                                                                                    (68573, 'Puerto Parra', 'Activo', 68),
+                                                                                    (68575, 'Puerto Wilches', 'Activo', 68),
+                                                                                    (68615, 'Rionegro', 'Activo', 68),
+                                                                                    (68655, 'Sabana de Torres', 'Activo', 68),
+                                                                                    (68669, 'San Andrés', 'Activo', 68),
+                                                                                    (68673, 'San Benito', 'Activo', 68),
+                                                                                    (68679, 'San Gil', 'Activo', 68),
+                                                                                    (68682, 'San Joaquín', 'Activo', 68),
+                                                                                    (68684, 'San José de Miranda', 'Activo', 68),
+                                                                                    (68686, 'San Miguel', 'Activo', 68),
+                                                                                    (68689, 'San Vicente de Chucurí', 'Activo', 68),
+                                                                                    (68705, 'Santa Bárbara', 'Activo', 68),
+                                                                                    (68720, 'Santa Helena del Opón', 'Activo', 68),
+                                                                                    (68745, 'Simacota', 'Activo', 68),
+                                                                                    (68755, 'Socorro', 'Activo', 68),
+                                                                                    (68770, 'Suaita', 'Activo', 68),
+                                                                                    (68773, 'Sucre', 'Activo', 68),
+                                                                                    (68780, 'Suratá', 'Activo', 68),
+                                                                                    (68820, 'Tona', 'Activo', 68),
+                                                                                    (68855, 'Valle de San José', 'Activo', 68),
+                                                                                    (68861, 'Vélez', 'Activo', 68),
+                                                                                    (68867, 'Vetas', 'Activo', 68),
+                                                                                    (68872, 'Villanueva', 'Activo', 68),
+                                                                                    (68895, 'Zapatoca', 'Activo', 68),
+                                                                                    (70001, 'Sincelejo', 'Activo', 70),
+                                                                                    (70110, 'Buenavista', 'Activo', 70),
+                                                                                    (70124, 'Caimito', 'Activo', 70),
+                                                                                    (70204, 'Coloso', 'Activo', 70),
+                                                                                    (70215, 'Corozal', 'Activo', 70),
+                                                                                    (70221, 'Coveñas', 'Activo', 70),
+                                                                                    (70230, 'Chalán', 'Activo', 70),
+                                                                                    (70233, 'El Roble', 'Activo', 70),
+                                                                                    (70235, 'Galeras', 'Activo', 70),
+                                                                                    (70265, 'Guaranda', 'Activo', 70),
+                                                                                    (70400, 'La Unión', 'Activo', 70),
+                                                                                    (70418, 'Los Palmitos', 'Activo', 70),
+                                                                                    (70429, 'Majagual', 'Activo', 70),
+                                                                                    (70473, 'Morroa', 'Activo', 70),
+                                                                                    (70508, 'Ovejas', 'Activo', 70),
+                                                                                    (70523, 'Palmito', 'Activo', 70),
+                                                                                    (70670, 'Sampués', 'Activo', 70),
+                                                                                    (70678, 'San Benito Abad', 'Activo', 70),
+                                                                                    (70702, 'San Juan de Betulia', 'Activo', 70),
+                                                                                    (70708, 'San Marcos', 'Activo', 70),
+                                                                                    (70713, 'San Onofre', 'Activo', 70),
+                                                                                    (70717, 'San Pedro', 'Activo', 70),
+                                                                                    (70742, 'San Luis de Sincé', 'Activo', 70),
+                                                                                    (70771, 'Sucre', 'Activo', 70),
+                                                                                    (70820, 'Santiago de Tolú', 'Activo', 70),
+                                                                                    (70823, 'Tolú Viejo', 'Activo', 70),
+                                                                                    (73001, 'Ibagué', 'Activo', 73),
+                                                                                    (73024, 'Alpujarra', 'Activo', 73),
+                                                                                    (73026, 'Alvarado', 'Activo', 73),
+                                                                                    (73030, 'Ambalema', 'Activo', 73),
+                                                                                    (73043, 'Anzoátegui', 'Activo', 73),
+                                                                                    (73055, 'Armero', 'Activo', 73),
+                                                                                    (73067, 'Ataco', 'Activo', 73),
+                                                                                    (73124, 'Cajamarca', 'Activo', 73),
+                                                                                    (73148, 'Carmen de Apicala', 'Activo', 73),
+                                                                                    (73152, 'Casabianca', 'Activo', 73),
+                                                                                    (73168, 'Chaparral', 'Activo', 73),
+                                                                                    (73200, 'Coello', 'Activo', 73),
+                                                                                    (73217, 'Coyaima', 'Activo', 73),
+                                                                                    (73226, 'Cunday', 'Activo', 73),
+                                                                                    (73236, 'Dolores', 'Activo', 73),
+                                                                                    (73268, 'Espinal', 'Activo', 73),
+                                                                                    (73270, 'Falan', 'Activo', 73),
+                                                                                    (73275, 'Flandes', 'Activo', 73),
+                                                                                    (73283, 'Fresno', 'Activo', 73),
+                                                                                    (73319, 'Guamo', 'Activo', 73),
+                                                                                    (73347, 'Herveo', 'Activo', 73),
+                                                                                    (73349, 'Honda', 'Activo', 73),
+                                                                                    (73352, 'Icononzo', 'Activo', 73),
+                                                                                    (73408, 'Lérida', 'Activo', 73),
+                                                                                    (73411, 'Líbano', 'Activo', 73),
+                                                                                    (73443, 'Mariquita', 'Activo', 73),
+                                                                                    (73449, 'Melgar', 'Activo', 73),
+                                                                                    (73461, 'Murillo', 'Activo', 73),
+                                                                                    (73483, 'Natagaima', 'Activo', 73),
+                                                                                    (73504, 'Ortega', 'Activo', 73),
+                                                                                    (73520, 'Palocabildo', 'Activo', 73),
+                                                                                    (73547, 'Piedras', 'Activo', 73),
+                                                                                    (73555, 'Planadas', 'Activo', 73),
+                                                                                    (73563, 'Prado', 'Activo', 73),
+                                                                                    (73585, 'Purificación', 'Activo', 73),
+                                                                                    (73616, 'Rio Blanco', 'Activo', 73),
+                                                                                    (73622, 'Roncesvalles', 'Activo', 73),
+                                                                                    (73624, 'Rovira', 'Activo', 73),
+                                                                                    (73671, 'Saldaña', 'Activo', 73),
+                                                                                    (73675, 'San Antonio', 'Activo', 73),
+                                                                                    (73678, 'San Luis', 'Activo', 73),
+                                                                                    (73686, 'Santa Isabel', 'Activo', 73),
+                                                                                    (73770, 'Suárez', 'Activo', 73),
+                                                                                    (73854, 'Valle de San Juan', 'Activo', 73),
+                                                                                    (73861, 'Venadillo', 'Activo', 73),
+                                                                                    (73870, 'Villahermosa', 'Activo', 73),
+                                                                                    (73873, 'Villarrica', 'Activo', 73),
+                                                                                    (76001, 'Cali', 'Activo', 76),
+                                                                                    (76020, 'Alcalá', 'Activo', 76),
+                                                                                    (76036, 'Andalucía', 'Activo', 76),
+                                                                                    (76041, 'Ansermanuevo', 'Activo', 76),
+                                                                                    (76054, 'Argelia', 'Activo', 76),
+                                                                                    (76100, 'Bolívar', 'Activo', 76),
+                                                                                    (76109, 'Buenaventura', 'Activo', 76),
+                                                                                    (76111, 'Buga', 'Activo', 76),
+                                                                                    (76113, 'Bugalagrande', 'Activo', 76),
+                                                                                    (76122, 'Caicedonia', 'Activo', 76),
+                                                                                    (76126, 'Calima', 'Activo', 76),
+                                                                                    (76130, 'Candelaria', 'Activo', 76),
+                                                                                    (76147, 'Cartago', 'Activo', 76),
+                                                                                    (76233, 'Dagua', 'Activo', 76),
+                                                                                    (76243, 'El Águila', 'Activo', 76),
+                                                                                    (76246, 'El Cairo', 'Activo', 76),
+                                                                                    (76248, 'El Cerrito', 'Activo', 76),
+                                                                                    (76250, 'El Dovio', 'Activo', 76),
+                                                                                    (76275, 'Florida', 'Activo', 76),
+                                                                                    (76306, 'Ginebra', 'Activo', 76),
+                                                                                    (76318, 'Guacarí', 'Activo', 76),
+                                                                                    (76364, 'Jamundí', 'Activo', 76),
+                                                                                    (76377, 'La Cumbre', 'Activo', 76),
+                                                                                    (76400, 'La Unión', 'Activo', 76),
+                                                                                    (76403, 'La Victoria', 'Activo', 76),
+                                                                                    (76497, 'Obando', 'Activo', 76),
+                                                                                    (76520, 'Palmira', 'Activo', 76),
+                                                                                    (76563, 'Pradera', 'Activo', 76),
+                                                                                    (76606, 'Restrepo', 'Activo', 76),
+                                                                                    (76616, 'Riofrío', 'Activo', 76),
+                                                                                    (76622, 'Roldanillo', 'Activo', 76),
+                                                                                    (76670, 'San Pedro', 'Activo', 76),
+                                                                                    (76736, 'Sevilla', 'Activo', 76),
+                                                                                    (76823, 'Toro', 'Activo', 76),
+                                                                                    (76828, 'Trujillo', 'Activo', 76),
+                                                                                    (76834, 'Tuluá', 'Activo', 76),
+                                                                                    (76845, 'Ulloa', 'Activo', 76),
+                                                                                    (76863, 'Versalles', 'Activo', 76),
+                                                                                    (76869, 'Vijes', 'Activo', 76),
+                                                                                    (76890, 'Yotoco', 'Activo', 76),
+                                                                                    (76892, 'Yumbo', 'Activo', 76),
+                                                                                    (76895, 'Zarzal', 'Activo', 76),
+                                                                                    (81001, 'Arauca', 'Activo', 81),
+                                                                                    (81065, 'Arauquita', 'Activo', 81),
+                                                                                    (81220, 'Cravo Norte', 'Activo', 81),
+                                                                                    (81300, 'Fortul', 'Activo', 81),
+                                                                                    (81591, 'Puerto Rondón', 'Activo', 81),
+                                                                                    (81736, 'Saravena', 'Activo', 81),
+                                                                                    (81794, 'Tame', 'Activo', 81),
+                                                                                    (85001, 'Yopal', 'Activo', 85),
+                                                                                    (85010, 'Aguazul', 'Activo', 85),
+                                                                                    (85015, 'Chámeza', 'Activo', 85),
+                                                                                    (85125, 'Hato Corozal', 'Activo', 85),
+                                                                                    (85136, 'La Salina', 'Activo', 85),
+                                                                                    (85139, 'Maní', 'Activo', 85),
+                                                                                    (85162, 'Monterrey', 'Activo', 85),
+                                                                                    (85225, 'Nunchía', 'Activo', 85),
+                                                                                    (85230, 'Orocué', 'Activo', 85),
+                                                                                    (85250, 'Paz de Ariporo', 'Activo', 85),
+                                                                                    (85263, 'Pore', 'Activo', 85),
+                                                                                    (85279, 'Recetor', 'Activo', 85),
+                                                                                    (85300, 'Sabanalarga', 'Activo', 85),
+                                                                                    (85315, 'Sácama', 'Activo', 85),
+                                                                                    (85325, 'San Luis de Gaceno', 'Activo', 85),
+                                                                                    (85400, 'Támara', 'Activo', 85),
+                                                                                    (85410, 'Tauramena', 'Activo', 85),
+                                                                                    (85430, 'Trinidad', 'Activo', 85),
+                                                                                    (85440, 'Villanueva', 'Activo', 85),
+                                                                                    (86001, 'Mocoa', 'Activo', 86),
+                                                                                    (86219, 'Colón', 'Activo', 86),
+                                                                                    (86320, 'Orito', 'Activo', 86),
+                                                                                    (86568, 'Puerto Asís', 'Activo', 86),
+                                                                                    (86569, 'Puerto Caicedo', 'Activo', 86),
+                                                                                    (86571, 'Puerto Guzmán', 'Activo', 86),
+                                                                                    (86573, 'Leguízamo', 'Activo', 86),
+                                                                                    (86749, 'Sibundoy', 'Activo', 86),
+                                                                                    (86755, 'San Francisco', 'Activo', 86),
+                                                                                    (86757, 'San Miguel', 'Activo', 86),
+                                                                                    (86760, 'Santiago', 'Activo', 86),
+                                                                                    (86865, 'Valle de Guamez', 'Activo', 86),
+                                                                                    (86885, 'Villagarzón', 'Activo', 86),
+                                                                                    (88001, 'San Andrés', 'Activo', 88),
+                                                                                    (88564, 'Providencia', 'Activo', 88),
+                                                                                    (91001, 'Leticia', 'Activo', 91),
+                                                                                    (91263, 'El Encanto', 'Activo', 91),
+                                                                                    (91405, 'La Chorrera', 'Activo', 91),
+                                                                                    (91407, 'La Pedrera', 'Activo', 91),
+                                                                                    (91430, 'La Victoria', 'Activo', 91),
+                                                                                    (91460, 'Miriti Paraná', 'Activo', 91),
+                                                                                    (91530, 'Puerto Alegría', 'Activo', 91),
+                                                                                    (91536, 'Puerto Arica', 'Activo', 91),
+                                                                                    (91540, 'Puerto Nariño', 'Activo', 91),
+                                                                                    (91669, 'Puerto Santander', 'Activo', 91),
+                                                                                    (91798, 'Tarapacá', 'Activo', 91),
+                                                                                    (94001, 'Inírida', 'Activo', 94),
+                                                                                    (94343, 'Barranco Minas', 'Activo', 94),
+                                                                                    (94663, 'Mapiripana', 'Activo', 94),
+                                                                                    (94883, 'San Felipe', 'Activo', 94),
+                                                                                    (94884, 'Puerto Colombia', 'Activo', 94),
+                                                                                    (94885, 'La Guadalupe', 'Activo', 94),
+                                                                                    (94886, 'Cacahual', 'Activo', 94),
+                                                                                    (94887, 'Pana Pana', 'Activo', 94),
+                                                                                    (94888, 'Morichal', 'Activo', 94),
+                                                                                    (95001, 'San José del Guaviare', 'Activo', 95),
+                                                                                    (95015, 'Calamar', 'Activo', 95),
+                                                                                    (95025, 'El Retorno', 'Activo', 95),
+                                                                                    (95200, 'Miraflores', 'Activo', 95),
+                                                                                    (97001, 'Mitú', 'Activo', 97),
+                                                                                    (97161, 'Caruru', 'Activo', 97),
+                                                                                    (97511, 'Pacoa', 'Activo', 97),
+                                                                                    (97666, 'Taraira', 'Activo', 97),
+                                                                                    (97777, 'Papunaua', 'Activo', 97),
+                                                                                    (97889, 'Yavaraté', 'Activo', 97),
+                                                                                    (99001, 'Puerto Carreño', 'Activo', 99),
+                                                                                    (99524, 'La Primavera', 'Activo', 99),
+                                                                                    (99624, 'Santa Rosalía', 'Activo', 99),
+                                                                                    (99773, 'Cumaribo', 'Activo', 99);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `producto`
+--
+
+CREATE TABLE `producto` (
+                            `idProducto` int(10) UNSIGNED NOT NULL,
+                            `tipo` enum('Fabricacion','Instalacion','Producto') NOT NULL,
+                            `nombre` varchar(245) NOT NULL,
+                            `stock` int(11) NOT NULL,
+                            `valor` bigint(80) NOT NULL,
+                            `estado` enum('Activo','Inactivo') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `proveedor`
+--
+
+CREATE TABLE `proveedor` (
+                             `idProveedor` bigint(10) UNSIGNED NOT NULL,
+                             `documento` bigint(10) NOT NULL,
+                             `nombre` varchar(245) NOT NULL,
+                             `estado` enum('Activo','Inactivo') NOT NULL,
+                             `municipiosId` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+                           `idUsuario` bigint(10) UNSIGNED NOT NULL,
+                           `documento` bigint(10) NOT NULL,
+                           `nombre` varchar(245) NOT NULL,
+                           `telefono` varchar(45) NOT NULL,
+                           `direccion` varchar(9) NOT NULL,
+                           `roll` enum('administrador','vendedor','cliente') NOT NULL,
+                           `usuario` varchar(145) NULL,
+                           `contrasena` varchar(240) NULL,
+                           `estado` enum('Activo','Inactivo') NOT NULL,
+                           `municipiosId` int(10) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`idUsuario`, `documento`, `nombre`, `telefono`, `direccion`, `roll`, `usuario`, `contrasena`, `estado`, `municipiosId`) VALUES
+                                                                                                                                                   (1, 100756, 'Dilan Galeano', '3105463778', 'Crr 20', 'administrador', 'Dil7', '$2y$10$h9Y3Z2zuJ48I/JodlOFlQ.IQQJnv1F.LgcTBmV2ysfYY2HyHy49kq', 'Activo', 5001),
+                                                                                                                                                   (2, 123112, 'Andres', '3214', 'Daad', 'administrador', 'Ami', '$2y$10$q4Ownxb9Bwxu3Gm3qGbINeaRd9yu8X2LNiWxhibs/IAoGxDRsM1tK', 'Activo', 17001),
+                                                                                                                                                   (3, 457894, 'Andesa', '3214', 'Daad', 'vendedor', 'A', '$2y$10$oN.VyOe953vin1FuU7UYd.uv093TdihgMsJ7bfBbkvJaGLfzMWqMm', 'Activo', 8001),
+                                                                                                                                                   (4, 14578952, 'Andrea Perez', ' 1245578', ' Cad 12', 'administrador', 'Clie1', '$2y$10$XYYEv0bZTCePW/vonr/QoOaP/0VhjNkYNeR2jYwM7r28.60SB7iBW', 'Activo', 15759);
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `comprasmateria`
+--
+ALTER TABLE `comprasmateria`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `fk_Pedidos_Proveedor1_idx` (`provedor_id`),
+    ADD KEY `fk_Pedidos_Usuario1_idx` (`empleado_id`);
+
+--
+-- Indices de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+    ADD PRIMARY KEY (`idDepartamentos`);
+
+--
+-- Indices de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+    ADD PRIMARY KEY (`idOrdenCompra`),
+    ADD KEY `fk_OrdenCompra_Factura1_idx` (`ventas_id`),
+    ADD KEY `fk_OrdenCompra_Producto1_idx` (`Producto_IdProducto`);
+
+--
+-- Indices de la tabla `fabricacion`
+--
+ALTER TABLE `fabricacion`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `fk_detalle_compra_Compras1_idx` (`compra_id`),
+    ADD KEY `fk_detalle_compra_Producto1_idx` (`producto_id`);
+
+--
+-- Indices de la tabla `factura`
+--
+ALTER TABLE `factura`
+    ADD PRIMARY KEY (`idFactura`),
+    ADD KEY `fk_Factura_Usuario1_idx` (`usuarioVendedor`),
+    ADD KEY `fk_Factura_Usuario2_idx` (`usuarioCliente`);
+
+--
+-- Indices de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+    ADD PRIMARY KEY (`idMunicipio`),
+    ADD KEY `fk_Municipio_Departamentos` (`departamentosId`);
+
+--
+-- Indices de la tabla `producto`
+--
+ALTER TABLE `producto`
+    ADD PRIMARY KEY (`idProducto`);
+
+--
+-- Indices de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+    ADD PRIMARY KEY (`idProveedor`),
+    ADD KEY `fk_Proveedor_Municipios` (`municipiosId`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+    ADD PRIMARY KEY (`idUsuario`),
+    ADD KEY `fk_Usuario_Municipios` (`municipiosId`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `comprasmateria`
+--
+ALTER TABLE `comprasmateria`
+    MODIFY `id` tinyint(3) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `departamentos`
+--
+ALTER TABLE `departamentos`
+    MODIFY `idDepartamentos` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+
+--
+-- AUTO_INCREMENT de la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+    MODIFY `idOrdenCompra` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `fabricacion`
+--
+ALTER TABLE `fabricacion`
+    MODIFY `id` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `factura`
+--
+ALTER TABLE `factura`
+    MODIFY `idFactura` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `municipios`
+--
+ALTER TABLE `municipios`
+    MODIFY `idMunicipio` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99774;
+
+--
+-- AUTO_INCREMENT de la tabla `producto`
+--
+ALTER TABLE `producto`
+    MODIFY `idProducto` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+    MODIFY `idProveedor` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+    MODIFY `idUsuario` bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `comprasmateria`
+--
+ALTER TABLE `comprasmateria`
+    ADD CONSTRAINT `fk_Pedidos_Proveedor1` FOREIGN KEY (`provedor_id`) REFERENCES `proveedor` (`idProveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_Pedidos_Usuario1` FOREIGN KEY (`empleado_id`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `detalle_ventas`
+--
+ALTER TABLE `detalle_ventas`
+    ADD CONSTRAINT `fk_OrdenCompra_Factura1` FOREIGN KEY (`ventas_id`) REFERENCES `factura` (`idFactura`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_OrdenCompra_Producto1` FOREIGN KEY (`Producto_IdProducto`) REFERENCES `producto` (`idProducto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `fabricacion`
+--
+ALTER TABLE `fabricacion`
+    ADD CONSTRAINT `fk_detalle_compra_Compras1` FOREIGN KEY (`compra_id`) REFERENCES `comprasmateria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_detalle_compra_Producto1` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`idProducto`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `factura`
+--
+ALTER TABLE `factura`
+    ADD CONSTRAINT `fk_Factura_Usuario1` FOREIGN KEY (`usuarioVendedor`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    ADD CONSTRAINT `fk_Factura_Usuario2` FOREIGN KEY (`usuarioCliente`) REFERENCES `usuario` (`idUsuario`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `municipios`
+--
+ALTER TABLE `municipios`
+    ADD CONSTRAINT `fk_Municipio_Departamentos` FOREIGN KEY (`departamentosId`) REFERENCES `departamentos` (`idDepartamentos`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `proveedor`
+--
+ALTER TABLE `proveedor`
+    ADD CONSTRAINT `fk_Proveedor_Municipios` FOREIGN KEY (`municipiosId`) REFERENCES `municipios` (`idMunicipio`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+    ADD CONSTRAINT `fk_Usuario_Municipios` FOREIGN KEY (`municipiosId`) REFERENCES `municipios` (`idMunicipio`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
