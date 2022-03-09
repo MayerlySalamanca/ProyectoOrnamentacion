@@ -1,189 +1,89 @@
 <?php
+
 namespace App\Models;
-class Factura
+
+use App\Enums\EstadoFactura;
+use App\Models\Usuario;
+use App\Interfaces\Model;
+
+use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
+
+class Factura extends AbstractDBConnection implements Model
 {
-    private ? int $IdFactura;
-    private String $tipo;
-    private int $Cantidad;
-    private String $fechaInicio;
-    private ? String $fechaFin;
-    private ? String $fechaEstimada;
-    private String $estado;
-    private String $fechaVenta;
-    // realacion
-    private int $usuarioComprador;
-    private int $usuarioVendedor;
+    private ?int $idFactura;
+    private string $numeroFactura;
+    private int $usuarioCliente;
+    private int $usuarioVendedor;// Id numerico (1,2,3,4) almacena en BD
+    private Carbon $fecha;
+    private float $monto;
+    private EstadoFactura $estado;
+
+
+    /* Relaciones */
+
+    private ?Usuario $empleado;
+    private ?Usuario $cliente;
+    private ?array $detalleVentas;
 
     /**
-     * @param int|null $IdFactura
-     * @param String $tipo
-     * @param int $Cantidad
-     * @param String $fechaInicio
-     * @param String|null $fechaFin
-     * @param String|null $fechaEstimada
-     * @param String $estado
-     * @param String $fechaVenta
-     * @param int $usuarioComprador
-     * @param int $usuarioVendedor
+     * Venta constructor. Recibe un array asociativo
+     * @param array $venta
      */
-    public function __construct(?int $IdFactura, string $tipo, int $Cantidad, string $fechaInicio, ?string $fechaFin, ?string $fechaEstimada, string $estado, string $fechaVenta, int $usuarioComprador, int $usuarioVendedor)
+    public function __construct(array $venta = [])
     {
-        $this->IdFactura = $IdFactura;
-        $this->tipo = $tipo;
-        $this->Cantidad = $Cantidad;
-        $this->fechaInicio = $fechaInicio;
-        $this->fechaFin = $fechaFin;
-        $this->fechaEstimada = $fechaEstimada;
-        $this->estado = $estado;
-        $this->fechaVenta = $fechaVenta;
-        $this->usuarioComprador = $usuarioComprador;
-        $this->usuarioVendedor = $usuarioVendedor;
+        parent::__construct();
+        $this->setIdFactura($venta['idFactura'] ?? NULL);
+        $this->setNumeroFactura($venta['numeroFactura'] ?? '');
+        $this->setUsuarioVendedor($venta['usuarioVendedor'] ?? 0);
+        $this->setUsuarioCliente($venta['usuarioCliente'] ?? 0);
+        $this->setFecha(!empty($venta['fecha']) ? Carbon::parse($venta['fecha']) : new Carbon());
+        $this->setEstado($venta['estado'] ?? EstadoFactura::PROCESO );
+        $this->setMonto();
     }
 
+    /**
+     *
+     */
+    function __destruct()
+    {
+        $this->Disconnect();
+    }
 
     /**
      * @return int|null
      */
     public function getIdFactura(): ?int
     {
-        return $this->IdFactura;
+        return $this->idFactura;
     }
 
     /**
-     * @param int|null $IdFactura
+     * @param int|null $idFactura
      */
-    public function setIdFactura(?int $IdFactura): void
+    public function setIdFactura(?int $idFactura): void
     {
-        $this->IdFactura = $IdFactura;
-    }
-
-    /**
-     * @return String
-     */
-    public function getTipo(): string
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * @param String $tipo
-     */
-    public function setTipo(string $tipo): void
-    {
-        $this->tipo = $tipo;
+        $this->idFactura = $idFactura;
     }
 
     /**
      * @return int
      */
-    public function getCantidad(): int
+    public function getUsuarioCliente(): int
     {
-        return $this->Cantidad;
+        return $this->usuarioCliente;
     }
 
     /**
-     * @param int $Cantidad
+     * @param int $usuarioCliente
      */
-    public function setCantidad(int $Cantidad): void
+    public function setUsuarioCliente(int $usuarioCliente): void
     {
-        $this->Cantidad = $Cantidad;
+        $this->usuarioCliente = $usuarioCliente;
     }
 
-    /**
-     * @return String
-     */
-    public function getFechaInicio(): string
-    {
-        return $this->fechaInicio;
-    }
 
-    /**
-     * @param String $fechaInicio
-     */
-    public function setFechaInicio(string $fechaInicio): void
-    {
-        $this->fechaInicio = $fechaInicio;
-    }
-
-    /**
-     * @return String|null
-     */
-    public function getFechaFin(): ?string
-    {
-        return $this->fechaFin;
-    }
-
-    /**
-     * @param String|null $fechaFin
-     */
-    public function setFechaFin(?string $fechaFin): void
-    {
-        $this->fechaFin = $fechaFin;
-    }
-
-    /**
-     * @return String|null
-     */
-    public function getFechaEstimada(): ?string
-    {
-        return $this->fechaEstimada;
-    }
-
-    /**
-     * @param String|null $fechaEstimada
-     */
-    public function setFechaEstimada(?string $fechaEstimada): void
-    {
-        $this->fechaEstimada = $fechaEstimada;
-    }
-
-    /**
-     * @return String
-     */
-    public function getEstado(): string
-    {
-        return $this->estado;
-    }
-
-    /**
-     * @param String $estado
-     */
-    public function setEstado(string $estado): void
-    {
-        $this->estado = $estado;
-    }
-
-    /**
-     * @return String
-     */
-    public function getFechaVenta(): string
-    {
-        return $this->fechaVenta;
-    }
-
-    /**
-     * @param String $fechaVenta
-     */
-    public function setFechaVenta(string $fechaVenta): void
-    {
-        $this->fechaVenta = $fechaVenta;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUsuarioComprador(): int
-    {
-        return $this->usuarioComprador;
-    }
-
-    /**
-     * @param int $usuarioComprador
-     */
-    public function setUsuarioComprador(int $usuarioComprador): void
-    {
-        $this->usuarioComprador = $usuarioComprador;
-    }
 
     /**
      * @return int
@@ -202,27 +102,146 @@ class Factura
     }
 
     /**
+     * @return float|mixed
+     */
+    public function getMonto() : float
+    {
+        return $this->monto;
+    }
+
+    /**
+     * @param float|mixed $monto
+     */
+    public function setMonto(): void
+    {
+        $total = 0;
+        if($this->getIdFactura() != null){
+            $arrDetallesVenta = $this->getDetalleVentas();
+            if(!empty($arrDetallesVenta)){
+                /* @var $arrDetallesVenta DetalleVentas[] */
+                foreach ($arrDetallesVenta as $DetalleVenta){
+                    $total += $DetalleVenta->getTotalProducto();
+                }
+            }
+        }
+
+        $this->monto = $total;
+    }
+
+    /**
+     * @return EstadoFactura
+     */
+    public function getEstado(): string
+    {
+        return ucwords($this->estado->toString());
+    }
+
+    /**
+     * @param string|EstadoFactura|null $estado
+     */
+    public function setEstado(null|string|EstadoFactura $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = EstadoFactura::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
+    }
+
+
+
+
+    /**
+     * @return mixed|string
+     */
+    public function getNumeroFactura() : string
+    {
+        return $this->numeroFactura;
+    }
+
+    /**
+     * @param
+     * @throws Exception
+     */
+    public function setNumeroFactura(string $numeroFactura = null): void
+    {
+        if(empty($numeroFactura)){
+            $this->Connect();
+            $this->numeroFactura = 'FV-'.($this->countRowsTable('factura')+1).'-'.date('Y-m-d');
+            $this->Disconnect();
+        }else{
+            $this->numeroFactura = $numeroFactura;
+        }
+    }
+
+
+    /**
+     * @return Carbon|mixed
+     */
+    public function getFecha() : Carbon
+    {
+        return $this->fecha_venta->locale('es');
+    }
+
+    /**
+     * @param Carbon|mixed $fecha_venta
+     */
+    public function setFecha(Carbon $fecha_venta): void
+    {
+        $this->fecha_venta = $fecha_venta;
+    }
+
+
+
+    /* Relaciones */
+    /**
+     * Retorna el objeto usuario del empleado correspondiente a la venta
+     * @return Usuario|null
+     */
+    public function getEmpleado(): ?Usuario
+    {
+        if(!empty($this->usuarioVendedor)){
+            $this->empleado = Usuario::searchForId($this->usuarioVendedor) ?? new Usuario();
+            return $this->empleado;
+        }
+        return NULL;
+    }
+    public function getCliente(): ?Usuario
+    {
+        if(!empty($this->usuarioCliente)){
+            $this->cliente = Usuario::searchForId($this->usuarioCliente) ?? new Usuario();
+            return $this->cliente;
+        }
+        return NULL;
+    }
+
+    /**
+     * retorna un array de detalles venta que perteneces a una venta
+     * @return array
+     */
+    public function getDetalleVentas(): ?array
+    {
+
+        $this->detalleVentas = DetalleVentas::search('SELECT * FROM ornamentacion.detalle_ventas where ventas_id = '.$this->idFactura);
+        return $this->detalleVentas;
+    }
+
+    /**
      * @param string $query
      * @return bool|null
-     * metodo para guardar un abono
      */
     protected function save(string $query): ?bool
-
     {
         $arrData = [
-            ':IdFactura' =>    $this->getIdFactura(),
-            ':tipo ' =>   $this->gettipo(),
-            ':Cantidad' =>   $this->getCantidad(),
-            ':fechaInicio' =>   $this->getfechaInicio()->toDateTimeString(),
-            ':fechaFin' =>   $this->getfechaFin()->toDateTimeString(),
-            ':fechaEstimada' =>   $this->getfechaEstimada()->toDateTimeString(),
-            ':estado ' =>  $this->getestado (),
-            ':fechaVenta ' =>   $this->getfechaVenta ()->toDateTimeString(),
-            ':usuarioComprador' =>  $this->getusuarioComprador(),
-            ':usuarioVendedor' =>  $this->getusuarioVendedor(),
+            ':idFactura' =>    $this->getIdFactura(),
+            ':numeroFactura' =>   $this->getNumeroFactura(),
+            ':usuarioVendedor' =>   $this->getUsuarioVendedor(),
+            ':usuarioCliente' =>   $this->getUsuarioCliente(),
+            ':fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            ':monto' =>   $this->getMonto(),
+            ':estado' =>   $this->getEstado(),
 
         ];
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
@@ -234,56 +253,128 @@ class Factura
      */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.factura VALUES (:idFactura,:numeroFactura,:usuarioCliente,:usuarioVendedor,:fecha,:monto,:estado)";
+        return $this->save($query);
+    }
+
+
+    public function update() : ?bool
+    {
+        $query = "UPDATE ornamentacion.factura SET 
+            numeroFactura = :numeroFactura, usuarioCliente = :usuarioCliente,
+            usuarioVendedor = :usuarioVendedor, fecha = :fecha,
+            monto = :monto, estado = :estado
+             WHERE idFactura = :idFactura";
         return $this->save($query);
     }
 
     /**
-     * @return bool|null
+     * @return mixed
      */
-    public function update(): ?bool
+    public function deleted() : bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
-        return $this->save($query);
-    }
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
-    {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
+        $this->setEstado("Anulada"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
     /**
      * @param $query
-     * @return Categorias|array
-     * @throws Exception
+     * @return mixed
      */
     public static function search($query) : ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrVentas = array();
+            $tmp = new Factura();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
             foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+                $Venta = new Factura($valor);
+                array_push($arrVentas, $Venta);
+                unset($Venta);
             }
-            return $arrCategorias;
+            return $arrVentas;
         } catch (Exception $e) {
             GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        return null;
+        return NULL;
     }
 
+    /**
+     * @param $id
+     * @return Factura
+     * @throws Exception
+     */
+    public static function searchForId($id) : ?Factura
+    {
+        try {
+            if ($id > 0) {
+                $Venta = new Factura();
+                $Venta->Connect();
+                $getrow = $Venta->getRow("SELECT * FROM ornamentacion.factura WHERE idFactura =?", array($id));
+                $Venta->Disconnect();
+                return ($getrow) ? new Factura($getrow) : null;
+            }else{
+                throw new Exception('Id de venta Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public static function getAll() : array
+    {
+        return Factura::search("SELECT * FROM ornamentacion.factura");
+    }
+
+    /**
+     * @param $numeroSerie
+     * @return bool
+     * @throws Exception
+     */
+    public static function facturaRegistrada($numeroSerie): bool
+    {
+        $numeroSerie = trim(strtolower($numeroSerie));
+        $result = Factura::search("SELECT idFactura FROM ornamentacion.factura where numeroFactura = '" . $numeroSerie. "'");
+        if ( !empty($result) && count ($result) > 0 ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return "Numero Serie: $this->numeroFactura, Cliente: ".$this->getCliente()->nombresCompletos().", Empleado: ".$this->getEmpleado()->nombresCompletos().", Fecha Venta: $this->fecha->toDateTimeString(), monto: $this->monto, Estado: $this->estado";
+    }
+
+    /**
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
+     */
+    public function jsonSerialize() : array
+    {
+        return [
+
+            'numeroFactura' =>   $this->getNumeroFactura(),
+            'empleado' =>   $this->getEmpleado()->jsonSerialize(),
+            'cliente' =>   $this->getCliente()->jsonSerialize(),
+            'fecha' =>  $this->getFecha()->toDateTimeString(), //YYYY-MM-DD HH:MM:SS
+            'monto' =>   $this->getMonto(),
+            'estado' =>   $this->getEstado(),
+        ];
+    }
 }

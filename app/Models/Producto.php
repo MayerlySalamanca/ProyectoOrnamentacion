@@ -1,39 +1,93 @@
 <?php
+
 namespace App\Models;
-class Producto
+
+use App\Enums\Estado;
+use App\Enums\Tipo;
+use App\Interfaces\Model;
+
+
+class Producto extends AbstractDBConnection implements Model
 {
-Private ? int $IdProducto;
-private String $tipo;
-private String $nombre;
-private int $cantidad;
-private double $valor;
-private string $material;
-private string $tamano;
-private string $diseno;
-private string $tipoServicio;
+     private ?int  $idProducto;
+     private Tipo $tipo;
+     private string $nombre;
+     private int $valor;
+     private Estado $estado;
+     private int $stock;
+
+    public function __construct(array $Producto = [])
+    {
+        parent::__construct();
+        $this->setIdProducto($Producto['idProducto'] ?? null);
+        $this->setTipo($Producto['tipo'] ?? Tipo::PRODUCTO);
+        $this->setNombre($Producto['nombre'] ?? '');
+        $this->setStock($Producto['stock'] ?? 0);
+        $this->setValor($Producto['valor'] ?? 0);
+        $this->setEstado($Producto['estado'] ?? Estado::INACTIVO);
+
+
+    }
+
+    public function __destruct()
+    {
+        if ($this->isConnected()) {
+            $this->Disconnect();
+        }
+    }
+
+
+    public function getStock(): int
+    {
+        return $this->stock;
+    }
 
     /**
-     * @param int|null $IdProducto
-     * @param String $tipo
-     * @param String $nombre
-     * @param int $cantidad
-     * @param float $valor
-     * @param string $material
-     * @param string $tamano
-     * @param string $diseno
-     * @param string $tipoServicio
+     * @param int $stock
      */
-    public function __construct(?int $IdProducto, string $tipo, string $nombre, int $cantidad, float $valor, string $material, string $tamano, string $diseno, string $tipoServicio)
+    public function setStock(int $stock): void
     {
-        $this->IdProducto = $IdProducto;
-        $this->tipo = $tipo;
-        $this->nombre = $nombre;
-        $this->cantidad = $cantidad;
-        $this->valor = $valor;
-        $this->material = $material;
-        $this->tamano = $tamano;
-        $this->diseno = $diseno;
-        $this->tipoServicio = $tipoServicio;
+        $this->stock = $stock;
+    }
+
+
+    /**
+     * @return Tipo
+     */
+    public function getTipo(): string
+    {
+        return $this->tipo->toString();
+    }
+
+    /**
+     * @param Tipo $tipo
+     */
+    public function setTipo(null|string|Tipo $tipo): void
+    {
+        if(is_string($tipo)){
+            $this->tipo = Tipo::from($tipo);
+        }else{
+            $this->tipo = $tipo;
+        }
+    }
+    /**
+     * @return Estado
+     */
+    public function getEstado(): string
+    {
+        return $this->estado->toString();
+    }
+
+    /**
+     * @param EstadoCategorias|null $estado
+     */
+    public function setEstado(null|string|Estado $estado): void
+    {
+        if(is_string($estado)){
+            $this->estado = Estado::from($estado);
+        }else{
+            $this->estado = $estado;
+        }
     }
 
     /**
@@ -41,230 +95,184 @@ private string $tipoServicio;
      */
     public function getIdProducto(): ?int
     {
-        return $this->IdProducto;
+        return $this->idProducto;
     }
 
     /**
-     * @param int|null $IdProducto
+     * @param int|null $idProducto
      */
-    public function setIdProducto(?int $IdProducto): void
+    public function setIdProducto(?int $idProducto): void
     {
-        $this->IdProducto = $IdProducto;
+        $this->idProducto = $idProducto;
     }
 
     /**
-     * @return String
-     */
-    public function getTipo(): string
-    {
-        return $this->tipo;
-    }
-
-    /**
-     * @param String $tipo
-     */
-    public function setTipo(string $tipo): void
-    {
-        $this->tipo = $tipo;
-    }
-
-    /**
-     * @return String
+     * @return string
      */
     public function getNombre(): string
     {
-        return $this->nombre;
+        return ucwords($this->nombre);
     }
 
     /**
-     * @param String $nombre
+     * @param string $nombre
      */
     public function setNombre(string $nombre): void
     {
-        $this->nombre = $nombre;
+        $this->nombre = trim(mb_strtolower($nombre));
     }
+
 
     /**
      * @return int
      */
-    public function getCantidad(): int
-    {
-        return $this->cantidad;
-    }
-
-    /**
-     * @param int $cantidad
-     */
-    public function setCantidad(int $cantidad): void
-    {
-        $this->cantidad = $cantidad;
-    }
-
-    /**
-     * @return float
-     */
-    public function getValor(): float
+    public function getValor(): int
     {
         return $this->valor;
     }
 
     /**
-     * @param float $valor
+     * @param int $valor
      */
-    public function setValor(float $valor): void
+    public function setValor(int $valor): void
     {
         $this->valor = $valor;
     }
 
-    /**
-     * @return string
-     */
-    public function getMaterial(): string
-    {
-        return $this->material;
-    }
 
-    /**
-     * @param string $material
-     */
-    public function setMaterial(string $material): void
-    {
-        $this->material = $material;
-    }
 
-    /**
-     * @return string
-     */
-    public function getTamano(): string
-    {
-        return $this->tamano;
-    }
-
-    /**
-     * @param string $tamano
-     */
-    public function setTamano(string $tamano): void
-    {
-        $this->tamano = $tamano;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDiseno(): string
-    {
-        return $this->diseno;
-    }
-
-    /**
-     * @param string $diseno
-     */
-    public function setDiseno(string $diseno): void
-    {
-        $this->diseno = $diseno;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTipoServicio(): string
-    {
-        return $this->tipoServicio;
-    }
-
-    /**
-     * @param string $tipoServicio
-     */
-    public function setTipoServicio(string $tipoServicio): void
-    {
-        $this->tipoServicio = $tipoServicio;
-    }
-
-    /**
-     * @param string $query
-     * @return bool|null
-     * metodo para guardar un abono
-     */
     protected function save(string $query): ?bool
-
     {
         $arrData = [
-            ':IdProducto' =>    $this->getIdProducto(),
-            ':tipo' =>   $this->gettipo(),
-            ':nombre' =>   $this->getnombre(),
-            ':cantidad' =>   $this->getcantidad(),
-            ':valor' =>   $this->getvalor(),
-            ':material' =>   $this->getmaterial(),
-            ':tamano' =>   $this->gettamano(),
-            ':diseno' =>   $this->getdiseno(),
-            ':tipoServicio' =>   $this->gettipoServicio(),
-
+            ':idProducto' => $this->getIdProducto(),
+            ':tipo' => $this->getTipo(),
+            ':nombre' => $this->getNombre(),
+            ':stock' => $this->getStock(),
+            ':valor' => $this->getValor(),
+            ':estado' => $this->getEstado(),
 
 
         ];
-
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    /**
-     * @return bool|null
-     */
     function insert(): ?bool
     {
-        $query = "INSERT INTO weber.categorias VALUES (:IdAbono,:nombre,:descripcion,:estado,:created_at,:updated_at)";
+        $query = "INSERT INTO ornamentacion.producto VALUES (
+            :idProducto,:tipo,:nombre,
+            :stock,:valor,:estado
+        )";
         return $this->save($query);
     }
 
-    /**
-     * @return bool|null
-     */
-    public function update(): ?bool
+    function update(): ?bool
     {
-        $query = "UPDATE weber.categorias SET 
-            nombre = :nombre, descripcion = :descripcion,
-            estado = :estado, created_at = :created_at, 
-            updated_at = :updated_at WHERE id = :id";
+        $query = "UPDATE ornamentacion.producto SET 
+            tipo= :tipo, nombre= :nombre,stock= :stock, valor = :valor,
+            estado = :estado WHERE idProducto= :idProducto";
         return $this->save($query);
     }
 
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function deleted(): bool
+    function deleted(): ?bool
     {
         $this->setEstado("Inactivo"); //Cambia el estado del Usuario
         return $this->update();                    //Guarda los cambios..
     }
 
-    /**
-     * @param $query
-     * @return Categorias|array
-     * @throws Exception
-     */
-    public static function search($query) : ?array
+    static function search($query): ?array
     {
         try {
-            $arrCategorias = array();
-            $tmp = new Categorias();
+            $arrProducto = array();
+            $tmp = new Producto();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            foreach ($getrows as $valor) {
-                $Categoria = new Categorias($valor);
-                array_push($arrCategorias, $Categoria);
-                unset($Categoria);
+            if (!empty($getrows)) {
+                foreach ($getrows as $valor) {
+                    $Producto = new Producto($valor);
+                    array_push($arrProducto, $Producto);
+                    unset($Producto);
+                }
+                return $arrProducto;
             }
-            return $arrCategorias;
+            return null;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception',$e, 'error');
+            GeneralFunctions::logFile('Exception', $e);
         }
         return null;
     }
 
+    static function searchForId(int $Id): ?object
+    {
+        try {
+            if ($Id > 0) {
+                $tmProducto = new Producto();
+                $tmProducto->Connect();
+                $getrow = $tmProducto->getRow("SELECT * FROM ornamentacion.producto WHERE idProducto =?", array($Id));
+                $tmProducto->Disconnect();
+                return ($getrow) ? new Producto($getrow) : null;
+            } else {
+                throw new Exception('Id de Producto invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception', $e);
+        }
+        return null;
+    }
 
+    /**
+     * @param $nombre
+     */
+    public static function productoRegistrado($nombre): bool
+    {
+        $result = Producto::search("SELECT * FROM ornamentacion.producto where nombre = " . "'$nombre'" );
+        if (!empty($result) && count($result)>0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    static function getAll(): ?array
+    {
+        return Producto::search("SELECT * FROM ornamentacion.producto");
+    }
+
+    public function susaddStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() - $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
+    public function addStock(int $quantity)
+    {
+        $this->setStock( $this->getStock() + $quantity);
+        $result = $this->update();
+        if($result == false){
+            GeneralFunctions::console('Stock no actualizado!');
+        }
+        return $result;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): array
+    {
+        return [
+
+            'tipo' => $this->getTipo(),
+            'nombre' => $this->getNombre(),
+            'Stock' => $this->getStock(),
+            'valor' => $this->getValor(),
+            'estado' => $this->getEstado(),
+        ];
+    }
 }
