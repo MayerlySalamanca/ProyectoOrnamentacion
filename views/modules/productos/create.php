@@ -74,7 +74,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo de producto</label>
+                                        <label for="tipo" class="col-sm-2 col-form-label">Tipo de producto*</label>
                                         <div class="col-sm-10">
                                             <select required id="tipo" name="tipo" class="custom-select">
                                                 <option <?= ( !empty($frmSession['tipo']) && $frmSession['tipo'] == "Fabricacion") ? "selected" : ""; ?> value="Fabricacion">Fabricación</option>
@@ -85,14 +85,14 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre del Producto</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label">Nombre del Producto*</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
                                                    placeholder="Ingrese el nombre" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                    <label for="stock" class="col-sm-2 col-form-label">Stock</label>
+                                    <label for="stock" class="col-sm-2 col-form-label">Stock*</label>
                                     <div class="col-sm-10">
                                         <input required type="number" min="1" max="100" class="form-control" id="stock" name="stock"
                                                placeholder="Ingrese la cantidad" value="<?= $frmSession['stock'] ?? '' ?>">
@@ -100,7 +100,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="valor" class="col-sm-2 col-form-label">Precio</label>
+                                        <label for="valor" class="col-sm-2 col-form-label">Precio*</label>
                                         <div class="col-sm-10">
                                             <input required type="number" min="1" max="100000000" class="form-control" id="valor" name="valor"
                                                    placeholder="Ingrese el precio $" value="<?= $frmSession['valor'] ?? '' ?>">
@@ -108,11 +108,10 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                        <label for="estado" class="col-sm-2 col-form-label">Estado*</label>
                                         <div class="col-sm-10">
                                             <select required id="estado" name="estado" class="custom-select">
                                                 <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
                                             </select>
                                         </div>
                                     </div>

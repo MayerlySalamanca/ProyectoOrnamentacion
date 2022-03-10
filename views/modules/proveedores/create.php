@@ -78,30 +78,29 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
 
                                     <div class="form-group row">
-                                        <label for="documento" class="col-sm-2 col-form-label"> N° Documento</label>
+                                        <label for="documento" class="col-sm-2 col-form-label"> N° Documento*</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" class="form-control" id="documento" name="documento"
+                                            <input required type="number" min="1" class="form-control" id="documento" name="documento"
                                                    placeholder="Ingrese el numero de documento" value="<?= $frmSession['documento'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="nombre" class="col-sm-2 col-form-label"> Nombres</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label"> Nombres*</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="nombre" name="nombre"
                                                    placeholder="Ingrese el Nombre del proveedor" value="<?= $frmSession['nombre'] ?? '' ?>">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                        <label for="estado" class="col-sm-2 col-form-label">Estado*</label>
                                         <div class="col-sm-10">
                                             <select required id="estado" name="estado" class="custom-select">
                                                 <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Activo") ? "selected" : ""; ?> value="Activo">Activo</option>
-                                                <option <?= ( !empty($frmSession['estado']) && $frmSession['estado'] == "Inactivo") ? "selected" : ""; ?> value="Inactivo">Inactivo</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio</label>
+                                        <label for="municipio_id" class="col-sm-2 col-form-label">Municipio*</label>
                                         <div class="col-sm-5">
                                             <?= DepartamentosController::selectDepartamentos(
                                                 array(
