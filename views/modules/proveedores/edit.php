@@ -72,6 +72,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 class="fas fa-minus"></i></button>
                                 </div>
                             </div>
+                            <?php
+                            if($_SESSION['UserInSession']['roll'] != 'Vendedor' and $_SESSION['UserInSession']['roll'] != 'Cliente'){
+                                ?>
                             <!-- /.card-header -->
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
@@ -87,7 +90,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <input id="idProveedor" name="idProveedor" value="<?= $DataProveedor->getIdProveedor(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="documento" class="col-sm-2 col-form-label">Documento</label>
+                                                <label for="documento" class="col-sm-2 col-form-label">No° Documento</label>
                                                 <div class="col-sm-10">
                                                     <input required type="number" class="form-control" id="nombres"
                                                            name="documento" value="<?= $DataProveedor->getDocumento(); ?>"
@@ -96,7 +99,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre del Proveedor</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="nombre"
                                                            name="nombre" value="<?= $DataProveedor->getNombre(); ?>"
@@ -162,6 +165,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <?php } ?>
                                 </p>
                             <?php } ?>
+                            <?php
+
+                            }else{
+                            ?>
+                            <div class='alert alert-danger alert-dismissible'>
+                                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                <h5><i class='icon fas fa-$icon'></i>Error!!</h5>
+                                <p>No autorizado</p>
+                                <p>Contacta a tu administrador</p>
+                            </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                         <!-- /.card -->
                     </div>

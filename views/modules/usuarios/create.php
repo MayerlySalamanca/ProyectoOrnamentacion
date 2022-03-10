@@ -77,9 +77,9 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                 <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                       action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=create">
                                     <div class="form-group row">
-                                        <label for="documento" class="col-sm-2 col-form-label">No° Documento</label>
+                                        <label for="documento" class="col-sm-2 col-form-label">N° Documento</label>
                                         <div class="col-sm-10">
-                                            <input required type="number" min="1" ="10" class="form-control" id="documento" name="documento"
+                                            <input required type="number" min="1" max="99999999" class="form-control" id="documento" name="documento"
                                                    placeholder="Ingrese el número de Documento" value="<?= $frmSession['documento'] ?? '' ?>">
                                         </div>
                                     </div>
@@ -98,7 +98,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                        <label for="direccion" class="col-sm-2 col-form-label">Dirección</label>
                                         <div class="col-sm-10">
                                             <input required type="text" class="form-control" id="direccion" name="direccion"
                                                    placeholder="Ingrese la dirección de residencia" value="<?= $frmSession['direccion'] ?? '' ?>">
@@ -165,7 +165,7 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                                         </div>
                                     </div>
                                     <hr>
-                                    <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
+                                    <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="button" class="btn btn-info">Enviar</button>
                                     <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
                                 </form>
                             </div>
@@ -175,8 +175,9 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
                             ?>
                             <div class='alert alert-danger alert-dismissible'>
                                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                                <h5><i class='icon fas fa-$icon'></i>ALGO</h5>
-                                <p>Mensahje</p>
+                                <h5><i class='icon fas fa-$icon'></i>Error!!</h5>
+                                <p>No autorizado</p>
+                                <p>Contacta a tu administrador</p>
                             </div>
                             <?php
                             }
@@ -198,7 +199,11 @@ $frmSession = $_SESSION[$nameForm] ?? NULL;
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>
 <script>
+
     $(function() {
+        $('#frmName').on('click', function (){
+            $('#Usuario').submit();
+        })
         $('#roll').on('change', function() {
             if(this.value == 'cliente'){
                 $('#div-hide').hide();

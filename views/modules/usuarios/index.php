@@ -94,9 +94,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>documento</th>
+                                                <th>N° Documento</th>
                                                 <th>Nombres</th>
-                                                <th>Telefono</th>
+                                                <th>Teléfono</th>
                                                 <th>Dirección</th>
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
@@ -129,6 +129,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                        type="button" data-toggle="tooltip" title="Ver"
                                                        class="btn docs-tooltip btn-warning btn-xs"><i
                                                                 class="fa fa-eye"></i></a>
+                                                    <?php
+                                                    if($_SESSION['UserInSession']['roll'] != 'Vendedor' and $_SESSION['UserInSession']['roll'] != 'Cliente'){
+                                                    ?>
                                                         <?php if ($Usuario->getEstado() != "Activo") { ?>
                                                             <a href="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=activate&id=<?= $Usuario->getIdUsuario(); ?>"
                                                                type="button" data-toggle="tooltip" title="Activar"
@@ -141,6 +144,14 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                                class="btn docs-tooltip btn-danger btn-xs"><i
                                                                         class="fa fa-times-circle"></i></a>
                                                         <?php } ?>
+                                                        <?php
+
+                                                    }else{
+                                                        ?>
+
+                                                        <?php
+                                                    }
+                                                    ?>
                                                     </td>
                                                 </tr>
                                             <?php } ?>
@@ -149,9 +160,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <tfoot>
                                             <tr>
                                                 <th>#</th>
-                                                <th>documento</th>
+                                                <th>N° Documento</th>
                                                 <th>Nombres</th>
-                                                <th>Telefono</th>
+                                                <th>Teléfono</th>
                                                 <th>Dirección</th>
                                                 <th>Rol</th>
                                                 <th>Usuario</th>
@@ -166,7 +177,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
-                                Pie de Página.
+                                DIARMA.
                             </div>
                             <!-- /.card-footer-->
                         </div>

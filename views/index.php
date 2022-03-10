@@ -58,7 +58,8 @@
                     Es de nuestro gran aprecio saber que nuestros clientes son parte de esta gran familia que día a día esta creciendo y agradecemos su confianza en nosotros, bienvenidos.
                     <br>
                     <br>
-                  <center> <img src="<?= $baseURL ?>/views/public/img/soldadura.jpg" width="700" height="329" /></center>
+                  <center> <img src="<?= $baseURL ?>/views/public/img/soldadura.jpg" width="700" height="329"
+                                alt="Derechos:https://www.bing.com/images/search?view=detailV2&ccid=hCPr0rKb&id=620B1BBFB2C74EC2DEA0A11761CD0C58A13FEA11&thid=OIP.hCPr0rKbwj_Vt1zKg8zzjwHaEV&mediaurl=https%3a%2f%2fconstruyored.com%2fstorage%2foportunidades%2fimages%2flarge%2f15157218875a58149fab189.jpg&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.8423ebd2b29bc23fd5b75cca83ccf38f%3frik%3dEeo%252foVgMzWEXoQ%26pid%3dImgRaw%26r%3d0&exph=800&expw=1366&q=ornamentacion&simid=607997945764799956&FORM=IRPRST&ck=94AEFCD6BFBD4CA5095738DEF6BC68DA&selectedIndex=4&ajaxhist=0&ajaxserp=0">/></center>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">

@@ -70,6 +70,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 class="fas fa-minus"></i></button>
                                 </div>
                             </div>
+                            <?php
+                            if($_SESSION['UserInSession']['roll'] != 'Vendedor' and $_SESSION['UserInSession']['roll'] != 'Cliente'){
+                                ?>
                             <!-- /.card-header -->
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
@@ -90,10 +93,10 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 <div class="col-sm-10">
                                                     <select id="tipo" name="tipo" class="custom-select">
                                                         <option <?= ($Producto->getTipo() == "Fabricacion") ? "selected" : ""; ?>
-                                                                value="Fabricacion">Fabricacion
+                                                                value="Fabricacion">Fabricación
                                                         </option>
                                                         <option <?= ($Producto->getTipo() == "Instalacion") ? "selected" : ""; ?>
-                                                                value="Instalacion">Instalacion
+                                                                value="Instalacion">Instalación
                                                         </option>
                                                         <option <?= ($Producto->getTipo() == "Producto") ? "selected" : ""; ?>
                                                                 value="Producto">Producto
@@ -102,11 +105,11 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombre del Producto</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="nombre"
                                                            name="nombre" value="<?= $Producto->getNombre(); ?>"
-                                                           placeholder="Ingrese los nombres">
+                                                           placeholder="Ingrese el nombre del producto">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -159,6 +162,18 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                         <?php } ?>
                         </p>
                         <?php } ?>
+
+                            }else{
+                            ?>
+                            <div class='alert alert-danger alert-dismissible'>
+                                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                <h5><i class='icon fas fa-$icon'></i>Error!!</h5>
+                                <p>No autorizado</p>
+                                <p>Contacta a tu administrador</p>
+                            </div>
+                            <?php
+                            }
+                            ?>
                     </div>
                     <!-- /.card -->
                 </div>

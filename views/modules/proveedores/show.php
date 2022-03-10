@@ -81,20 +81,20 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <div class="row">
                                             <div class="col-sm-10">
                                                 <p>
-                                                    <strong><i class="fas fa-book mr-1"></i> Documento</strong>
+                                                    <strong><i class="fas fa-book mr-1"></i>No° Documento</strong>
                                                 <p class="text-muted">
                                                     <?= $DataProveedor->getDocumento() ?>
                                                 </p>
                                                 <hr>
-                                                    <strong><i class="fas fa-book mr-1"></i> Nombre</strong>
+                                                    <strong><i class="fas fa-book mr-1"></i>Nombre Del Proveedor</strong>
                                                 <p class="text-muted">
                                                     <?= $DataProveedor->getNombre() ?>
                                                 </p>
                                                 <hr>
-                                                <strong><i class="far fa-file-alt mr-1"></i> Estado</strong>
+                                                <strong><i class="far fa-file-alt mr-1"></i>Estado</strong>
                                                 <p class="text-muted"><?= $DataProveedor->getEstado() ?></p>
                                                 <hr>
-                                                <strong><i class="far fa-file-alt mr-1"></i> Lugar de Nacimiento</strong>
+                                                <strong><i class="far fa-file-alt mr-1"></i>Ciudad</strong>
                                                 <p class="text-muted"><?= $DataProveedor->getMunicipio()->getDepartamento()->getNombre() . ' ' . $DataProveedor->getMunicipio()->getNombre() ?></p>
                                                 </p>
                                             </div>

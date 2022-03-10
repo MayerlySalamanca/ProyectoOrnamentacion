@@ -73,7 +73,9 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 </div>
                             </div>
                             <!-- /.card-header -->
-
+                            <?php
+                            if($_SESSION['UserInSession']['roll'] != 'Vendedor' and $_SESSION['UserInSession']['roll'] != 'Cliente'){
+                            ?>
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
@@ -88,7 +90,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             <input id="idUsuario" name="idUsuario" value="<?= $DataUsuario->getIdUsuario(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="documento" class="col-sm-2 col-form-label">Documento</label>
+                                                <label for="documento" class="col-sm-2 col-form-label">No° Documento</label>
                                                 <div class="col-sm-10">
                                                     <input required type="number" class="form-control" id="nombres"
                                                            name="documento" value="<?= $DataUsuario->getDocumento(); ?>"
@@ -105,7 +107,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="telefono" class="col-sm-2 col-form-label">Telefono</label>
+                                                <label for="telefono" class="col-sm-2 col-form-label">Teléfono</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="telefono"
                                                            name="telefono" value="<?= $DataUsuario->getTelefono(); ?>"
@@ -114,7 +116,7 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="direccion" class="col-sm-2 col-form-label">Direccion</label>
+                                                <label for="direccion" class="col-sm-2 col-form-label">Dirección</label>
                                                 <div class="col-sm-10">
                                                     <input required type="text" class="form-control" id="direccion"
                                                            name="direccion" value="<?= $DataUsuario->getDireccion(); ?>"
@@ -215,6 +217,19 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                 <?php } ?>
                                 </p>
                             <?php } ?>
+                                <?php
+
+                            }else{
+                                ?>
+                                <div class='alert alert-danger alert-dismissible'>
+                                    <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                                    <h5><i class='icon fas fa-$icon'></i>Error!!</h5>
+                                    <p>No autorizado</p>
+                                    <p>Contacta a tu administrador</p>
+                                </div>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <!-- /.card -->
                     </div>

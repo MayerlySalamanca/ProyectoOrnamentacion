@@ -366,7 +366,7 @@ if (!empty($_GET['id'])) {
                 $("#divResultProducto").slideDown();
                 $("#spPrecio").html("$"+dataProducto.valor);
                 $("#spStock").html(dataProducto.Stock+" Unidad(es)");
-                $("#cantidad").attr("max",dataProducto.cantidad);
+                $("#cantidad").attr("max",dataProducto.Stock);
                 $("#valor").val(dataProducto.valor);
 
             }else{

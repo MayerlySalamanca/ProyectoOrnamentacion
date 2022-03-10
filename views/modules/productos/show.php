@@ -79,12 +79,12 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                                         <div class="row">
                                             <div class="col-sm-10">
                                                 <p>
-                                                    <strong><i class="fas fa-book mr-1"></i> Nombres</strong>
+                                                    <strong><i class="fas fa-book mr-1"></i>Nombre del Producto</strong>
                                                 <p class="text-muted">
                                                     <?= $DataMateria->getNombre() ?>
                                                 </p>
                                                 <hr>
-                                                <strong><i class="fas fa-align-justify mr-1"></i> Tipo</strong>
+                                                <strong><i class="fas fa-align-justify mr-1"></i>Tipo</strong>
                                                 <p class="text-muted"><?= $DataMateria->getTipo() ?></p>
                                                 <hr>
                                                 <hr>

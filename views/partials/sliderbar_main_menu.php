@@ -126,7 +126,7 @@
                     <a href="#" class="nav-link <?= strpos($_SERVER['REQUEST_URI'],'facturacion') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-dolly"></i>
                         <p>
-                            Facturacion
+                            Facturación
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>

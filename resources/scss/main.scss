@@ -24,3 +24,10 @@ $verde : #18F483;
 .login-logo a {
   color: antiquewhite;
 }
+.card-info:not(.card-outline)>.card-header {
+  background-color: darkslateblue;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+  background-color:darkslateblue ;
+  color: #fff;
+}
