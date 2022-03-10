@@ -1,14 +1,14 @@
 <?php
 require("../../partials/routes.php");
-// require_once("../../partials/check_login.php");
-// require("../../../app/Controllers/CategoriasController.php");
+require_once("../../partials/check_login.php");
+require("../../../app/Controllers/ProductosController.php");
 
-use App\Controllers\CategoriasController;
-use App\Models\Categorias;
+use App\Controllers\ProductosController;
+use App\Models\Producto;
 use App\Models\GeneralFunctions;
 use Carbon\Carbon;
 
-$nameModel = "Categoria";
+$nameModel = "Producto";
 $pluralModel = $nameModel.'s';
 $nameForm = 'frmEdit'.$nameModel;
 $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
@@ -74,91 +74,102 @@ $frmSession = $_SESSION['frm'.$pluralModel] ?? NULL;
                             <?php if (!empty($_GET["id"]) && isset($_GET["id"])) { ?>
                                 <p>
                                 <?php
-                                $DataCategoria = CategoriasController::searchForID(["id" => $_GET["id"]]);
-                                /* @var $DataCategoria Categorias */
-                                if (!empty($DataCategoria)) {
+
+                                $Producto = ProductosController::searchForID(["id" => $_GET["id"]]);
+                                /* @var $Producto Producto */
+                                if (!empty($Producto)) {
                                     ?>
                                     <div class="card-body">
                                         <!-- form start -->
                                         <form class="form-horizontal" method="post" id="<?= $nameForm ?>" name="<?= $nameForm ?>"
                                               action="../../../app/Controllers/MainController.php?controller=<?= $pluralModel ?>&action=edit">
-                                            <input id="id" name="id" value="<?= $DataCategoria->getId(); ?>"
+                                            <input id="idProducto" name="idProducto" value="<?= $Producto->getIdProducto(); ?>"
                                                    hidden required="required" type="text">
                                             <div class="form-group row">
-                                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
+                                                <label for="tipo" class="col-sm-2 col-form-label">Tipo Producto</label>
                                                 <div class="col-sm-10">
-                                                    <input required type="text" class="form-control" id="nombres"
-                                                           name="nombres" value="<?= $DataCategoria->getNombre(); ?>"
-                                                           placeholder="Ingrese el nombres">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label for="orden" class="form-control select2bs4 select2-info"> Orden</label>
-                                                <div class="col-sm-10">
-                                                    <select id="orden" name="orden"
-                                                            class="custom-select">
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "1") ? "selected" : ""; ?>
-                                                                value="1">Primero
+                                                    <select id="tipo" name="tipo" class="custom-select">
+                                                        <option <?= ($Producto->getTipo() == "Fabricacion") ? "selected" : ""; ?>
+                                                                value="Fabricacion">Fabricacion
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "2") ? "selected" : ""; ?>
-                                                                value="2">Segundo
+                                                        <option <?= ($Producto->getTipo() == "Instalacion") ? "selected" : ""; ?>
+                                                                value="Instalacion">Instalacion
                                                         </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "3") ? "selected" : ""; ?>
-                                                                value="3">Tercero
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "4") ? "selected" : ""; ?>
-                                                                value="4">Cuarto
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getTipoDocumento() == "5") ? "selected" : ""; ?>
-                                                                value="5">Quinto
+                                                        <option <?= ($Producto->getTipo() == "Producto") ? "selected" : ""; ?>
+                                                                value="Producto">Producto
                                                         </option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                                <label for="nombre" class="col-sm-2 col-form-label">Nombres</label>
                                                 <div class="col-sm-10">
-                                                    <select id="estado" name="estado" class="custom-select">
-                                                        <option <?= ($DataCategoria->getEstado() == "Activo") ? "selected" : ""; ?>
-                                                                value="Activo">Activo
-                                                        </option>
-                                                        <option <?= ($DataCategoria->getEstado() == "Inactivo") ? "selected" : ""; ?>
-                                                                value="Inactivo">Inactivo
-                                                        </option>
-                                                    </select>
+                                                    <input required type="text" class="form-control" id="nombre"
+                                                           name="nombre" value="<?= $Producto->getNombre(); ?>"
+                                                           placeholder="Ingrese los nombres">
                                                 </div>
                                             </div>
-                                            <hr>
-                                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
-                                            <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
-                                        </form>
-                                    </div>
-                                    <!-- /.card-body -->
+                                            <div class="form-group row">
+                                                <label for="stock" class="col-sm-2 col-form-label">stock</label>
+                                                <div class="col-sm-10">
+                                                    <input required type="number" class="form-control" id="stock"
+                                                           name="stock" value="<?= $Producto->getStock(); ?>"
+                                                           placeholder="Ingrese la cantidad">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                    <label for="valor" class="col-sm-2 col-form-label">valor</label>
+                                                    <div class="col-sm-10">
+                                                        <input required type="number" class="form-control" id="valor"
+                                                               name="valor" value="<?= $Producto->getValor(); ?>"
+                                                               placeholder="Ingrese el valor">
+                                                </div>
+                                            </div>
 
-                                <?php } else { ?>
-                                    <div class="alert alert-danger alert-dismissible">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button>
-                                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
-                                        No se encontro ningun registro con estos parametros de
-                                        busqueda <?= ($_GET['mensaje']) ?? "" ?>
-                                    </div>
-                                <?php } ?>
-                                </p>
-                            <?php } ?>
+                            <div class="form-group row">
+                                <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                                <div class="col-sm-10">
+                                    <select id="estado" name="estado" class="custom-select">
+                                        <option <?= ($Producto->getEstado() == "Activo") ? "selected" : ""; ?>
+                                                value="Activo">Activo
+                                        </option>
+                                        <option <?= ($Producto->getEstado() == "Inactivo") ? "selected" : ""; ?>
+                                                value="Inactivo">Inactivo
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <button id="frmName" name="frmName" value="<?= $nameForm ?>" type="submit" class="btn btn-info">Enviar</button>
+                            <a href="index.php" role="button" class="btn btn-default float-right">Cancelar</a>
+                            </form>
                         </div>
-                        <!-- /.card -->
+                        <!-- /.card-body -->
+
+                        <?php } else { ?>
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                                    &times;
+                                </button>
+                                <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                                No se encontro ningun registro con estos parametros de
+                                busqueda <?= ($_GET['mensaje']) ?? "" ?>
+                            </div>
+                        <?php } ?>
+                        </p>
+                        <?php } ?>
                     </div>
+                    <!-- /.card -->
                 </div>
             </div>
-        </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-    <?php require('../../partials/footer.php'); ?>
+<?php require('../../partials/footer.php'); ?>
 </div>
 <!-- ./wrapper -->
 <?php require('../../partials/scripts.php'); ?>

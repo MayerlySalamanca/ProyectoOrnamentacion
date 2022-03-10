@@ -2,104 +2,106 @@
 
 namespace App\Models;
 
-use App\Enums\Estado;
-use JetBrains\PhpStorm\Internal\TentativeType;
+use App\Interfaces\Model;
+use App\Models\Producto;
+use App\Models\Compras;
+use Carbon\Carbon;
+use Exception;
+use JsonSerializable;
 
-class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
+class Fabricacion extends AbstractDBConnection implements Model
 {
-
-    private ?int $idFabricacion;
-    private int $numeroFabricacion;
+    private ?int $id;
+    private int $producto_id;
+    private int $compra_id;
     private int $cantidad;
-    private Estado $estado;
-    private int $MateriaPrima_idMateria;
-    private int $Usuario_IdUsuario;
+    private float $precio_venta;
+
+
+    /* Relaciones */
+    private ?Producto $producto;
+    private ?Compras $compra;
 
     /**
-     * Usuarios constructor. Recibe un array asociativo
-     * @param array $fabricacion
+     * Detalle Compra constructor. Recibe un array asociativo
+     * @param array $detalle_compra
      */
-    public function __construct(array $fabricacion = [])
+    public function __construct(array $detalle_compra = [])
     {
         parent::__construct();
-        $this->setIdFabricacion($fabricacion['idFabricacion'] ?? null);
-        $this->setNumeroFabricacion($fabricacion['numeroFabricacion'] ?? 0);
-        $this->setCantidad($fabricacion['cantidad'] ?? 0);
-        $this->setEstado($fabricacion['estado'] ?? Estado::INACTIVO);
-        $this->setMateriaPrimaIdMateria($fabricacion['MateriaPrima_idMateria'] ?? 0);
-        $this->setUsuarioIdUsuario($fabricacion['Usuario_IdUsuario'] ?? 0);
-
-    }
-
-
-    public function __destruct()
-    {
-        if ($this->isConnected()) {
-            $this->Disconnect();
-        }
-    }
-    /**
-     * @return Estado
-     */
-    public function getEstado(): string
-    {
-        return $this->estado->toString();
+        $this->setId($detalle_compra['id'] ?? NULL);
+        $this->setCompraId($detalle_compra['compra_id'] ?? 0);
+        $this->setProductoId($detalle_compra['producto_id'] ?? 0);
+        $this->setCantidad($detalle_compra['cantidad'] ?? 0);
+        $this->setPrecioVenta($detalle_compra['precio_venta'] ?? 0.0);
     }
 
     /**
-     * @param EstadoCategorias|null $estado
+     *
      */
-    public function setEstado(null|string|Estado $estado): void
+    function __destruct()
     {
-        if(is_string($estado)){
-            $this->estado = Estado::from($estado);
-        }else{
-            $this->estado = $estado;
-        }
+        $this->Disconnect();
     }
 
     /**
      * @return int|null
      */
-    public function getIdFabricacion(): ?int
+    public function getId(): ?int
     {
-        return $this->idFabricacion;
+        return $this->id;
     }
 
     /**
-     * @param int|null $idFabricacion
+     * @param int|null $id
      */
-    public function setIdFabricacion(?int $idFabricacion): void
+    public function setId(?int $id): void
     {
-        $this->idFabricacion = $idFabricacion;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumeroFabricacion(): int
-    {
-        return $this->numeroFabricacion;
-    }
-
-    /**
-     * @param int $numeroFabricacion
-     */
-    public function setNumeroFabricacion(int $numeroFabricacion): void
-    {
-        $this->numeroFabricacion = $numeroFabricacion;
+        $this->id = $id;
     }
 
     /**
      * @return int
      */
-    public function getCantidad(): int
+    public function getProductoId(): int
+    {
+        return $this->producto_id;
+    }
+
+    /**
+     * @param int $producto_id
+     */
+    public function setProductoId(int $producto_id): void
+    {
+        $this->producto_id = $producto_id;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getCompraId() : int
+    {
+        return $this->compra_id;
+    }
+
+    /**
+     * @param int|mixed $compra_id
+     */
+    public function setCompraId(int $compra_id): void
+    {
+        $this->compra_id = $compra_id;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getCantidad() : int
     {
         return $this->cantidad;
     }
 
     /**
-     * @param int $cantidad
+     * @param int|mixed $cantidad
      */
     public function setCantidad(int $cantidad): void
     {
@@ -107,154 +109,197 @@ class Fabricacion extends AbstractDBConnection implements \App\Interfaces\Model
     }
 
     /**
-     * @return int
+     * @return float|mixed
      */
-    public function getMateriaPrimaIdMateria(): int
+    public function getPrecioVenta() : float
     {
-        return $this->MateriaPrima_idMateria;
+        return $this->precio_venta;
     }
 
     /**
-     * @param int $MateriaPrima_idMateria
+     * @param float|mixed $precio_venta
      */
-    public function setMateriaPrimaIdMateria(int $MateriaPrima_idMateria): void
+    public function setPrecioVenta(float $precio_venta): void
     {
-        $this->MateriaPrima_idMateria = $MateriaPrima_idMateria;
+        $this->precio_venta = $precio_venta;
+    }
+
+    public function getTotalProducto() : float
+    {
+        return $this->getPrecioVenta() ;
+    }
+
+
+    /* Relaciones */
+    /**
+     * Retorna el objeto venta correspondiente al detalle venta
+     * @return Compras|null
+     */
+    public function getCompra(): ?Compras
+    {
+        if(!empty($this->compra_id)){
+            $this->compra = Compras::searchForId($this->compra_id) ?? new Compras();
+            return $this->compra;
+        }
+        return NULL;
     }
 
     /**
-     * @return int
+     * Retorna el objeto producto correspondiente al detalle venta
+     * @return Productos|null
      */
-    public function getUsuarioIdUsuario(): int
+    public function getProducto(): ?Producto
     {
-        return $this->Usuario_IdUsuario;
+        if(!empty($this->producto_id)){
+            $this->producto = Producto::searchForId($this->producto_id) ?? new Producto();
+            return $this->producto;
+        }
+        return NULL;
     }
 
-    /**
-     * @param int $Usuario_IdUsuario
-     */
-    public function setUsuarioIdUsuario(int $Usuario_IdUsuario): void
+    protected function save(string $query, string $type = 'insert'): ?bool
     {
-        $this->Usuario_IdUsuario = $Usuario_IdUsuario;
-    }
+        if($type == 'deleted'){
+            $arrData = [ ':id' =>   $this->getId() ];
+        }else{
+            $arrData = [
+                ':id' =>   $this->getId(),
+                ':compra_id' =>   $this->getCompraId(),
+                ':producto_id' =>  $this->getProductoId(),
+                ':cantidad' =>   $this->getCantidad(),
+                ':precio_venta' =>   $this->getPrecioVenta(),
+            ];
+        }
 
-
-
-
-
-
-    protected function save(string $query): ?bool
-    {
-        $arrData = [
-            ':idFabricacion' =>    $this->getIdFabricacion(),
-            ':numeroFabricacion' =>   $this->getNumeroFabricacion(),
-            ':cantidad' =>   $this->getCantidad(),
-            ':estado' =>   $this->getEstado(),
-            ':MateriaPrima_idMateria' =>   $this->getMateriaPrimaIdMateria(),
-            ':Usuario_IdUsuario' =>   $this->getUsuarioIdUsuario(),
-
-        ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
         $this->Disconnect();
         return $result;
     }
 
-    function insert(): ?bool
+    function insert() : ?bool
     {
-        $query = "INSERT INTO ornamentacion.fabricacion  VALUES (
-            :idFabricacion,:numeroFabricacion,:cantidad,
-            :estado,:MateriaPrima_idMateria,:Usuario_IdUsuario
-        
-        )";
-        return $this->save($query);
+        $query = "INSERT INTO ornamentacion.fabricacion VALUES (:id,:compra_id,:producto_id,:cantidad,:precio_venta)";
+        if($this->save($query)){
+            return $this->getProducto()->addStock($this->getCantidad());
+        }
+        return false;
     }
 
-    function update(): ?bool
+    /**
+     * @return mixed
+     */
+    public function update() : bool
     {
         $query = "UPDATE ornamentacion.fabricacion SET 
-            numeroFabricacion = :numeroFabricacion,
-            cantidad = :cantidad, estado = :estado, MateriaPrima_idMateria = :MateriaPrima_idMateria, 
-            Usuario_IdUsuario = :Usuario_IdUsuario WHERE IdUsuario = :IdUsuario";
+            compra_id = :compra_id,producto_id = :producto_id,  cantidad = :cantidad, 
+            precio_venta = :precio_venta  WHERE id = :id";
         return $this->save($query);
     }
 
-    function deleted(): ?bool
+    /**
+     * @return mixed
+     */
+    public function deleted() : bool
     {
-        $this->setEstado("Inactivo"); //Cambia el estado del Usuario
-        return $this->update();                    //Guarda los cambios..
+        $query = "DELETE FROM ornamentacion.fabricacion WHERE id = :id";
+        return $this->save($query, 'deleted');
     }
 
-    static function search($query): ?array
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public static function search($query) : ?array
     {
         try {
-            $arrFabricacion = array();
+            $arrDetalleCompra = array();
             $tmp = new Fabricacion();
             $tmp->Connect();
             $getrows = $tmp->getRows($query);
             $tmp->Disconnect();
 
-            if (!empty($getrows)) {
-                foreach ($getrows as $valor) {
-                    $Fabricacion = new Fabricacion($valor);
-                    array_push($arrFabricacion, $Fabricacion);
-                    unset($Fabricacion);
-                }
-                return $arrFabricacion;
+            foreach ($getrows as $valor) {
+                $DetalleCompra = new Fabricacion($valor);
+                array_push($arrDetalleCompra, $DetalleCompra);
+                unset($DetalleCompra);
             }
-            return null;
+            return $arrDetalleCompra;
         } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception', $e);
+            GeneralFunctions::logFile('Exception',$e, 'error');
         }
-        return null;
-    }
-
-    static function searchForId(int $id): ?object
-    {
-        try {
-            if ($id > 0) {
-                $tmpFabricacion = new Fabricacion();
-                $tmpFabricacion->Connect();
-                $getrow = $tmpFabricacion->getRow("SELECT * FROM ornamentacion.fabricacion WHERE idFabricacion =?", array($id));
-                $tmpFabricacion->Disconnect();
-                return ($getrow) ? new Fabricacion($getrow) : null;
-            } else {
-                throw new Exception('Id de fabricacion Invalido');
-            }
-        } catch (Exception $e) {
-            GeneralFunctions::logFile('Exception', $e);
-        }
-        return null;
+        return NULL;
     }
 
     /**
-     * @param $numeroPedido
+     * @param $id
+     * @return mixed
+     */
+    public static function searchForId($id) : ?Fabricacion
+    {
+        try {
+            if ($id > 0) {
+                $DetalleCompra = new Fabricacion();
+                $DetalleCompra->Connect();
+                $getrow = $DetalleCompra->getRow("SELECT * FROM ornamentacion.fabricacion WHERE id = ?", array($id));
+                $DetalleCompra->Disconnect();
+                return ($getrow) ? new Fabricacion($getrow) : null;
+            }else{
+                throw new Exception('Id de detalle compra Invalido');
+            }
+        } catch (Exception $e) {
+            GeneralFunctions::logFile('Exception',$e, 'error');
+        }
+        return NULL;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getAll() : array
+    {
+        return Fabricacion::search("SELECT * FROM ornamentacion.fabricacion");
+    }
+
+    /**
+     * @param $compra_id
+     * @param $producto_id
      * @return bool
      */
-    public static function pedidoRegistrado($numeroFabricacion): bool
+
+    public static function productoEnFactura($compra_id,$producto_id): bool
     {
-        $result = fabricacion::search("SELECT * FROM ornamentacion.fabricacion where numeroFabricacion = '" . $numeroFabricacion."' ");
-        if (!empty($result) && count($result)>0) {
+        $result = Fabricacion::search("SELECT id FROM ornamentacion.fabricacion where compra_id = '" . $compra_id. "' and producto_id = '" . $producto_id. "'");
+        if (count($result) > 0) {
             return true;
         } else {
             return false;
         }
     }
 
-    static function getAll(): ?array
+    /**
+     * @return string
+     */
+    public function __toString() : string
     {
-        return fabricacion::search("SELECT * FROM ornamentacion.fabricacion");
+        return "Venta: ".$this->compra->getNumeroSerie().", Producto: ".$this->producto->getNombre().", Cantidad: $this->cantidad, Precio Venta: $this->precio_venta";
     }
 
     /**
-     * @inheritDoc
+     * Specify data which should be serialized to JSON
+     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * @return array data which can be serialized by <b>json_encode</b>,
+     * which is a value of any type other than a resource.
+     * @since 5.4
      */
-    public function jsonSerialize(): mixed
+    public function jsonSerialize() : array
     {
         return [
-
-
-
+            'producto_id' => $this->getProducto()->jsonSerialize(),
+            'compra_id' => $this->getCompra()->jsonSerialize(),
+            'cantidad' => $this->getCantidad(),
+            'precio_venta' => $this->getPrecioVenta(),
+            'created_at' => $this->getCreatedAt()->toDateTimeString(),
         ];
     }
 }

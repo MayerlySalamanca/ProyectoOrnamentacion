@@ -18,16 +18,19 @@ class Usuario extends AbstractDBConnection implements Model
 {
 
 
-    private ?int $idUsuario;
+    private ? int $idUsuario;
     private int $documento;
     private string $nombres;
     private String $telefono;
     private string $direccion;
     private Roll $roll;
+    private ?string $usuario;
     private ?string $contrasena;
     private Estado $estado;
+    private ?int $municipiosId;
 
     //Realaciones
+    private ? Municipio $municipios;
     private ?array $FabricacionUsuario;
     private ?array $FacturaUsurio;
 
@@ -47,10 +50,11 @@ class Usuario extends AbstractDBConnection implements Model
         $this->setNombres($usuario['nombre'] ?? '');
         $this->setTelefono($usuario['telefono'] ?? '');
         $this->setDireccion($usuario['direccion'] ?? '');
-        $this->setRoll($usuario['roll'] ?? Roll::CLIENTE);
-        $this->setContrasena($usuario['contrasena'] ?? '');
+        $this->setRoll($usuario['roll'] ?? Roll::ADMINISTRADOR);
+        $this->setUsuario($usuario['usuario'] ?? NULL);
+        $this->setContrasena($usuario['contrasena'] ?? NULL);
         $this->setEstado($usuario['estado'] ?? Estado::INACTIVO);
-
+        $this->setMunicipiosId($usuario['municipiosId']??null);
     }
 
     public function __destruct()
@@ -59,6 +63,27 @@ class Usuario extends AbstractDBConnection implements Model
             $this->Disconnect();
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getUsuario(): ?string
+    {
+        return ucwords($this->usuario);
+    }
+
+    /**
+     * @param string $usuario
+     */
+    public function setUsuario(?string $usuario): void
+    {
+        if($usuario == null){
+            $this->usuario = $usuario;
+        }else{
+            $this->usuario = strtolower($usuario);
+        }
+    }
+
 
     /**
      * @return int|null
@@ -97,7 +122,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getNombres(): string
     {
-        return $this->nombres;
+        return ucwords($this->nombres);
     }
 
     /**
@@ -105,7 +130,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function setNombres(string $nombres): void
     {
-        $this->nombres = $nombres;
+      $this->nombres = trim(mb_strtolower($nombres, 'UTF-8'));
     }
 
     /**
@@ -129,7 +154,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getDireccion(): string
     {
-        return $this->direccion;
+        return ucwords($this->direccion);
     }
 
     /**
@@ -145,11 +170,11 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getRoll(): string
     {
-        return $this->roll->toString();
+        return ucwords($this->roll->toString());
     }
 
     /**
-     * @param string|Roll|null $roll
+     * @param Roll $roll
      */
     public function setRoll(null|string|Roll $roll): void
     {
@@ -160,6 +185,8 @@ class Usuario extends AbstractDBConnection implements Model
             $this->roll = $roll;
         }
     }
+
+
 
     /**
      * @return string|null
@@ -182,7 +209,7 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function getEstado(): string
     {
-        return $this->estado->toString();
+        return ucwords($this->estado->toString());
     }
 
     /**
@@ -197,6 +224,33 @@ class Usuario extends AbstractDBConnection implements Model
         }
     }
 
+    /**
+     * @return int|null
+     */
+    public function getMunicipiosId(): ?int
+    {
+        return $this->municipiosId;
+    }
+
+    /**
+     * @param int|null $municipiosId
+     */
+    public function setMunicipiosId(?int $municipiosId): void
+    {
+        $this->municipiosId = $municipiosId;
+    }
+
+    /**
+     * @return Municipio|null
+     */
+    public function getMunicipio(): ?Municipio
+    {
+        if(!empty($this->municipiosId)){
+            $this->municipios = Municipio::searchForId( $this->municipiosId) ?? new Municipio();
+            return $this->municipios;
+        }
+        return null;
+    }
 
     /**
      * @param string $query
@@ -204,18 +258,20 @@ class Usuario extends AbstractDBConnection implements Model
      */
     protected function save(string $query): ?bool
     {
-        $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
-
+        if($this->contrasena != ' ' ){
+            $hashPassword = password_hash($this->contrasena, self::HASH, ['cost' => self::COST]);
+        }
         $arrData = [
-            ':IdUsuario' =>    $this->getIdUsuario(),
-            ':documento' =>   $this->getDocumento(),
+            ':idUsuario' => $this->getIdUsuario(),
+            ':documento' => $this->getDocumento(),
             ':nombre' =>   $this->getNombres(),
             ':telefono' =>   $this->getTelefono(),
             ':direccion' =>   $this->getDireccion(),
             ':roll' =>   $this->getRoll(),
+            ':usuario' => $this->getUsuario(),
             ':contrasena' =>   $hashPassword,
             ':estado' =>   $this->getEstado(),
-
+            ':municipiosId' => $this->getMunicipiosId()
         ];
         $this->Connect();
         $result = $this->insertRow($query, $arrData);
@@ -229,9 +285,9 @@ class Usuario extends AbstractDBConnection implements Model
     public function insert(): ?bool
     {
         $query = "INSERT INTO ornamentacion.usuario VALUES (
-            :IdUsuario,:documento,:nombre,
-            :telefono,:direccion,:roll,
-            :contrasena,:estado
+            :idUsuario,:documento,:nombre,
+            :telefono,:direccion,:roll,:usuario,
+            :contrasena,:estado,:municipiosId
         )";
         return $this->save($query);
     }
@@ -242,9 +298,8 @@ class Usuario extends AbstractDBConnection implements Model
     public function update(): ?bool
     {
         $query = "UPDATE ornamentacion.usuario SET 
-            nombres = :nombres,
-            documento = :documento, telefono = :telefono, direccion = :direccion, 
-            contrasena = :contrasena, rol = :rol, estado = :estado WHERE IdUsuario = :IdUsuario";
+            documento = :documento,nombre = :nombre, telefono = :telefono, direccion = :direccion,roll = :roll,usuario = :usuario, 
+            contrasena = :contrasena, estado = :estado , municipiosId = :municipiosId  WHERE idUsuario = :idUsuario";
         return $this->save($query);
     }
 
@@ -346,21 +401,21 @@ class Usuario extends AbstractDBConnection implements Model
      */
     public function __toString(): string
     {
-        return "Nombres: $this->nombres, 
+        return "Nombre: $this->nombres, 
                 Documento: $this->documento, 
                 Telefono: $this->telefono, 
                 Direccion: $this->direccion, 
                 ";
     }
 
-    public function login($user, $password): Usuario|String|null
+    public function login($usuario, $password): Usuario|String|null
     {
 
         try {
-            $resultUsuario = Usuario::search("SELECT * FROM usuario WHERE user = '$user'");
+            $resultUsuario = Usuario::search("SELECT * FROM ornamentacion.usuario WHERE usuario = '$usuario'");
             /* @var $resultUsuario Usuario[] */
             if (!empty($resultUsuario) && count($resultUsuario) >= 1) {
-                if (password_verify($password, $resultUsuario[0]->getPassword())) {
+                if (password_verify($password, $resultUsuario[0]->getContrasena())) {
                     if ($resultUsuario[0]->getEstado() == 'Activo') {
                         return $resultUsuario[0];
                     } else {
@@ -388,15 +443,15 @@ class Usuario extends AbstractDBConnection implements Model
     public function jsonSerialize(): array
     {
         return [
-            ':IdUsuario' =>    $this->getIdUsuario(),
-            ':documento' =>   $this->getDocumento(),
-            ':nombre' =>   $this->getNombres(),
-            ':telefono' =>   $this->getTelefono(),
-            ':direccion' =>   $this->getDireccion(),
-            ':roll' =>   $this->getRoll(),
-            ':contrasena'=> $this-> getContrasena() ,
-            ':estado' =>   $this->getEstado(),
-
+            'idUsuario' => $this->getIdUsuario(),
+            'documento' => $this->getDocumento(),
+            'nombre' =>  $this->getNombres(),
+            'telefono' =>   $this->getTelefono(),
+            'direccion' =>   $this->getDireccion(),
+            'roll' =>   $this->getRoll(),
+            'contrasena'=> $this-> getContrasena() ,
+            'estado' =>   $this->getEstado(),
+            'municipiosId' => $this->getMunicipiosId(),
         ];
     }
 

@@ -13,8 +13,8 @@ class MateriaPrimaTest extends TestCase
     {
         $Materia = new MateriaPrima(
             [   'idMateria' => null,
-                'nombre' => 'Varilla 18',
-                'tipo' => TipoMateria::PINTURA,
+                'nombre' => 'Varilla1',
+                'tipo' => TipoMateria::PERFILES,
                 'stock' => 40,
                 'estado' => 'Inactivo']
         );
